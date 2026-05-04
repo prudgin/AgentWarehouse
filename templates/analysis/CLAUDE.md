@@ -30,6 +30,8 @@ Target length: under 100 lines of actual file content (excluding meta).
 
 # CLAUDE.md — <PLACEHOLDER: project name>
 
+*This project was scaffolded from the AgenticEngineering warehouse. The warehouse's own `CLAUDE.md` describes the warehouse, not this project — do not load it as authoritative; this file is.*
+
 <!-- FIXED -->
 ## Working approach
 

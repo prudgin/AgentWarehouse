@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -17,9 +17,9 @@ Two self-test subagents (library, analysis) flagged genuine confusion potential:
 
 ## Acceptance criteria
 
-- [ ] The disclaimer line is present in `templates/library/CLAUDE.md`, `templates/pipeline/CLAUDE.md`, `templates/tool-integration/CLAUDE.md`, `templates/analysis/CLAUDE.md`.
-- [ ] The line wording is identical across templates (or the wording difference is justified by template purpose).
-- [ ] No fix needed in the warehouse's own `CLAUDE.md` — this is a project-template change, the warehouse is the warehouse.
+- [x] The disclaimer line is present in `templates/library/CLAUDE.md`, `templates/pipeline/CLAUDE.md`, `templates/tool-integration/CLAUDE.md`, `templates/analysis/CLAUDE.md`.
+- [x] The line wording is identical across templates (or the wording difference is justified by template purpose).
+- [x] No fix needed in the warehouse's own `CLAUDE.md` — this is a project-template change, the warehouse is the warehouse.
 
 ## Blocked by
 
