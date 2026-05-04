@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -19,9 +19,9 @@ Analysis subagent flagged that the only ADR example in the template is build-cha
 
 ## Acceptance criteria
 
-- [ ] `templates/analysis/docs/adr/README.md` has a research-style example (likelihood, validation, pooling, or similar) replacing or supplementing the current build-chain example.
-- [ ] The example is illustrative only (in an HTML-comment placeholder block), not a real committed ADR.
-- [ ] Wording demonstrates the 3-of-3 admission test passing for a methodology decision.
+- [x] `templates/analysis/docs/adr/README.md` has a research-style example (likelihood, validation, pooling, or similar) replacing or supplementing the current build-chain example.
+- [x] The example is illustrative only (in an HTML-comment placeholder block), not a real committed ADR.
+- [x] Wording demonstrates the 3-of-3 admission test passing for a methodology decision.
 
 ## Blocked by
 

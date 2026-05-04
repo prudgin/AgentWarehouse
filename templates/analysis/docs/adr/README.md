@@ -49,6 +49,6 @@ Scan `docs/adr/` for the highest existing number, increment by one. Slug is shor
 <!-- PLACEHOLDER — list each ADR with a one-line summary. The /finish skill
      checks that every file in this directory is listed here.
 
-- [0001-event-sourced-orders.md](0001-event-sourced-orders.md) — write model is event-sourced; read model is projected.
+- [0001-likelihood-choice-binomial.md](0001-likelihood-choice-binomial.md) — use standard binomial likelihood throughout, including for k=0 observations; rejected the asymmetric-likelihood alternative because the model's structural constraints prevent the long-fat-tail pathology that motivated asymmetric handling.
 
 -->
