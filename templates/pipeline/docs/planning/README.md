@@ -43,3 +43,18 @@ These belong here permanently (or until they age out as no-longer-relevant).
 - Top of file = next up.
 - Resolved entries are **deleted**, not struck through. Git history is the audit trail.
 - The `/finish` skill flags ticket-shaped entries as graduation candidates during cleanup sweeps.
+
+## Entry format
+
+Each entry in `future-work.md` is short — one paragraph or a small section. Format:
+
+```md
+## <short title>
+
+**What:** one or two sentences describing the proposed work.
+**Why:** what problem it solves, or what question it answers.
+**Open questions:** anything that needs to be resolved before starting.
+**Links:** related ADRs, REPORTs, tickets, glossary terms.
+```
+
+Order entries by priority (top = next). Resolved entries are deleted, not struck through.

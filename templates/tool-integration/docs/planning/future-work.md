@@ -4,20 +4,7 @@ Open backlog. Top of file = next up. As work ships, the entry moves out: shipped
 
 This file holds **proposals and open questions only**. Nothing about what's already done — that lives in the codebase, the reference docs, and the analysis tree.
 
-## Format
-
-Each entry is short. One paragraph or a small section. Format:
-
-```md
-## <short title>
-
-**What:** one or two sentences describing the proposed work.
-**Why:** what problem it solves, or what question it answers.
-**Open questions:** anything that needs to be resolved before starting.
-**Links:** related ADRs, REPORTs, tickets, glossary terms.
-```
-
-Order entries by priority (top = next). Resolved entries are deleted, not struck through.
+See [`README.md`](README.md) for the boundary rule (vs. `.tickets/`) and the entry format.
 
 ## Backlog
 

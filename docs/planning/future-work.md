@@ -2,6 +2,8 @@
 
 Open backlog for the warehouse itself. Top of file = next up. As work ships, the entry moves out: structure goes into `templates/` / `skills/` / `docs/`; rationale (if it passes 3-of-3) becomes an ADR.
 
+See [`README.md`](README.md) for the boundary rule (vs. `.tickets/`) and the entry format.
+
 ## Migrations queued
 
 The most important next steps once the warehouse is in use. Each one starts with `/intake-target-project <name>` (stages decisions in `target-projects/<name>/`) followed by `/migrate-project <name>` for execution. In order:

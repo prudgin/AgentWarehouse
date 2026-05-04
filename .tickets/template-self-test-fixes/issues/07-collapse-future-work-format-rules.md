@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -18,9 +18,9 @@ Library subagent flagged that a reader writing a new entry isn't sure which file
 
 ## Acceptance criteria
 
-- [ ] `docs/planning/README.md` in each template (and in the warehouse) contains the entry-format section.
-- [ ] `docs/planning/future-work.md` in each template (and in the warehouse) starts with a pointer to the README and contains no duplicate "Format" rules.
-- [ ] No conflicting wording between the two files.
+- [x] `docs/planning/README.md` in each template (and in the warehouse) contains the entry-format section.
+- [x] `docs/planning/future-work.md` in each template (and in the warehouse) starts with a pointer to the README and contains no duplicate "Format" rules.
+- [x] No conflicting wording between the two files.
 
 ## Blocked by
 
