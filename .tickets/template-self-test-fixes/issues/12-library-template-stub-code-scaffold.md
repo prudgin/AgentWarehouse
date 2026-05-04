@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -21,9 +21,9 @@ Library subagent flagged: *"No `pyproject.toml` despite CLAUDE.md saying `pip in
 
 ## Acceptance criteria
 
-- [ ] If A: `templates/library/pyproject.toml` exists with placeholder name/version. `templates/library/tests/` exists with `.gitkeep` + README. CLAUDE.md HOW line still works as-is.
+- [x] If A: `templates/library/pyproject.toml` exists with placeholder name/version. `templates/library/tests/` exists with `.gitkeep` + README. CLAUDE.md HOW line still works as-is.
 - [ ] If B: CLAUDE.md PLACEHOLDER note clarifies the bootstrap state.
-- [ ] No regression to other templates (this is library-only).
+- [x] No regression to other templates (this is library-only).
 
 ## Blocked by
 

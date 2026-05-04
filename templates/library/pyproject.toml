@@ -1,0 +1,15 @@
+[project]
+name = "<PLACEHOLDER: project name>"
+version = "0.0.0"
+description = "<PLACEHOLDER: one-line description>"
+requires-python = ">=3.11"
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
+exclude = ["tests*", "analysis*", "docs*"]
