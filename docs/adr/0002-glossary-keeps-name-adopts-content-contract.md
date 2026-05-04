@@ -1,0 +1,3 @@
+# Glossary keeps its name; adopts Matt's content contract
+
+Matt Pocock's `mattpocock/skills` repo uses `CONTEXT.md` for the project's ubiquitous language, with a strict content contract: one canonical term per concept, explicit "Avoid" synonyms, relationships, an example dialogue, and a "Flagged ambiguities" section. The user's existing repos use `glossary.md` (less opinionated, freer-form). We adopt **Matt's content contract** but keep the filename **`glossary.md`** — consistency with the user's existing convention, and "glossary" reads more universally than "context" (which is overloaded in agent tooling). The discipline is what matters, not the filename.

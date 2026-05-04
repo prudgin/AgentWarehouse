@@ -1,0 +1,3 @@
+# No `/tdd` skill; feedback-loop discipline lives in `/diagnose`
+
+Matt's `/tdd` skill encodes red-green-refactor with detailed sub-docs on mocking, deep modules, interface design. We don't ship it. The underlying principle — a fast, deterministic, agent-runnable pass/fail signal as the ceiling on agent output quality — is **Phase 1 of `/diagnose`** and applies more universally than TDD-the-ceremony (which fits libraries with clear public APIs but is awkward for data analysis where "right answer" is a property, not a value). Project-specific test conventions (golden-value regression, QA invariants, fixture loaders) live in the project's `docs/reference/` and `tests/`, not in a cross-cutting skill. Adopting TDD as a personal practice is orthogonal to the warehouse.

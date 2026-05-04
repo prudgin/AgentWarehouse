@@ -1,0 +1,3 @@
+# Drop persistent subagents and ephemeral working-notes
+
+`MercatusDataFeed` defines persistent subagents in `.claude/agents/` (`codebase-documenter`, `architecture-reviewer`) and uses `.claude/state/working-notes.md` as a session scratchpad. We drop both. **Subagents**: the built-in `Agent` tool already lets the orchestrator spawn one-off subagents per task with custom prompts; persistent definitions add maintenance for little gain over inline prompts. **Working notes**: session boundaries are fuzzy in auto mode, and the "promote at session end, then clear" discipline relies on a clear session edge that doesn't exist. Knowledge belongs in `docs/`; status belongs in `.tickets/`. There is no third place that needs to exist.

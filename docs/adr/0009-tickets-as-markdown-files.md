@@ -1,0 +1,3 @@
+# Tickets are markdown files in the repo
+
+PRDs and individual issues live as files under `.tickets/<feature>/` by default — not in GitHub Issues, Linear, or any external system. Triage state lives in a `Status:` line at the top of each file. This matches the user's "everything is files in the repo" philosophy, requires no infrastructure, and works for repos with no public presence. Cross-repo tickets are dropped via filesystem into `<other-repo>/.tickets/inbox/` (no auth, no API). GitHub Issues remains an opt-in alternative for repos that need public-issue presence; the skills speak in canonical role names that map to label strings via per-project config.

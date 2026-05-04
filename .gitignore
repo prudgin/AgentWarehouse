@@ -1,0 +1,17 @@
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Analysis outputs
+analysis/*/outputs/
+
+# Local Claude state
+.claude/state/
+.claude/settings.local.json
+
+# Environment
+.env

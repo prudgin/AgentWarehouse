@@ -1,0 +1,3 @@
+# Keep `docs/domain/` separate from the glossary
+
+Two distinct knowledge types deserve distinct homes: the **glossary** answers "what does this term mean?" with one-sentence definitions; **`docs/domain/`** answers "how does this work in the domain?" with multi-paragraph topic docs (mechanics, known anomalies, data shape, business rules). Folding both into a single file would muddle both — definitions get bloated, mechanics get fragmented across glossary entries. The split also matches what works in `MercatusDataFeed`: a single tight `glossary.md` plus a domain directory with `mercatus-mechanics.md`, `known-anomalies.md`, `data-model.md`.

@@ -1,0 +1,3 @@
+# Preserve the dated-analysis pattern as first-class
+
+`FishGrowthFittingSGRpackage` has `analysis/YYYY-MM-DD-<kebab-topic>/REPORT.md` for investigations, with `docs/planning/analysis-landscape.md` as a cross-cutting narrative that links every REPORT. Matt's repo has no equivalent — his work is feature-shaped, the user's includes data archaeology and reverse-engineering. The pattern is the user's strongest original contribution and stays. We elevate it: `analysis/` and `analysis/analysis-landscape.md` are first-class top-level entries (no longer nested under `docs/planning/`), and the `/start-analysis` and `/finish-analysis` skills enforce structure (dated dir, REPORT template, automatic landscape registration) so it cannot drift.

@@ -1,0 +1,3 @@
+# Drop `docs/planning/specs/` and `docs/planning/roadmap.md`
+
+The user's existing repos have `docs/planning/specs/` (one spec per feature, deleted when shipped) and `docs/planning/roadmap.md` (status of all work). We drop both. **Specs**: a PRD synthesised by `/to-prd` is a short ticket — problem, user stories, modules, out-of-scope — not a full spec; "spec then code" is the failure mode of GSD/BMAD/Spec-Kit and produces stale specs the AI codes against. PRDs live in `.tickets/<feature>/PRD.md`, not in a separate `specs/`. **Roadmap**: "done" lives in code + docs + analysis tree (recording it again drifts); "coming" lives in `future-work.md` (top of file = next up, which is the sort order a roadmap would impose). Two files instead of three; less drift surface.

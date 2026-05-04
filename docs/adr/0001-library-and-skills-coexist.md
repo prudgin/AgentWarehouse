@@ -1,0 +1,3 @@
+# Library and skills coexist; declarative vs procedural split
+
+Two existing patterns were in tension: the user's "library" approach (CLAUDE.md indexes docs, agent reads on demand) and Matt Pocock's skills approach (workflows wrapped in SKILL.md files, agent loads on description match). We adopt **both**, with a clear boundary: the **library** carries declarative knowledge — what things mean, how they work, why this design — and lives in `glossary.md`, `docs/`, and `analysis/`; **skills** wrap procedural workflows and live in `.claude/skills/`. Skills can read library docs; library docs do not call skills. This resolves the tension cleanly: the two are complementary forms of progressive disclosure (reference-style vs trigger-style), not competitors.

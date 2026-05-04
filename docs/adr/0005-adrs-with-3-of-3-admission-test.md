@@ -1,0 +1,3 @@
+# ADRs with 3-of-3 admission test, replacing append-only `decisions.md`
+
+The user's existing repos use an append-only `decisions.md` log. We replace this with **numbered ADR files** in `docs/adr/` (`0001-slug.md`, `0002-slug.md`, ...), gated by a strict admission test: a decision is only an ADR if it is hard to reverse, surprising without context, and the result of a real trade-off. Numbered files scale better past ~30 entries (a single log becomes hard to scan); the admission test keeps signal density high (an append-only log accumulates everything, including ephemera). The cost is two extra steps per ADR (pick a number, pick a slug) — small price for durability.

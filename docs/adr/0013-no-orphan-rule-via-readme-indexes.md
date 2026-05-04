@@ -1,0 +1,3 @@
+# No-orphan rule, enforced via README indexes
+
+Every document in a repo must be reachable from CLAUDE.md via a chain of links: CLAUDE.md → top-level dir → per-dir `README.md` → leaf docs. Each top-level directory carries a `README.md` whose job is to **index** its contents. An orphan doc is one nobody reads, gets out of sync, and silently misleads the next agent — the warehouse exists in part to prevent that failure mode. The `/finish` skill (planned) sweeps for orphans (files in indexed directories that aren't listed in the directory's README). The cost is a small amount of bookkeeping; the payoff is that the structure is mechanically checkable and the next agent always has a clear entry point.
