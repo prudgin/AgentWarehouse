@@ -63,6 +63,14 @@ cp -r <warehouse>/templates/<template>/ <target-path>/
 cd <target-path>
 ```
 
+If the template is `tool-integration`, lock down the secrets directory so the assertion in `CLAUDE.md` ("Real API keys live in `.secrets/` (gitignored, mode 700)") is true the moment the project is scaffolded:
+
+```bash
+chmod 700 .secrets/
+```
+
+(Skip this for other templates — they don't ship a `.secrets/` directory.)
+
 ### 6. Substitute placeholders
 
 In every file under the target tree, replace:

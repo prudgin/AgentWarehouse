@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -17,9 +17,9 @@ Pre-creating it (with the right gitignore + mode) closes the gap so the assertio
 
 ## Acceptance criteria
 
-- [ ] `templates/tool-integration/.secrets/.gitkeep` exists.
-- [ ] `templates/tool-integration/.gitignore` excludes `.secrets/*` and includes `.secrets/.gitkeep`.
-- [ ] `/create-project` runs `chmod 700 .secrets/` for tool-integration scaffolds (no-op for other templates since they don't have `.secrets/`).
+- [x] `templates/tool-integration/.secrets/.gitkeep` exists.
+- [x] `templates/tool-integration/.gitignore` excludes `.secrets/*` and includes `.secrets/.gitkeep`.
+- [x] `/create-project` runs `chmod 700 .secrets/` for tool-integration scaffolds (no-op for other templates since they don't have `.secrets/`).
 
 ## Blocked by
 

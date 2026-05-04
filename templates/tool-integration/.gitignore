@@ -28,3 +28,7 @@ analysis/*/outputs/
 
 # Environment
 .env
+
+# Secrets — real values gitignored, .gitkeep preserved so the dir exists
+.secrets/*
+!.secrets/.gitkeep
