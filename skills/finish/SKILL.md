@@ -21,11 +21,19 @@ If a doc references a function, type, or path that no longer exists, **stop and 
 
 The no-orphan rule: every doc reachable from CLAUDE.md via a chain of links.
 
-Walk the structure:
+**Derive the target list from CLAUDE.md, do not hardcode it.** Open the project's CLAUDE.md and locate the "Documentation map" section (the heading is exact — `## Documentation map`). Extract every directory reference from that section: any link target ending in `/` or pointing at a `README.md` inside a directory counts as a documented top-level directory. The resulting set is the orphan-sweep target list, and it will naturally include any dir CLAUDE.md indexes (`docs/reference/`, `docs/adr/`, `docs/domain/`, `analysis/`, `.tickets/`, `templates/`, `skills/`, `_tools/`, `data/`, etc. — whatever this project's map names).
 
-- For each top-level documented directory (`docs/reference/`, `docs/adr/`, `docs/domain/`, `analysis/`, `.tickets/`), list all files.
+Cross-check: list the project's top-level directories on disk. Any non-hidden, non-tooling directory (skip `.git/`, `node_modules/`, `.venv/`, build outputs) that is **not** referenced in the doc map is itself a CLAUDE.md-level orphan — surface it as "doc map omission: `<dir>/` exists but is not indexed in CLAUDE.md" and stop short of sweeping inside it. Fixing the omission is a CLAUDE.md edit, not a README edit.
+
+**Fallback:** if CLAUDE.md is missing, the "Documentation map" heading is absent, or no directory references can be parsed from it, **emit a warning to the user and skip the orphan sweep entirely** for this run. Do not silently fall back to a guessed list — silently missing is worse than skipping. Surface the problem in the final report so the next run (or the user) can fix CLAUDE.md.
+
+Then, for each derived target directory:
+
+- List all files in the directory.
 - Open the directory's `README.md`.
 - Verify every file is mentioned in the README's index. Files not mentioned are **orphans**.
+
+Per-artifact-dir patterns (e.g. `tasks/<Name>/`, `<surface>/<Name>/`) are out of scope for this step — those need their own design and live in a later iteration.
 
 For each orphan, decide:
 

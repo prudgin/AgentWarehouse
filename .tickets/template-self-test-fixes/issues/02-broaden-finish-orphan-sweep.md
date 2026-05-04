@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -15,10 +15,10 @@ A doc-map-derived list is the principled fix: every dir mentioned in CLAUDE.md i
 
 ## Acceptance criteria
 
-- [ ] `/finish` SKILL.md step 2 reads CLAUDE.md's documentation map and derives the orphan-sweep target list.
-- [ ] Falls back to "warn user, do nothing" if the doc map can't be parsed.
-- [ ] Per-artifact-dir patterns (`<surface>/<Name>/`) are out of scope for this ticket — that's its own design question (in the grill batch).
-- [ ] Tested against a synthetic project where a new top-level dir was added but not yet in CLAUDE.md — sweep should flag the doc-map omission, not the orphans inside it.
+- [x] `/finish` SKILL.md step 2 reads CLAUDE.md's documentation map and derives the orphan-sweep target list.
+- [x] Falls back to "warn user, do nothing" if the doc map can't be parsed.
+- [x] Per-artifact-dir patterns (`<surface>/<Name>/`) are out of scope for this ticket — that's its own design question (in the grill batch).
+- [x] Tested against a synthetic project where a new top-level dir was added but not yet in CLAUDE.md — sweep should flag the doc-map omission, not the orphans inside it.
 
 ## Blocked by
 
