@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -17,9 +17,9 @@ Dropping it leaves the three usable heuristics (imperative title, AC-shaped sub-
 
 ## Acceptance criteria
 
-- [ ] Heuristic 4 removed from `skills/finish/SKILL.md` step 6.
-- [ ] The "if entry passes 2+ heuristics, surface it" rule updated to reflect the 3-heuristic count (or the bar is preserved at 2-of-3 explicitly).
-- [ ] No other warehouse doc references "heuristic 4" in a way that breaks.
+- [x] Heuristic 4 removed from `skills/finish/SKILL.md` step 6.
+- [x] The "if entry passes 2+ heuristics, surface it" rule updated to reflect the 3-heuristic count (or the bar is preserved at 2-of-3 explicitly).
+- [x] No other warehouse doc references "heuristic 4" in a way that breaks.
 
 ## Blocked by
 

@@ -84,9 +84,8 @@ Heuristics for "looks ticket-shaped":
 - Imperative title (`Add ...`, `Refactor ...`, `Implement ...`) rather than a question or watching-point.
 - Body has acceptance-criteria-like sub-bullets ("must do X", "should produce Y").
 - No "open questions" line, or open questions are minor and would be resolved during work.
-- The entry has been in the file across more than one work session without changing.
 
-If the entry passes 2+ heuristics, surface it. Don't surface refinement-candidate entries even if they're concrete ("watch for X in real use" stays here even when active).
+If the entry passes 2 of the 3 heuristics, surface it. Don't surface refinement-candidate entries even if they're concrete ("watch for X in real use" stays here even when active).
 
 ### 7. Verify the ticket is in a finished state
 
