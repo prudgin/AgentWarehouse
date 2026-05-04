@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -39,9 +39,9 @@ Tool-integration subagent flagged that warehouse skills (symlinks) and project-l
 
 ## Acceptance criteria
 
-- [ ] All four templates' `.claude/skills/README.md` use the sectioned layout.
-- [ ] PLACEHOLDER comments make clear which section is which.
-- [ ] `/finish`'s orphan-sweep still indexes both sections correctly (no regression).
+- [x] All four templates' `.claude/skills/README.md` use the sectioned layout.
+- [x] PLACEHOLDER comments make clear which section is which.
+- [x] `/finish`'s orphan-sweep still indexes both sections correctly (no regression).
 
 ## Blocked by
 

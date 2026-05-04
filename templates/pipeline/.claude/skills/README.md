@@ -40,10 +40,21 @@ Which skills to install depends on the project — see `docs/reference/skills.md
 
 ## Index
 
-<!-- PLACEHOLDER — list installed skills with one-line summaries.
+### Project-local skills
 
-- [grill](grill/SKILL.md) — alignment interview for new features.
-- [to-prd](to-prd/SKILL.md) — synthesise a PRD from current context.
-- [start-analysis](start-analysis/SKILL.md) — scaffold a new investigation.
+<!-- PLACEHOLDER — list skills authored in this project (real files, not symlinks).
+     Pipeline projects sometimes grow stage-specific skills (e.g. one per stage);
+     leave this section empty until that happens.
+
+-->
+
+### Warehouse skills
+
+<!-- PLACEHOLDER — list skills installed from the warehouse via symlink.
+     These are general-purpose workflows; their canonical sources live in
+     ~/AgenticEngineering/skills/.
+
+- [grill](grill/SKILL.md) — alignment interview before building.
+- [finish](finish/SKILL.md) — cleanup ritual.
 
 -->

@@ -40,10 +40,22 @@ See `docs/reference/skills.md` in the warehouse for the full inventory.
 
 ## Index
 
-<!-- PLACEHOLDER — list installed skills with one-line summaries.
+### Project-local skills
 
-- [grill](grill/SKILL.md) — alignment interview for new features.
-- [to-prd](to-prd/SKILL.md) — synthesise a PRD from current context.
-- [start-analysis](start-analysis/SKILL.md) — scaffold a new investigation.
+<!-- PLACEHOLDER — list skills authored in this project (real files, not symlinks).
+     For tool-integration projects these typically wrap `_tools/` scripts.
+
+- [tasktool-list](tasktool-list/SKILL.md) — list tasks via `_tools/tasktool-list.sh`.
+
+-->
+
+### Warehouse skills
+
+<!-- PLACEHOLDER — list skills installed from the warehouse via symlink.
+     These are general-purpose workflows; their canonical sources live in
+     ~/AgenticEngineering/skills/.
+
+- [grill](grill/SKILL.md) — alignment interview before building.
+- [finish](finish/SKILL.md) — cleanup ritual.
 
 -->
