@@ -78,6 +78,22 @@ Specifically check and edit:
 
 Leave structural placeholder sections (`<!-- PLACEHOLDER: ... -->` blocks) intact.
 
+**Strip the TEMPLATE META block from `CLAUDE.md`.** Every warehouse template's `CLAUDE.md` opens with a leading `<!-- TEMPLATE META — ... -->` HTML comment containing notes about the template itself; that block is meant for warehouse maintainers and must not survive into a scaffolded project.
+
+Detection rule:
+
+- The block is the first HTML comment in the file (`<!--` on line 1).
+- Its body contains the literal phrase `TEMPLATE META`.
+- It ends at the matching `-->`, which may be many lines below.
+
+Action:
+
+1. If `CLAUDE.md` line 1 starts with `<!--` and the comment body contains `TEMPLATE META`, delete the entire comment (from the opening `<!--` through the closing `-->` inclusive).
+2. Trim any blank lines that now lead the file so the first non-blank line (typically `# CLAUDE.md — <project name>`) becomes line 1.
+3. If line 1 does not start with `<!--`, or the first comment does not contain `TEMPLATE META`, do nothing — the file is already clean (e.g. transferred from staging in step 7).
+
+After this step, `grep -c 'TEMPLATE META' CLAUDE.md` in the new project must return `0`.
+
 ### 7. Transfer staged content (if staging exists)
 
 For every file under `target-projects/<name>/` **except** `_warehouse/`, copy to the matching path in the new project. The staged `CLAUDE.md` (if present) takes precedence over the template's placeholder version — but show the diff and confirm before overwriting.

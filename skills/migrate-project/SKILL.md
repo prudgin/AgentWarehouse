@@ -135,6 +135,12 @@ If `target-projects/<name>/CLAUDE.md` was composed during intake, transfer it di
 - Identify FIXED sections (template) vs. PLACEHOLDER sections (project-specific).
 - Compose a draft and let the user edit before writing.
 
+**Strip the TEMPLATE META block.** If the CLAUDE.md being transferred (whether from staging or composed from a warehouse template) begins with a leading `<!-- TEMPLATE META — ... -->` HTML comment, delete the entire comment plus any leading blank lines before writing it into the source repo.
+
+Detection: line 1 starts with `<!--` and the comment body contains the literal phrase `TEMPLATE META`. The block extends to the matching `-->`, possibly many lines down. After stripping, the first non-blank line (typically `# CLAUDE.md — <project name>`) must be line 1.
+
+After transfer, verify `grep -c 'TEMPLATE META' <source>/CLAUDE.md` returns `0`.
+
 **Dropping subagents and ephemeral notes:**
 
 - `.claude/agents/*` — confirm with user, then delete. Functionality lives in skills now.

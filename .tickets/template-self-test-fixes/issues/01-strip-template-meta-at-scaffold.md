@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -13,9 +13,9 @@ All four self-test subagents flagged the META block surviving into scaffolded pr
 
 ## Acceptance criteria
 
-- [ ] `/create-project` strips the META block at step 5 (placeholder substitution) or step 6 (post-substitution scrub).
-- [ ] `/migrate-project` strips the META block from the staged-CLAUDE.md handoff if it transfers it.
-- [ ] Tested by scaffolding a project from each of the four templates and grepping for "TEMPLATE META" in the result — should be zero hits.
+- [x] `/create-project` strips the META block at step 5 (placeholder substitution) or step 6 (post-substitution scrub).
+- [x] `/migrate-project` strips the META block from the staged-CLAUDE.md handoff if it transfers it.
+- [x] Tested by scaffolding a project from each of the four templates and grepping for "TEMPLATE META" in the result — should be zero hits.
 
 ## Blocked by
 
