@@ -29,6 +29,13 @@ Difference of two sigmoids σ_arr − σ_clr, modelling fraction of fish with fe
 _Avoid_: bell curve, peak model.
 _Provenance_: [docs/domain/model.md].
 
+**Linear-Gaussian baseline**:
+The default OLS-fit-with-Gaussian-residuals model used for first-pass analyses.
+_Avoid_: linear regression (too generic), OLS fit (too narrow — implies only the optimisation method).
+_Provenance_: definition lives in [docs/domain/model.md](docs/domain/model.md);
+the term itself was resolved in [analysis/2026-01-14-baseline-fit/REPORT.md].
+(Chained provenance is legitimate when a term is *resolved* in a REPORT but its *form/depth* lives in a domain doc — point at the domain doc, which itself back-points to the REPORT.)
+
 -->
 
 ## Relationships

@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -23,9 +23,9 @@ Analysis subagent flagged that the chain (glossary → domain → REPORT) is cor
 
 ## Acceptance criteria
 
-- [ ] `templates/analysis/glossary.md` contains a worked example showing chained provenance.
-- [ ] The example is annotated with one line explaining *why* chaining is legitimate.
-- [ ] No change to the format rules themselves — just the example.
+- [x] `templates/analysis/glossary.md` contains a worked example showing chained provenance.
+- [x] The example is annotated with one line explaining *why* chaining is legitimate.
+- [x] No change to the format rules themselves — just the example.
 
 ## Blocked by
 
