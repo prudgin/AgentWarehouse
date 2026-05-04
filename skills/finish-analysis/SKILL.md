@@ -19,7 +19,15 @@ If multiple in-progress investigations exist, ask which one (in interactive mode
 
 ### 2. Verify the REPORT is complete
 
-Open `REPORT.md`. Check that each required section has real content (not the placeholder text from the stub):
+First, run a mechanical grep for stub tokens. The `start-analysis` stub seeds each section with a `TODO:` line; any that survive mean the section was never filled in.
+
+```sh
+grep -n '^TODO:' analysis/<dated-dir>/REPORT.md
+```
+
+If grep returns any matches, **stop and surface them to the user** with line numbers and section names. Refuse to mark the analysis complete while any `^TODO:` lines remain. Do not paper over them by deleting the tokens — they're a signal the work isn't done.
+
+Once no `^TODO:` lines remain, sanity-check that each required section has real content (not just the absence of a TODO token):
 
 - **Question** — was anything actually asked?
 - **Method** — is there a description of what was done?
@@ -27,7 +35,7 @@ Open `REPORT.md`. Check that each required section has real content (not the pla
 - **Implications** — has the user thought about what changes downstream?
 - **Open ends** — has the user noted what's left, even if "nothing"?
 
-If any section is still the stub, **stop and surface** — the user needs to fill it before finishing.
+If a section is technically non-empty but obviously vestigial (e.g. a single word, copy-pasted boilerplate), surface that too — the grep is a floor, not a ceiling.
 
 Auto-update the "Date" line to add the finish date and the "Status" line to `complete`.
 

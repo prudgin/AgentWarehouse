@@ -32,24 +32,23 @@ YYYY-MM-DD-<topic>/
 
 ## Question
 
-What did we set out to find out?
+TODO: what did we set out to find out?
 
 ## Method
 
-What did we actually do? Scripts, data sources, assumptions.
+TODO: scripts, data sources, assumptions used.
 
 ## Findings
 
-What did we learn? Concrete, evidenced. Plot links, table excerpts.
+TODO: what we learned, with concrete evidence.
 
 ## Implications
 
-What does this change about the project? Anything that should land in
-glossary.md, docs/domain/, docs/adr/, or future-work.md?
+TODO: what should land in glossary.md / docs/domain/ / docs/adr/ / future-work.md.
 
 ## Open ends
 
-What's left unresolved? What follow-up investigations does this suggest?
+TODO: what's left unresolved.
 ```
 
 ## Workflow

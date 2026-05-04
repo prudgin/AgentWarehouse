@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -38,9 +38,9 @@ Analysis subagent flagged that prose-shaped placeholders are easy to leave in by
 
 ## Acceptance criteria
 
-- [ ] `templates/analysis/analysis/README.md` REPORT format block uses `TODO:` tokens.
-- [ ] `start-analysis` skill (if it scaffolds a REPORT stub) uses the same tokens.
-- [ ] `finish-analysis` skill greps for `^TODO:` (or equivalent) and surfaces remaining ones during cleanup.
+- [x] `templates/analysis/analysis/README.md` REPORT format block uses `TODO:` tokens.
+- [x] `start-analysis` skill (if it scaffolds a REPORT stub) uses the same tokens.
+- [x] `finish-analysis` skill greps for `^TODO:` (or equivalent) and surfaces remaining ones during cleanup.
 
 ## Blocked by
 

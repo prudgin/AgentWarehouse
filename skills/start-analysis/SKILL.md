@@ -59,26 +59,26 @@ Use this template:
 
 ## Question
 
-<What do we set out to find out? One paragraph. Replace this placeholder.>
+TODO: what did we set out to find out?
 
 ## Method
 
-<What will we actually do? Scripts, data sources, assumptions. Update as you go.>
+TODO: scripts, data sources, assumptions used.
 
 ## Findings
 
-<What did we learn? Concrete, evidenced. Plot links, table excerpts. Filled in during work.>
+TODO: what we learned, with concrete evidence.
 
 ## Implications
 
-<What does this change about the project? Anything to land in glossary.md, docs/domain/, docs/adr/, or future-work.md? Filled in at finish.>
+TODO: what should land in glossary.md / docs/domain/ / docs/adr/ / future-work.md.
 
 ## Open ends
 
-<What's left unresolved? What follow-up investigations does this suggest? Filled in at finish.>
+TODO: what's left unresolved.
 ```
 
-Auto-fill the topic title and date. Leave the body sections as placeholders for the user (or the agent that runs the investigation) to fill.
+Auto-fill the topic title and date. Leave the `TODO:` lines verbatim — `/finish-analysis` greps for `^TODO:` and refuses to mark the analysis complete while any remain, so the tokens are the mechanical signal that a section hasn't been filled in yet.
 
 ### 6. Register in analysis-landscape.md
 
