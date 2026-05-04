@@ -44,7 +44,10 @@ State your reading of the task before acting. If the task is ambiguous or unders
      WHY:  what decision or claim does this work support? Who reads
            the deliverable, and what do they do with it?
      HOW:  how to reproduce a run end-to-end (input → script → output);
-           where data lives; where the latest report lives. -->
+           where data lives; where the latest report lives.
+     Do NOT bake in design decisions (eviction policies, error-handling strategies,
+     retry semantics, etc.) — those go in docs/adr/. CLAUDE.md describes shape;
+     ADRs describe choices. -->
 ## What this project is
 
 <WHAT / WHY / HOW.>

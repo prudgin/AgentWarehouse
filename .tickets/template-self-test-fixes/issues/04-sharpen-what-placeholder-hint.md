@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 
 ## What to build
@@ -34,8 +34,8 @@ The library subagent ran into a real CLAUDE.md vs. ADR contradiction within minu
 
 ## Acceptance criteria
 
-- [ ] The placeholder hint in each of the four templates' CLAUDE.md includes the design-decision prohibition.
-- [ ] Wording is consistent across templates.
+- [x] The placeholder hint in each of the four templates' CLAUDE.md includes the design-decision prohibition.
+- [x] Wording is consistent across templates.
 
 ## Blocked by
 

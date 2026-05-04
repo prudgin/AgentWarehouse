@@ -37,7 +37,10 @@ State your reading of the task before acting. If the task is ambiguous or unders
      WHY:  purpose of the project and purpose of each major part.
      HOW:  how to install, run, test, and verify changes.
      Prefer pointers over inline content. Do not paste code or long lists
-     here — link to files in docs/ or to paths in the repo. -->
+     here — link to files in docs/ or to paths in the repo.
+     Do NOT bake in design decisions (eviction policies, error-handling strategies,
+     retry semantics, etc.) — those go in docs/adr/. CLAUDE.md describes shape;
+     ADRs describe choices. -->
 ## What this project is
 
 <WHAT / WHY / HOW goes here.>

@@ -28,7 +28,10 @@ State your reading of the task before acting. If the task is ambiguous or unders
 <!-- PLACEHOLDER — describe the pipeline:
      WHAT: input source, output sink, intermediate stages, technology.
      WHY:  what this pipeline produces and who consumes it.
-     HOW:  how to run end-to-end and per-stage; how to verify outputs. -->
+     HOW:  how to run end-to-end and per-stage; how to verify outputs.
+     Do NOT bake in design decisions (eviction policies, error-handling strategies,
+     retry semantics, etc.) — those go in docs/adr/. CLAUDE.md describes shape;
+     ADRs describe choices. -->
 ## What this project is
 
 <WHAT / WHY / HOW.>

@@ -33,7 +33,10 @@ State your reading of the task before acting. If the task is ambiguous or unders
 <!-- PLACEHOLDER — describe what this integration does:
      WHAT: which external platform, which surfaces (flows, apps, etc.).
      WHY:  why we maintain a Linux/CLI workflow for it.
-     HOW:  how the skills + _tools/ combine; how to authenticate. -->
+     HOW:  how the skills + _tools/ combine; how to authenticate.
+     Do NOT bake in design decisions (eviction policies, error-handling strategies,
+     retry semantics, etc.) — those go in docs/adr/. CLAUDE.md describes shape;
+     ADRs describe choices. -->
 ## What this project is
 
 <WHAT / WHY / HOW.>
