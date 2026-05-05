@@ -9,67 +9,98 @@ Warehouse-specific vocabulary. One canonical term per concept; synonyms are list
 - **One sentence per definition.** Define what it IS, not what it does.
 - **Show relationships.** Use bold term names and express cardinality where obvious.
 - **Domain only.** General programming concepts do not belong even if used. Ask: "is this concept unique to this warehouse, or general?" Only the former qualifies.
+- **Entry shape.** Each entry is a `### Term` heading followed by a blank line, the definition paragraph, a blank line, and italic-field lines (`_Avoid_:`, `_Provenance_:`, ...). Heading style is required so deep-links into the glossary resolve via standard markdown anchors.
 
 ## Language
 
-**Warehouse**:
+### Warehouse
+
 This repository — the project factory hosting templates, skills, and reference material.
+
 _Avoid_: Workshop, hub, library (overloaded — see below).
 
-**Template**:
+### Template
+
 A drop-in project skeleton under `templates/<type>/`. Variants planned: `library`, `pipeline`, `tool-integration`.
+
 _Avoid_: Boilerplate (broader, less specific), scaffold (verb only — "to scaffold from a template").
 
-**Skill**:
+### Skill
+
 A procedural workflow with `SKILL.md` frontmatter that an agent can invoke by description match or by explicit slash command. Lives in `skills/<name>/` (canonical source) and `.claude/skills/<name>/` (per-project install, usually a symlink).
+
 _Avoid_: Command, slash command (those are the invocation surface, not the skill itself), recipe, macro.
 
-**Library** (in this warehouse's mental model):
+### Library (in this warehouse's mental model)
+
 Declarative knowledge — `glossary.md`, `docs/`, `analysis/`. Loaded by pointer, not by trigger. Distinct from a Python library.
+
 _Avoid_: Knowledge base, docs (too narrow — `docs/` is a part of the library, not all of it), reference (too narrow — `docs/reference/` is one section).
 
-**Build chain**:
+### Build chain
+
 The sequence of skills used to ship a feature: `/grill` → `/to-prd` → `/to-issues` → `/triage` → `/work-issue` → `/finish`. Each step is opt-in; free-float is fine.
+
 _Avoid_: Pipeline (overloaded with data pipelines).
 
-**Analyse chain**:
+### Analyse chain
+
 The parallel sequence used for investigations: `/start-analysis` → (do the investigation) → `/finish-analysis`. Findings can spawn build-chain tickets.
+
 _Avoid_: Research workflow.
 
-**ADR (Architecture Decision Record)**:
+### ADR (Architecture Decision Record)
+
 A short markdown file in `docs/adr/` recording a design decision that passes the **3-of-3 admission test**: hard to reverse, surprising without context, result of a real trade-off.
+
 _Avoid_: Decision log entry (we use ADRs, not a single log file), design note.
 
-**Glossary**:
+### Glossary
+
 The single root-level `glossary.md` carrying the project's ubiquitous language. Distinct from `docs/domain/` (which holds non-vocabulary domain knowledge).
+
 _Avoid_: Dictionary, lexicon, vocabulary list (use "glossary").
 
-**No-orphan rule**:
+### No-orphan rule
+
 Every document must be reachable from CLAUDE.md via a chain of links. CLAUDE.md → top-level dir → per-dir README.md → leaf doc.
+
 _Avoid_: Reachability rule, link rule.
 
-**Stigmergy**:
+### Stigmergy
+
 The principle that agents coordinate through marks left in a shared environment, not by direct messaging. Each agent reads the structured context, does its work, and leaves the structure intact for the next agent. The warehouse is a stigmergic substrate.
+
 _Avoid_: Indirect coordination, environment-mediated coordination.
 
-**Auto mode**:
+### Auto mode
+
 Claude Code's continuous, autonomous execution mode. Interactive skills (e.g. `/grill`) refuse to run in auto mode and prompt the user to switch.
+
 _Avoid_: Headless mode, batch mode.
 
-**Inbox**:
+### Inbox
+
 The `.tickets/inbox/` directory in any project, holding incoming cross-repo tickets dropped by agents working in dependent repos.
+
 _Avoid_: Cross-repo queue, message queue.
 
-**Target project**:
+### Target project
+
 A project the warehouse is in the process of setting up — either via cold-start (`/create-project`) or migration (`/migrate-project`). Its staged drafts live in `target-projects/<name>/` until they get transferred to the actual project repo.
+
 _Avoid_: Client project, child project.
 
-**Intake**:
+### Intake
+
 The grilling phase against a target project. Run via `/intake-target-project` from the warehouse (not `/grill`, which runs inside an already-set-up project — see [ADR-0014](docs/adr/0014-warehouse-grill-vs-project-grill.md)). Output is a populated `target-projects/<name>/` ready for `/create-project` or `/migrate-project` to consume.
+
 _Avoid_: Onboarding, kickoff.
 
-**`_warehouse/`**:
+### `_warehouse/`
+
 The cordoned-off staging-meta subdirectory inside `target-projects/<name>/`. Holds intake notes, migration plan, status, post-handoff feedback. Everything outside `_warehouse/` transfers to the target repo on `/create-project` or `/migrate-project`; `_warehouse/` stays as durable record. The leading underscore is the marker.
+
 _Avoid_: Meta, scratch, ops.
 
 ## Relationships

@@ -14,23 +14,30 @@ Entries here typically come from `analysis/<dated>/REPORT.md` findings, promoted
 - **Show relationships.** Use bold term names and express cardinality where obvious.
 - **Domain only.** General programming or statistics concepts do not belong, even if the project uses them. Ask: "is this concept unique to this domain, or general?" Only the former qualifies.
 - **Link provenance.** Each entry links the REPORT (or domain doc) where the term was resolved.
+- **Entry shape.** Each entry is a `### Term` heading followed by a blank line, the definition paragraph, a blank line, and italic-field lines (`_Avoid_:`, `_Provenance_:`, ...). Heading style is required so deep-links into the glossary resolve via standard markdown anchors.
 
 ## Language
 
 <!-- PLACEHOLDER — example structure, replace with real domain terms.
 
-**Degree-hours (DH)**:
+### Degree-hours (DH)
+
 Cumulative thermal time since a reference event (e.g. last feed) — sum over hours of water temperature × duration.
+
 _Avoid_: degree-days (different unit), thermal sum (ambiguous reference).
 _Provenance_: [analysis/2026-01-14-thermal-time/REPORT.md].
 
-**Hump model**:
+### Hump model
+
 Difference of two sigmoids σ_arr − σ_clr, modelling fraction of fish with feed in intestine over time.
+
 _Avoid_: bell curve, peak model.
 _Provenance_: [docs/domain/model.md].
 
-**Linear-Gaussian baseline**:
+### Linear-Gaussian baseline
+
 The default OLS-fit-with-Gaussian-residuals model used for first-pass analyses.
+
 _Avoid_: linear regression (too generic), OLS fit (too narrow — implies only the optimisation method).
 _Provenance_: definition lives in [docs/domain/model.md](docs/domain/model.md);
 the term itself was resolved in [analysis/2026-01-14-baseline-fit/REPORT.md].

@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 **Type:** AFK
 
@@ -31,11 +31,11 @@ Verification:
 
 ## Acceptance criteria
 
-- [ ] All five glossary files use `### Term` heading style.
-- [ ] Each file's "Format rules" section reflects the new convention.
-- [ ] No `**Term**:` bold-paragraph entries remain in any glossary.
-- [ ] Existing deep-links into glossaries (if any) resolve.
-- [ ] No content lost (definitions, `_Avoid_`, `_Provenance_` all preserved).
+- [x] All five glossary files use `### Term` heading style.
+- [x] Each file's "Format rules" section reflects the new convention.
+- [x] No `**Term**:` bold-paragraph entries remain in any glossary.
+- [x] Existing deep-links into glossaries (if any) resolve.
+- [x] No content lost (definitions, `_Avoid_`, `_Provenance_` all preserved).
 
 ## Blocked by
 

@@ -11,21 +11,28 @@ This is the project's **ubiquitous language**: one canonical term per concept, w
 - **One sentence per definition.** Define what it IS, not what it does.
 - **Show relationships.** Use bold term names and express cardinality where obvious.
 - **Domain only.** General programming concepts (timeouts, error types, utility patterns) do not belong, even if the project uses them. Ask: "is this a concept unique to this domain, or a general concept?" Only the former qualifies.
+- **Entry shape.** Each entry is a `### Term` heading followed by a blank line, the definition paragraph, a blank line, and italic-field lines (`_Avoid_:`, `_Provenance_:`, ...). Heading style is required so deep-links into the glossary resolve via standard markdown anchors.
 
 ## Language
 
 <!-- PLACEHOLDER — example, replace with real domain terms.
 
-**Order**:
+### Order
+
 A confirmed customer purchase request, regardless of fulfillment state.
+
 _Avoid_: Purchase, transaction.
 
-**Invoice**:
+### Invoice
+
 A request for payment sent to a customer after delivery.
+
 _Avoid_: Bill, payment request.
 
-**Customer**:
+### Customer
+
 A person or organization that places orders.
+
 _Avoid_: Client, buyer, account.
 
 -->
