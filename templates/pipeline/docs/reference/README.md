@@ -1,6 +1,8 @@
 # Reference
 
-How the code works. **One doc per pipeline stage** (matching the Pipeline areas table in CLAUDE.md), plus a cross-cutting `conventions.md`. Source of truth is the code itself; these docs describe what the code currently does, not what it should do.
+How the code works. The **canonical list of stages lives in CLAUDE.md's Pipeline-areas table** — these per-stage docs are *detail* that links back to that table for the authoritative roster. **One doc per pipeline stage** (matching the Pipeline-areas table), plus a cross-cutting `conventions.md`. Source of truth for behaviour is the code itself; these docs describe what the code currently does, not what it should do.
+
+*Orchestration* lives only in CLAUDE.md (it's a row in the Pipeline-areas table without its own code dir) and has no per-stage doc here. Every other row in the table must have a matching `<stage>.md` in this directory, and every `<stage>.md` here must correspond to a row in the table. `/finish` cross-checks both directions.
 
 ## Rules
 

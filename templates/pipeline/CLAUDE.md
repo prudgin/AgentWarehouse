@@ -40,6 +40,8 @@ State your reading of the task before acting. If the task is ambiguous or unders
      Each row: stage name, entry point, code dir, output. -->
 ## Pipeline areas
 
+*Canonical list of stages. If you change this table, run `/finish` — it cross-checks against `docs/reference/`.*
+
 | Area | Entry point | Code | Output |
 |------|------------|------|--------|
 | **Orchestration** | `<entry>.py` | — | runs all stages in order |

@@ -55,6 +55,7 @@ Read the project's CLAUDE.md. Check:
 - Every directory that exists is mentioned (top-level only — subdirs are indexed by their parents).
 - The project description still matches what the project does.
 - The "Update rules" section reflects the current doc structure.
+- **Pipeline projects only** — if CLAUDE.md contains a "Pipeline areas" section (detection: heading present and followed by a table), cross-check the table against `docs/reference/`: every stage row except *Orchestration* must have a matching `docs/reference/<stage>.md`, and every `docs/reference/<stage>.md` (excluding `README.md` and `conventions.md`) must correspond to a row in the table. Surface mismatches as judgment-call findings — do not auto-fix; the user decides whether to add the missing doc, remove the table row, or rename.
 
 If CLAUDE.md is out of date, fix it. If the change is large enough that you're unsure, surface for the user to review before saving.
 

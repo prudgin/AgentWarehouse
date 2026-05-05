@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 **Type:** AFK
 
@@ -20,10 +20,10 @@ Specifically:
 
 ## Acceptance criteria
 
-- [ ] `templates/pipeline/CLAUDE.md` has the canonical-source note above the Pipeline-areas table.
-- [ ] `templates/pipeline/docs/reference/README.md` clarifies the back-link relationship.
-- [ ] `skills/finish/SKILL.md` step 4 cross-checks the table against `docs/reference/` for pipeline projects.
-- [ ] No edits to non-pipeline templates.
+- [x] `templates/pipeline/CLAUDE.md` has the canonical-source note above the Pipeline-areas table.
+- [x] `templates/pipeline/docs/reference/README.md` clarifies the back-link relationship.
+- [x] `skills/finish/SKILL.md` step 4 cross-checks the table against `docs/reference/` for pipeline projects.
+- [x] No edits to non-pipeline templates.
 
 ## Blocked by
 
