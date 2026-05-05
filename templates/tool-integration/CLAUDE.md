@@ -83,7 +83,7 @@ Skills wrap procedure. Library carries knowledge. For tool-integration projects,
 - **`docs/adr/`** — Architecture Decision Records (e.g. why pull-only vs push, why secrets live in `.secrets/`). 3-of-3 admission test.
 - **`docs/domain/`** — non-vocabulary domain knowledge (platform-specific mechanics, gotchas, deprecation tracks).
 - **`docs/planning/`** — open backlog (`future-work.md`, often: new surfaces to support) and the boundary rule vs. `.tickets/`. Indexed in `docs/planning/README.md`.
-- **`analysis/YYYY-MM-DD-<topic>/REPORT.md`** — investigations.
+- **`analysis/YYYY-MM-DD-<topic>/INVESTIGATION.md`** — investigations.
 - **`analysis/analysis-landscape.md`** — narrative across investigations.
 - **`.tickets/`** — local issue tracker.
 - **`.tickets/inbox/`** — incoming cross-repo tickets.

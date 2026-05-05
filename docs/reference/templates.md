@@ -30,9 +30,9 @@ Differs from `library/`: skills-heavy, library-light pattern (CLAUDE.md says "lo
 
 ### `analysis/`
 
-For research projects whose primary deliverable is a body of investigations (REPORTs + plots + interpretation), not a public API or a multi-stage pipeline. Closest analogue: `GutEvac` (gut-clearance research on Murray cod), and the `analysis/` portion of `FishGrowthFittingSGRpackage`.
+For research projects whose primary deliverable is a body of investigations (INVESTIGATIONs + plots + interpretation), not a public API or a multi-stage pipeline. Closest analogue: `GutEvac` (gut-clearance research on Murray cod), and the `analysis/` portion of `FishGrowthFittingSGRpackage`.
 
-Differs from `library/`: analyse chain dominant (CLAUDE.md leads with `/start-analysis` → `/finish-analysis`); `analysis/` promoted to first place in the doc map; `docs/reference/` marked optional (often empty for pure-research projects); `docs/domain/` pre-suggests `model.md`, `data-shape.md`, `known-issues.md`. No `working-notes.md` (per ADR-0007 — content splits between `known-issues.md`, `future-work.md`, and ADRs). Adds the **findings provenance** rule: every promoted claim links the REPORT that produced it.
+Differs from `library/`: analyse chain dominant (CLAUDE.md leads with `/start-analysis` → `/finish-analysis`); `analysis/` promoted to first place in the doc map; `docs/reference/` marked optional (often empty for pure-research projects); `docs/domain/` pre-suggests `model.md`, `data-shape.md`, `known-issues.md`. No `working-notes.md` (per ADR-0007 — content splits between `known-issues.md`, `future-work.md`, and ADRs). Adds the **findings provenance** rule: every promoted claim links the INVESTIGATION that produced it.
 
 [Browse →](../../templates/analysis/)
 

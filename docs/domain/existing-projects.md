@@ -6,7 +6,7 @@ State of the user's existing repositories surveyed during the warehouse design, 
 
 ### `FishGrowthFittingSGRpackage`
 
-A Python package for fish growth simulation and fitting. The cleanest existing agentic setup — the closest match to the target shape. Has a 219-line CLAUDE.md, `docs/reference/` + `docs/planning/`, and (uniquely) the `analysis/YYYY-MM-DD-<topic>/REPORT.md` pattern with 17+ dated investigation dirs and a cross-cutting landscape narrative.
+A Python package for fish growth simulation and fitting. The cleanest existing agentic setup — the closest match to the target shape. Has a 219-line CLAUDE.md, `docs/reference/` + `docs/planning/`, and (uniquely) the `analysis/YYYY-MM-DD-<topic>/INVESTIGATION.md` pattern (the warehouse renamed this file from the source repo's `REPORT` per ADR-0020) with 17+ dated investigation dirs and a cross-cutting landscape narrative.
 
 **What's there now**: Strict single-canonical-home discipline, append-only `decisions.md`, the dated-analysis tree.
 
@@ -44,7 +44,7 @@ Active research project on gut-clearance kinetics in farmed Murray cod. Goal: pr
 
 **What's missing vs the target**: everything structural (CLAUDE.md, glossary.md, docs/{adr,domain,reference,planning}/, .tickets/, .claude/skills/). But latent knowledge density is high — the spec and notes seed several glossary entries (DH, hump model, c, m_arr/m_clr/m_emp, t=0, yesterday-stomach validation), several ADR-eligible decisions (binomial likelihood vs. asymmetric, two-meal independence assumption, pool-all-ponds, c-imputation policy, "% old feed" as validation-only), and a clean future-work seed (cold-band data, t=0 per pond, larger n, c as fitted parameter).
 
-**Plan**: First migration target. Will be the first real exercise of the `/intake-target-project` → `/migrate-project` flow, and of the `analysis/` template. Natural template fit: `analysis/` (research project, REPORTs are the primary deliverable, methodology decisions become ADRs). The contents of `working_notes_for_future_runs.txt` split into the canonical homes per ADR-0007: caveats → `docs/domain/known-issues.md`, follow-up priorities → `docs/planning/future-work.md`, methodology decisions → `docs/adr/`. No working-notes.md.
+**Plan**: First migration target. Will be the first real exercise of the `/intake-target-project` → `/migrate-project` flow, and of the `analysis/` template. Natural template fit: `analysis/` (research project, INVESTIGATIONs are the primary deliverable, methodology decisions become ADRs). The contents of `working_notes_for_future_runs.txt` split into the canonical homes per ADR-0007: caveats → `docs/domain/known-issues.md`, follow-up priorities → `docs/planning/future-work.md`, methodology decisions → `docs/adr/`. No working-notes.md.
 
 ## `~/MicrosoftFlowsApps/`
 

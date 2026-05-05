@@ -82,7 +82,7 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 - **`docs/adr/`** — Architecture Decision Records. Numbered files. 3-of-3 admission test.
 - **`docs/domain/`** — non-vocabulary domain knowledge: mechanics (how upstream actions become data), known anomalies, data model.
 - **`docs/planning/`** — open backlog (`future-work.md`) and the boundary rule between future-work and `.tickets/`. Indexed in `docs/planning/README.md`.
-- **`analysis/YYYY-MM-DD-<topic>/REPORT.md`** — investigations.
+- **`analysis/YYYY-MM-DD-<topic>/INVESTIGATION.md`** — investigations.
 - **`analysis/analysis-landscape.md`** — narrative across all investigations.
 - **`.tickets/`** — local issue tracker.
 - **`.tickets/inbox/`** — incoming cross-repo tickets.
@@ -106,7 +106,7 @@ When you change behaviour, update the doc that describes it.
 - **Architectural decision passing 3-of-3** → new `docs/adr/NNNN-slug.md`.
 - **New domain term resolved** → `glossary.md`.
 - **New domain mechanic discovered** → `docs/domain/`.
-- **Investigation completed** → finalise `analysis/<date>-<topic>/REPORT.md` and register in landscape.
+- **Investigation completed** → finalise `analysis/<date>-<topic>/INVESTIGATION.md` and register in landscape.
 - **New planned work** → `docs/planning/future-work.md`.
 - **New stage added or stage layout changed** → this file (the pipeline-areas table) and `docs/reference/`.
 

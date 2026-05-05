@@ -69,7 +69,7 @@ When you change behaviour, update the doc that describes it:
 - **Code change** → relevant `docs/reference/` doc (auto).
 - **New decision passing 3-of-3** → new `docs/adr/NNNN-slug.md` (auto, but show the user what you wrote at the end).
 - **New domain term resolved** → `glossary.md` entry (auto).
-- **Investigation findings** → finalise the relevant `analysis/<topic>/REPORT.md` if applicable (auto).
+- **Investigation findings** → finalise the relevant `analysis/<topic>/INVESTIGATION.md` if applicable (auto).
 - **Project structure changed** → `CLAUDE.md` (auto).
 
 ### 7. Commit

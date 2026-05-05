@@ -1,7 +1,7 @@
 <!-- TEMPLATE META — delete this block when putting the template to use.
 
 Analysis variant of the library template. For research projects whose
-primary deliverable is a body of investigations (REPORTs + plots +
+primary deliverable is a body of investigations (INVESTIGATIONs + plots +
 interpretation), not a public API or a multi-stage pipeline. Differs
 from the library template in:
 
@@ -15,9 +15,9 @@ from the library template in:
   No "working-notes" junk drawer (ADR-0007). Caveats land in
   known-issues.md, follow-up priorities in docs/planning/future-work.md,
   methodology decisions in docs/adr/, and headline numbers in the
-  REPORT for that round.
+  INVESTIGATION for that round.
 - "Findings provenance" rule: every claim in a domain doc or ADR links
-  back to the analysis/<dated-dir>/REPORT.md that produced it.
+  back to the analysis/<dated-dir>/INVESTIGATION.md that produced it.
 
 Closest analogue: GutEvac (gut-clearance research on Murray cod), and
 the analysis/ portion of FishGrowthFittingSGRpackage.
@@ -66,16 +66,16 @@ Every fact has a single canonical home. Other documents link to it rather than r
 
 CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap procedural workflows. Library (`glossary.md`, `docs/`, `analysis/`) carries declarative knowledge. For a research project the centre of gravity is `analysis/` and `docs/domain/`.
 
-**Findings provenance.** Claims that land in `glossary.md`, `docs/domain/`, or `docs/adr/` link back to the `analysis/<dated>/REPORT.md` that produced them. Provenance is what keeps the substrate honest as the research evolves.
+**Findings provenance.** Claims that land in `glossary.md`, `docs/domain/`, or `docs/adr/` link back to the `analysis/<dated>/INVESTIGATION.md` that produced them. Provenance is what keeps the substrate honest as the research evolves.
 
 <!-- FIXED + PLACEHOLDER pointer adjustments -->
 ## Documentation map
 
 - **`README.md`** — human-facing entry; links back to this file.
 - **`glossary.md`** — domain ubiquitous language. Read before naming anything.
-- **`analysis/YYYY-MM-DD-<topic>/REPORT.md`** — investigations. **The primary work surface.** Each dated dir holds the scripts and the canonical report.
-- **`analysis/analysis-landscape.md`** — narrative across all investigations. Single entry point that links every REPORT.
-- **`docs/domain/`** — non-vocabulary domain knowledge: model mechanics, data shape, known issues. Promoted from REPORT findings via `/finish-analysis`.
+- **`analysis/YYYY-MM-DD-<topic>/INVESTIGATION.md`** — investigations. **The primary work surface.** Each dated dir holds the scripts and the canonical writeup.
+- **`analysis/analysis-landscape.md`** — narrative across all investigations. Single entry point that links every INVESTIGATION.
+- **`docs/domain/`** — non-vocabulary domain knowledge: model mechanics, data shape, known issues. Promoted from INVESTIGATION findings via `/finish-analysis`.
 - **`docs/adr/`** — Architecture Decision Records (e.g. methodological choices: which likelihood, which model class, which validation procedure). 3-of-3 admission test.
 - **`docs/reference/`** — OPTIONAL. Used only if the project grows first-party utility code worth a module-level writeup. Empty or absent in many research projects.
 - **`docs/planning/`** — open backlog (`future-work.md`: next investigations, data-collection priorities, methodological todos) and the boundary rule vs. `.tickets/`. Indexed in `docs/planning/README.md`.
@@ -90,15 +90,15 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 <!-- FIXED -->
 ## What does NOT belong in CLAUDE.md
 
-Methodology details (`docs/domain/` or the relevant REPORT). Step-by-step procedures (a skill or `docs/reference/`). Specific findings (the REPORT they came from, plus a glossary/domain promotion). Anything that applies only to some tasks.
+Methodology details (`docs/domain/` or the relevant INVESTIGATION). Step-by-step procedures (a skill or `docs/reference/`). Specific findings (the INVESTIGATION they came from, plus a glossary/domain promotion). Anything that applies only to some tasks.
 
 <!-- FIXED -->
 ## Update rules
 
 When you change behaviour, update the doc that describes it. A task is not done until the docs match the state of the project.
 
-- **Investigation completed** → finalise `analysis/<date>-<topic>/REPORT.md` and register it in `analysis/analysis-landscape.md`. Promote findings to `glossary.md` / `docs/domain/` / `docs/adr/` / `future-work.md` as applicable. (`/finish-analysis` does this.)
-- **Methodology decision passing 3-of-3** → new `docs/adr/NNNN-slug.md`, with provenance link to the REPORT.
+- **Investigation completed** → finalise `analysis/<date>-<topic>/INVESTIGATION.md` and register it in `analysis/analysis-landscape.md`. Promote findings to `glossary.md` / `docs/domain/` / `docs/adr/` / `future-work.md` as applicable. (`/finish-analysis` does this.)
+- **Methodology decision passing 3-of-3** → new `docs/adr/NNNN-slug.md`, with provenance link to the INVESTIGATION.
 - **New domain term resolved** → add to `glossary.md`, with provenance link.
 - **New domain mechanic discovered** → add to `docs/domain/`, with provenance link.
 - **First-party utility code added** → write or extend a doc in `docs/reference/` (create the dir if absent).

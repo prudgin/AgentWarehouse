@@ -66,7 +66,7 @@ Read the source repo's state and compare to the staged drafts:
 - **Top-level docs**: CLAUDE.md? README.md? glossary.md? AGENTS.md?
 - **`docs/` tree**: `reference/`, `planning/`, `domain/`, `adr/`?
 - **Decision log**: `decisions.md`? Append-only? How many entries?
-- **Analysis pattern**: `analysis/<dated>/REPORT.md`? `scratch/`? Other?
+- **Analysis pattern**: `analysis/<dated>/INVESTIGATION.md`? `scratch/`? Other?
 - **Tickets**: `.tickets/`? `.scratch/`? GitHub Issues? None?
 - **`.claude/`**: `settings.json`? `agents/`? `skills/`? `state/`?
 - **Subagent definitions**: `.claude/agents/*` — do they exist, what do they do?

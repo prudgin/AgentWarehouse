@@ -19,7 +19,7 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Analysis outputs (large artefacts; REPORT.md and scripts are committed)
+# Analysis outputs (large artefacts; INVESTIGATION.md and scripts are committed)
 analysis/*/outputs/
 !analysis/*/outputs/.gitkeep
 

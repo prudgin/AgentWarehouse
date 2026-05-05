@@ -64,12 +64,12 @@ Two parallel skill sequences sharing the library.
 
 ```
 /start-analysis <topic>
-                      — creates analysis/YYYY-MM-DD-<topic>/ with REPORT.md
+                      — creates analysis/YYYY-MM-DD-<topic>/ with INVESTIGATION.md
                         stub and a stub entry in analysis-landscape.md.
    ↓
 (do the investigation, scripts in dir, outputs/ gitignored)
    ↓
-/finish-analysis      — finalise REPORT, promote findings to glossary.md /
+/finish-analysis      — finalise INVESTIGATION, promote findings to glossary.md /
                         docs/domain/, write ADRs for any decisions, lock the
                         landscape entry. Optionally spawn build-tickets.
 ```
@@ -104,7 +104,7 @@ Why a separate loop instead of running `/grill` against the target? Because at i
 The ADRs in `docs/adr/` record the material decisions one by one. The most load-bearing:
 
 - **[0001](../adr/0001-library-and-skills-coexist.md) — library and skills coexist.** The whole architecture rests on this split.
-- **[0005](../adr/0005-adrs-with-3-of-3-admission-test.md) — ADRs with admission test.** Forces decisions to be either ephemeral (in tickets, future-work, or analysis REPORTs) or durable (here). No middle ground.
+- **[0005](../adr/0005-adrs-with-3-of-3-admission-test.md) — ADRs with admission test.** Forces decisions to be either ephemeral (in tickets, future-work, or analysis INVESTIGATIONs) or durable (here). No middle ground.
 - **[0008](../adr/0008-preserve-dated-analysis-pattern.md) — analysis pattern.** First-class home for the user's investigation work, with structural enforcement.
 - **[0011](../adr/0011-interactive-skills-refuse-auto-mode.md) — auto-mode refusal.** Prevents silent misalignment when no human is in the loop.
 - **[0013](../adr/0013-no-orphan-rule-via-readme-indexes.md) — no-orphan rule.** The mechanical check that keeps the structure honest.

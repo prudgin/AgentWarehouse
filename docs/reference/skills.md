@@ -27,8 +27,8 @@ For the full inventory with auto-mode behaviour and one-line descriptions, see [
 
 ### Analyse chain
 
-- **`start-analysis`** — scaffold dated analysis dir + REPORT stub + landscape entry. Auto-safe.
-- **`finish-analysis`** — finalise REPORT; promote findings; lock landscape. Auto-safe (defers cross-doc promotions).
+- **`start-analysis`** — scaffold dated analysis dir + INVESTIGATION stub + landscape entry. Auto-safe.
+- **`finish-analysis`** — finalise INVESTIGATION; promote findings; lock landscape. Auto-safe (defers cross-doc promotions).
 
 ### Cross-cutting
 

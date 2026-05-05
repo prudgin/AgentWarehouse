@@ -39,8 +39,8 @@ A skill may also ship an optional `scripts/` subdirectory holding executable hel
 
 | Skill | Auto mode | What it does |
 |---|---|---|
-| [`start-analysis`](start-analysis/SKILL.md) | safe | Scaffold dated analysis dir + REPORT.md stub + landscape registration. |
-| [`finish-analysis`](finish-analysis/SKILL.md) | safe (defers cross-doc promotions) | Verify REPORT, promote findings to glossary/domain/adr/future-work, lock landscape. |
+| [`start-analysis`](start-analysis/SKILL.md) | safe | Scaffold dated analysis dir + INVESTIGATION.md stub + landscape registration. |
+| [`finish-analysis`](finish-analysis/SKILL.md) | safe (defers cross-doc promotions) | Verify INVESTIGATION, promote findings to glossary/domain/adr/future-work, lock landscape. |
 
 ## Cross-cutting
 

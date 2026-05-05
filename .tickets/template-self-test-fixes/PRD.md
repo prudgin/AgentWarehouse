@@ -3,7 +3,7 @@
 
 ## What to build
 
-A batch of 13 fixes to the warehouse templates and skills, surfaced by the 2026-05-04 template self-test ([REPORT](../../analysis/2026-05-04-template-self-test/REPORT.md)).
+A batch of 13 fixes to the warehouse templates and skills, surfaced by the 2026-05-04 template self-test ([INVESTIGATION](../../analysis/2026-05-04-template-self-test/INVESTIGATION.md)).
 
 These are the *no-trade-off* fixes — concrete, scoped, no design decisions to make. The 8 trade-off-shaped findings from the same self-test are not in this batch; they are queued for a separate `/grill` session and will land as their own tickets / ADRs afterwards.
 

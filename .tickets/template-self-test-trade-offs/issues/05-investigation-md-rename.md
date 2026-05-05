@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 **Type:** AFK
 
@@ -35,11 +35,11 @@ Update `glossary.md` (warehouse) and `templates/analysis/glossary.md` if either 
 
 ## Acceptance criteria
 
-- [ ] `git grep -l 'REPORT\.md'` from the warehouse root returns zero hits in skill bodies, template files, and the warehouse's own `analysis/` (excluding any commit-message references in `.git/`).
-- [ ] All references now use `INVESTIGATION.md`.
-- [ ] The file `analysis/2026-05-04-template-self-test/INVESTIGATION.md` exists; the old filename does not.
-- [ ] `analysis/analysis-landscape.md` link target points at the new filename.
-- [ ] No content lost in the rename — file contents preserved.
+- [x] `git grep -l 'REPORT\.md'` from the warehouse root returns zero hits in skill bodies, template files, and the warehouse's own `analysis/` (excluding any commit-message references in `.git/`).
+- [x] All references now use `INVESTIGATION.md`.
+- [x] The file `analysis/2026-05-04-template-self-test/INVESTIGATION.md` exists; the old filename does not.
+- [x] `analysis/analysis-landscape.md` link target points at the new filename.
+- [x] No content lost in the rename — file contents preserved.
 
 ## Blocked by
 

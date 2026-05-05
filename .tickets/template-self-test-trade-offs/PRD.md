@@ -9,7 +9,7 @@ The ADRs *are* the destination docs — each one specifies the decision and the 
 
 ## Why
 
-The 2026-05-04 self-test ([REPORT](../../analysis/2026-05-04-template-self-test/REPORT.md)) surfaced 21 findings. Thirteen were no-trade-off mechanical fixes — those landed in [`template-self-test-fixes/`](../template-self-test-fixes/PRD.md) and are all `done`. Eight were design questions with real alternatives — those went through `/grill` and produced [ADRs 0016–0023](../../docs/adr/README.md). This batch implements those ADRs.
+The 2026-05-04 self-test ([INVESTIGATION](../../analysis/2026-05-04-template-self-test/INVESTIGATION.md)) surfaced 21 findings. Thirteen were no-trade-off mechanical fixes — those landed in [`template-self-test-fixes/`](../template-self-test-fixes/PRD.md) and are all `done`. Eight were design questions with real alternatives — those went through `/grill` and produced [ADRs 0016–0023](../../docs/adr/README.md). This batch implements those ADRs.
 
 ## Scope
 

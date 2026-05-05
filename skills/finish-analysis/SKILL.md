@@ -1,6 +1,6 @@
 ---
 name: finish-analysis
-description: Finalise an investigation: verify REPORT.md is complete, promote findings into glossary.md / docs/domain/ / docs/adr/ / docs/planning/future-work.md as applicable, lock the landscape entry, optionally spawn build-chain tickets if findings imply changes. Use when the user says "finish the analysis", "wrap up the investigation", or after an analysis run is complete. Auto-mode safe; pauses for confirmations on cross-doc promotions.
+description: Finalise an investigation: verify INVESTIGATION.md is complete, promote findings into glossary.md / docs/domain/ / docs/adr/ / docs/planning/future-work.md as applicable, lock the landscape entry, optionally spawn build-chain tickets if findings imply changes. Use when the user says "finish the analysis", "wrap up the investigation", or after an analysis run is complete. Auto-mode safe; pauses for confirmations on cross-doc promotions.
 ---
 
 # Finish Analysis
@@ -13,16 +13,16 @@ This skill is auto-mode safe for verification work. It pauses to confirm any **c
 
 ### 1. Locate the investigation
 
-If the user passes a topic or path, use it. Otherwise look for the most recent `analysis/YYYY-MM-DD-*` dir with `Status: in-progress` in its REPORT.md.
+If the user passes a topic or path, use it. Otherwise look for the most recent `analysis/YYYY-MM-DD-*` dir with `Status: in-progress` in its INVESTIGATION.md.
 
 If multiple in-progress investigations exist, ask which one (in interactive mode) or refuse and ask the user to specify (in auto mode).
 
-### 2. Verify the REPORT is complete
+### 2. Verify the INVESTIGATION is complete
 
 First, run a mechanical grep for stub tokens. The `start-analysis` stub seeds each section with a `TODO:` line; any that survive mean the section was never filled in.
 
 ```sh
-grep -n '^TODO:' analysis/<dated-dir>/REPORT.md
+grep -n '^TODO:' analysis/<dated-dir>/INVESTIGATION.md
 ```
 
 If grep returns any matches, **stop and surface them to the user** with line numbers and section names. Refuse to mark the analysis complete while any `^TODO:` lines remain. Do not paper over them by deleting the tokens — they're a signal the work isn't done.
@@ -55,10 +55,10 @@ For each proposal, **ask the user to confirm** before writing. Show what you'd w
 
 Walk the dir contents. Every file should be either:
 
-- Referenced from REPORT.md (script, plot, output table).
+- Referenced from INVESTIGATION.md (script, plot, output table).
 - In `outputs/` (gitignored, no need to reference).
 
-Surface any orphan files (e.g. a `scratch.py` not mentioned in the REPORT). Either move to `outputs/`, mention in REPORT, or delete (with confirmation).
+Surface any orphan files (e.g. a `scratch.py` not mentioned in the INVESTIGATION). Either move to `outputs/`, mention in INVESTIGATION, or delete (with confirmation).
 
 ### 5. Lock the landscape entry
 
@@ -66,22 +66,22 @@ Update the entry in `analysis/analysis-landscape.md`:
 
 - Change "Status: in-progress" → "Status: complete".
 - Replace the one-sentence question with the **finding** (one or two sentences) and what landed downstream.
-- Format: `- **YYYY-MM-DD — <topic>.** <finding>. Landed: <list of doc updates>. → [REPORT](...)`
+- Format: `- **YYYY-MM-DD — <topic>.** <finding>. Landed: <list of doc updates>. → [INVESTIGATION](...)`
 
-If the investigation has explicit open ends, add or update the "Open ends" section at the bottom of the landscape with a link back to this REPORT.
+If the investigation has explicit open ends, add or update the "Open ends" section at the bottom of the landscape with a link back to this INVESTIGATION.
 
 ### 6. Verify reachability (no-orphan check)
 
 The investigation directory must be linked from `analysis/analysis-landscape.md`. Verify after the lock step.
 
-If the directory contains REPORT.md and the landscape entry is in place, you're good.
+If the directory contains INVESTIGATION.md and the landscape entry is in place, you're good.
 
 ### 7. Optional: spawn build-chain tickets
 
 If the implications section notes code changes that should happen, ask the user whether to:
 
 - Add an entry to `docs/planning/future-work.md` (lightweight, deferred).
-- Run `/to-prd` immediately to create a PRD from this REPORT's content.
+- Run `/to-prd` immediately to create a PRD from this INVESTIGATION's content.
 - Run `/to-issues` directly if the change is small and well-specified.
 
 Default: add to future-work.md (most flexible). Don't auto-spawn tickets without confirmation.
@@ -89,7 +89,7 @@ Default: add to future-work.md (most flexible). Don't auto-spawn tickets without
 ### 8. Report
 
 - **Investigation:** topic, path.
-- **REPORT status:** complete.
+- **INVESTIGATION status:** complete.
 - **Landscape entry:** updated, snippet shown.
 - **Promotions confirmed:** list of glossary/domain/adr/future-work updates that landed.
 - **Promotions pending:** anything you proposed but the user (or auto mode) deferred.
@@ -97,7 +97,7 @@ Default: add to future-work.md (most flexible). Don't auto-spawn tickets without
 
 ## What this skill does NOT do
 
-- Does not write findings into the REPORT — that's the work of the investigation itself, before this skill runs.
+- Does not write findings into the INVESTIGATION — that's the work of the investigation itself, before this skill runs.
 - Does not silently modify glossary.md, docs/domain/, docs/adr/, or future-work.md without confirmation.
 - Does not delete the investigation dir — analysis dirs are append-only history.
 - Does not auto-create tickets without explicit confirmation.

@@ -52,7 +52,7 @@ AgenticEngineering/
 │   ├── library/                    # for libraries, packages, standalone projects
 │   ├── pipeline/                   # for multi-stage data pipelines
 │   ├── tool-integration/           # for wrappers around external tools / platforms
-│   └── analysis/                   # for research projects (REPORTs are the deliverable)
+│   └── analysis/                   # for research projects (INVESTIGATIONs are the deliverable)
 ├── target-projects/                # per-target staging dirs (intake → migrate/create handoff)
 ├── skills/                         # canonical skill sources
 └── references/
@@ -190,8 +190,8 @@ You don't have to invoke skills explicitly — describe what you want and the ag
 │   ├── domain/            # how the domain behaves (mechanics, anomalies, data model)
 │   └── planning/
 │       └── future-work.md # open backlog; top of file = next up
-├── analysis/              # investigations: YYYY-MM-DD-<kebab-topic>/REPORT.md
-│   └── analysis-landscape.md   # cross-cutting narrative across all REPORTs
+├── analysis/              # investigations: YYYY-MM-DD-<kebab-topic>/INVESTIGATION.md
+│   └── analysis-landscape.md   # cross-cutting narrative across all INVESTIGATIONs
 ├── .tickets/
 │   ├── <feature>/PRD.md   # written by /to-prd
 │   ├── <feature>/issues/  # written by /to-issues
@@ -244,14 +244,14 @@ Used when you're reverse-engineering data, debugging a hairy issue, or running a
 ```
 /start-analysis <kebab-topic>
                     scaffold a dated investigation directory.
-                    → creates analysis/YYYY-MM-DD-<topic>/REPORT.md (stub)
+                    → creates analysis/YYYY-MM-DD-<topic>/INVESTIGATION.md (stub)
                     → registers the entry in analysis-landscape.md
                     → forces structure at start so it can't drift
    ↓
-(do the work — scripts in the dated dir, outputs/ gitignored, fill in REPORT)
+(do the work — scripts in the dated dir, outputs/ gitignored, fill in INVESTIGATION)
    ↓
 /finish-analysis    finalise.
-                    → verifies REPORT.md has real content
+                    → verifies INVESTIGATION.md has real content
                     → asks whether to promote findings to glossary.md,
                       docs/domain/, docs/adr/, or future-work.md
                     → locks the landscape entry to "complete"
@@ -304,7 +304,7 @@ By default, tickets live as files in `.tickets/<feature>/`. Status is a `Status:
 
 ### The dated-analysis pattern is sacred
 
-Investigations go in `analysis/YYYY-MM-DD-<kebab-topic>/` with a canonical `REPORT.md`. Every investigation is registered in `analysis-landscape.md` (cross-cutting narrative). Don't dump exploratory work into `scratch/` or unnamed dirs — the structure is what makes the discovery thread durable.
+Investigations go in `analysis/YYYY-MM-DD-<kebab-topic>/` with a canonical `INVESTIGATION.md`. Every investigation is registered in `analysis-landscape.md` (cross-cutting narrative). Don't dump exploratory work into `scratch/` or unnamed dirs — the structure is what makes the discovery thread durable.
 
 ---
 

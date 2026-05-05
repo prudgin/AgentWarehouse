@@ -25,7 +25,7 @@ Raw feedback files are not preserved in the warehouse (they lived under `/tmp/wa
 - **library-test (fakelib)** — KVStore class with TTL, 4 glossary entries, ADR-0001 (lazy eviction vs. background sweeper), reference doc, domain doc, 2 future-work entries. Caught a real CLAUDE.md drift during `/finish` step 1.
 - **pipeline-test (fakepipe)** — 2-stage pipeline (ingest → normalise) with orchestrator, 4 glossary entries, ADR-0001 (skip malformed rows), domain doc, per-stage reference docs, 2 future-work entries. Updated CLAUDE.md pipeline-areas table.
 - **tool-integration-test (fakeflow)** — 2 mock bash scripts in `_tools/`, 2 project-local skills, per-artifact dir, 5 glossary entries, ADR-0001 (per-artifact dirs keyed by display name), domain doc on TaskTool ID mechanics, future-work entry. Indexed in 4 README files.
-- **analysis-test (fakeresearch)** — synthetic dataset (30 rows), one dated investigation with REPORT, scripts, gitignored outputs, 3 glossary entries, domain doc on linear-Gaussian baseline, landscape entry, future-work entry. Honest no-ADR call (3-of-3 not met) and honest no-`docs/reference/` call.
+- **analysis-test (fakeresearch)** — synthetic dataset (30 rows), one dated investigation with INVESTIGATION writeup, scripts, gitignored outputs, 3 glossary entries, domain doc on linear-Gaussian baseline, landscape entry, future-work entry. Honest no-ADR call (3-of-3 not met) and honest no-`docs/reference/` call.
 
 ## Findings
 
@@ -36,7 +36,7 @@ Raw feedback files are not preserved in the warehouse (they lived under `/tmp/wa
 - **Glossary "Avoid" discipline catches real near-misses**. Library subagent reported almost writing `lifetime` in a docstring; the Avoid list pre-empted it.
 - **`/finish` step 6 (future-work graduation) classified correctly across all four projects**. Six future-work entries total, all classified correctly (graduate vs. stay) by the heuristics. No false positives.
 - **`/finish-analysis` + `/finish` are not redundant** (analysis subagent). The former is investigation-scoped, the latter caught a new top-level `data/` dir missing from CLAUDE.md.
-- **The "no working-notes" rule (ADR-0007) was the right call for the analysis template**. The analysis subagent confirmed: *"The four canonical homes covered every fragment I produced. If I had wanted [a working-notes file], it would have been for transient mid-investigation scratch, and the right answer there is `outputs/` (gitignored) plus prose in REPORT Method."*
+- **The "no working-notes" rule (ADR-0007) was the right call for the analysis template**. The analysis subagent confirmed: *"The four canonical homes covered every fragment I produced. If I had wanted [a working-notes file], it would have been for transient mid-investigation scratch, and the right answer there is `outputs/` (gitignored) plus prose in the investigation Method section."*
 - **The planning/tickets boundary table** (`docs/planning/README.md`) was called *"the best single piece of doc in the template"* by the pipeline subagent.
 
 ### Universal issues (≥2 subagents flagged independently)
@@ -70,12 +70,12 @@ Raw feedback files are not preserved in the warehouse (they lived under `/tmp/wa
 - **Symlink-vs-copy choice for skills not documented** in CLAUDE.md. A real project should pin one and explain.
 
 **analysis**:
-- **`REPORT.md` filename collides with the harness rule against `*.md` "report" files**. Analysis subagent had to fall back to Bash heredoc. Either rename (e.g. `INVESTIGATION.md`) or document the workaround prominently.
+- **The original `REPORT` filename collided with the harness rule against `*.md` "report" files**. Analysis subagent had to fall back to Bash heredoc. Either rename (e.g. to `INVESTIGATION.md` — landed via ADR-0020) or document the workaround prominently.
 - **Warehouse ADR references dangle inside scaffolded projects**. `docs/domain/README.md` references "ADR-0007" with no local ADR by that number. Fix: rephrase as "by warehouse convention" or inline the rationale as a local ADR with provenance.
-- **REPORT.md stub placeholders aren't grep-able**. `finish-analysis` step 2 checks for "still placeholder text" but the prose-shaped placeholders are easy to leave in by accident. Use literal `TODO` tokens.
+- **Investigation stub placeholders aren't grep-able**. `finish-analysis` step 2 checks for "still placeholder text" but the prose-shaped placeholders are easy to leave in by accident. Use literal `TODO` tokens.
 - **`outputs/.gitkeep` collides with `analysis/*/outputs/` gitignore**. Empty `outputs/` won't appear on a fresh clone.
 - **No worked example of a research-style ADR** in `docs/adr/README.md` (current example is `event-sourced-orders.md`, build-chain).
-- **No worked example of provenance chaining** (glossary → domain → REPORT) in `glossary.md` format rules. The chain is correct but takes two reads to verify.
+- **No worked example of provenance chaining** (glossary → domain → investigation) in `glossary.md` format rules. The chain is correct but takes two reads to verify.
 
 ### Lower-priority observations
 
@@ -119,7 +119,7 @@ Ordered by priority (high impact + multiple subagents = top).
 
 13. **Add future-work entry tags** (`[watching]`, `[open-question]`, `[proposal]`) to the format rules in `docs/planning/future-work.md` template + `/finish` step 6 reads them mechanically. Optional but reduces step 6 to a `grep`.
 
-14. **Rename or document `REPORT.md` collision**. The harness rule against creating `*.md` "report" files via Write trips when the analysis template's primary deliverable IS named `REPORT.md`. Cheap fix: document the workaround (use Bash heredoc) in `templates/analysis/analysis/README.md`. Heavier fix: rename to `INVESTIGATION.md` (touches several files including the warehouse's `analysis/` template AND the warehouse's own analysis-tree convention — disruptive).
+14. **Rename or document the report-filename collision**. The harness rule against creating `*.md` "report" files via Write trips when the analysis template's primary deliverable was originally named `REPORT` (`.md`). Cheap fix: document the workaround (use Bash heredoc) in `templates/analysis/analysis/README.md`. Heavier fix: rename to `INVESTIGATION.md` (touches several files including the warehouse's `analysis/` template AND the warehouse's own analysis-tree convention — disruptive). [Resolved: rename via ADR-0020.]
 
 ### Low priority
 
@@ -129,9 +129,9 @@ Ordered by priority (high impact + multiple subagents = top).
 
 17. **Add a worked research-style ADR example** in `templates/analysis/docs/adr/README.md` (likelihood choice, validation procedure). Current example is build-chain.
 
-18. **Add a worked provenance-chain example** (glossary → domain → REPORT) in `templates/analysis/glossary.md` format rules.
+18. **Add a worked provenance-chain example** (glossary → domain → investigation) in `templates/analysis/glossary.md` format rules.
 
-19. **Make REPORT.md stub placeholders grep-able** with literal `TODO` tokens.
+19. **Make investigation stub placeholders grep-able** with literal `TODO` tokens.
 
 20. **Fix the `analysis/*/outputs/.gitkeep` gitignore conflict**. Either gitignore-exception the `.gitkeep`, or have `start-analysis` not create it.
 

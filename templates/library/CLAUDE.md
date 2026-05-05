@@ -67,8 +67,8 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 - **`docs/adr/`** — Architecture Decision Records. Numbered files (`0001-slug.md`, `0002-slug.md`, ...). Created lazily; admission test is strict (see `docs/adr/README.md`).
 - **`docs/domain/`** — domain knowledge that is not vocabulary: how the domain behaves, mechanics, known anomalies, data model.
 - **`docs/planning/`** — open backlog (`future-work.md`) and the boundary rule between future-work and `.tickets/` (pre-decision vs. post-decision; transition deletes the future-work entry). Indexed in `docs/planning/README.md`.
-- **`analysis/YYYY-MM-DD-<topic>/REPORT.md`** — investigation outputs. Each dir holds the scripts and the canonical report.
-- **`analysis/analysis-landscape.md`** — narrative across all investigations. Single entry point that links every REPORT.
+- **`analysis/YYYY-MM-DD-<topic>/INVESTIGATION.md`** — investigation outputs. Each dir holds the scripts and the canonical writeup.
+- **`analysis/analysis-landscape.md`** — narrative across all investigations. Single entry point that links every INVESTIGATION.
 - **`.tickets/`** — local issue tracker (PRDs and tickets). Triage state in a `Status:` line.
 - **`.tickets/inbox/`** — incoming tickets from agents working in dependent repos. Triage on session start.
 
@@ -93,7 +93,7 @@ When you change behaviour, update the doc that describes it. A task is not done 
 - **Architectural decision (passes 3-of-3 admission test)** → write a new `docs/adr/NNNN-slug.md`.
 - **New domain term resolved** → add to `glossary.md`.
 - **New domain mechanic discovered** → write or extend a doc in `docs/domain/`.
-- **Investigation completed** → finalise `analysis/<date>-<topic>/REPORT.md` and register it in `analysis/analysis-landscape.md`.
+- **Investigation completed** → finalise `analysis/<date>-<topic>/INVESTIGATION.md` and register it in `analysis/analysis-landscape.md`.
 - **New planned work** → add to `docs/planning/future-work.md`. When shipped, remove the entry; rationale lives in the ADR or the landscape entry.
 - **Project structure change** → update this file.
 

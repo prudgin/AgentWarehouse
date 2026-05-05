@@ -15,6 +15,6 @@ See [`README.md`](README.md) for the boundary rule (vs. `.tickets/`) and the ent
 **What:** profile the publish stage and identify the bottleneck.
 **Why:** publish is currently 40% of total pipeline time; suspect the staging copy.
 **Open questions:** is the bottleneck I/O, parquet serialisation, or the atomic rename?
-**Links:** [analysis/2026-01-14-publish-timing/REPORT.md] (if started).
+**Links:** [analysis/2026-01-14-publish-timing/INVESTIGATION.md] (if started).
 
 -->

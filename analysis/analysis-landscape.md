@@ -11,7 +11,7 @@ This file will be populated as the warehouse runs investigations into:
 
 ### Self-validation
 
-- **2026-05-04 — template self-test.** Question: does each of the four templates produce a project an unfamiliar agent can navigate and maintain? Method: scaffolded 4 synthetic dummy projects, spawned 4 opus subagents in parallel, each did a realistic dummy task and wrote structured feedback. Finding: canonical-home rule and 3-of-3 ADR test held up well; six high-priority warehouse fixes identified (META-block stripping at scaffold, broaden `/finish` orphan-sweep targets, ship `scripts/check_docs.sh`, warehouse-vs-project CLAUDE.md disclaimer, sharpen WHAT-placeholder hint to forbid encoding design choices, convert glossary entries to `### Term` headings for deep-link integrity). Status: complete. → [REPORT](2026-05-04-template-self-test/REPORT.md)
+- **2026-05-04 — template self-test.** Question: does each of the four templates produce a project an unfamiliar agent can navigate and maintain? Method: scaffolded 4 synthetic dummy projects, spawned 4 opus subagents in parallel, each did a realistic dummy task and wrote structured feedback. Finding: canonical-home rule and 3-of-3 ADR test held up well; six high-priority warehouse fixes identified (META-block stripping at scaffold, broaden `/finish` orphan-sweep targets, ship `scripts/check_docs.sh`, warehouse-vs-project CLAUDE.md disclaimer, sharpen WHAT-placeholder hint to forbid encoding design choices, convert glossary entries to `### Term` headings for deep-link integrity). Status: complete. → [INVESTIGATION](2026-05-04-template-self-test/INVESTIGATION.md)
 
 ## Open ends
 

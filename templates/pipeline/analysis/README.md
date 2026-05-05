@@ -1,6 +1,6 @@
 # Analysis
 
-One subdirectory per investigation. Each subdir holds the scripts that produced the result and a canonical `REPORT.md` writeup. Cross-cutting narrative across all investigations lives in [analysis-landscape.md](analysis-landscape.md).
+One subdirectory per investigation. Each subdir holds the scripts that produced the result and a canonical `INVESTIGATION.md` writeup. Cross-cutting narrative across all investigations lives in [analysis-landscape.md](analysis-landscape.md).
 
 ## Subdirectory naming
 
@@ -14,13 +14,13 @@ The date is when the investigation **started**. The topic is short, kebab-cased,
 
 ```
 YYYY-MM-DD-<topic>/
-├── REPORT.md            # canonical writeup — required
+├── INVESTIGATION.md            # canonical writeup — required
 ├── <scripts>.{py,sh,...}  # whatever produced the result
 ├── outputs/             # gitignored — large artefacts, plots, parquets
-└── plots/               # committed only if user-facing or referenced from REPORT
+└── plots/               # committed only if user-facing or referenced from INVESTIGATION
 ```
 
-## REPORT.md format
+## INVESTIGATION.md format
 
 ```md
 # <Investigation title>
@@ -52,9 +52,9 @@ What's left unresolved? What follow-up investigations does this suggest?
 
 ## Workflow
 
-1. Start: `/start-analysis <topic>` (or manual: create the dir, copy the REPORT template, add a stub entry to `analysis-landscape.md`).
+1. Start: `/start-analysis <topic>` (or manual: create the dir, copy the INVESTIGATION template, add a stub entry to `analysis-landscape.md`).
 2. Investigate: scripts go in the dir, outputs in `outputs/`.
-3. Finish: `/finish-analysis` (or manual: finalise REPORT, update the landscape entry, promote findings to `glossary.md` / `docs/domain/` / `docs/adr/` / `future-work.md` as applicable).
+3. Finish: `/finish-analysis` (or manual: finalise INVESTIGATION, update the landscape entry, promote findings to `glossary.md` / `docs/domain/` / `docs/adr/` / `future-work.md` as applicable).
 
 ## No-orphan rule
 

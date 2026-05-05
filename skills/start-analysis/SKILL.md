@@ -1,11 +1,11 @@
 ---
 name: start-analysis
-description: Scaffold a new investigation under analysis/YYYY-MM-DD-<kebab-topic>/ with a REPORT.md stub and a stub entry in analysis-landscape.md. Forces the dated-dir structure at start so investigations cannot drift. Use when the user wants to "start an analysis", "investigate X", "dig into Y", "reverse-engineer Z", or "look at this data". Auto-mode safe.
+description: Scaffold a new investigation under analysis/YYYY-MM-DD-<kebab-topic>/ with an INVESTIGATION.md stub and a stub entry in analysis-landscape.md. Forces the dated-dir structure at start so investigations cannot drift. Use when the user wants to "start an analysis", "investigate X", "dig into Y", "reverse-engineer Z", or "look at this data". Auto-mode safe.
 ---
 
 # Start Analysis
 
-Create the structure for a new investigation. The dated-dir + REPORT.md + landscape registration is the project's first-class home for analytical work; this skill makes it impossible to skip.
+Create the structure for a new investigation. The dated-dir + INVESTIGATION.md + landscape registration is the project's first-class home for analytical work; this skill makes it impossible to skip.
 
 This skill is auto-mode safe.
 
@@ -25,7 +25,7 @@ analysis/YYYY-MM-DD-<kebab-topic>/
 
 The date is **today** (start date). Verify the directory does not already exist. If it does:
 
-- If empty or contains only a stub REPORT, ask whether to proceed in-place.
+- If empty or contains only a stub INVESTIGATION, ask whether to proceed in-place.
 - Otherwise propose a different topic name (with a short suffix like `-v2`).
 
 ### 3. Verify analysis/ scaffolding exists
@@ -41,13 +41,13 @@ If `analysis/` exists but `analysis-landscape.md` is missing, create it.
 
 ```
 analysis/YYYY-MM-DD-<topic>/
-├── REPORT.md             (stub — see below)
+├── INVESTIGATION.md      (stub — see below)
 └── outputs/              (gitignored — empty for now)
 ```
 
 Add an `outputs/.gitkeep` file so the empty directory is tracked.
 
-### 5. Stub REPORT.md
+### 5. Stub INVESTIGATION.md
 
 Use this template:
 
@@ -85,7 +85,7 @@ Auto-fill the topic title and date. Leave the `TODO:` lines verbatim — `/finis
 Add a stub beat in the appropriate Themes section. Format:
 
 ```md
-- **YYYY-MM-DD — <topic>.** Question: <one-sentence question>. Status: in-progress. → [REPORT](YYYY-MM-DD-<topic>/REPORT.md)
+- **YYYY-MM-DD — <topic>.** Question: <one-sentence question>. Status: in-progress. → [INVESTIGATION](YYYY-MM-DD-<topic>/INVESTIGATION.md)
 ```
 
 If no obvious theme section exists, create one:
@@ -102,12 +102,12 @@ Inferring the theme from the topic is fine. If unsure, put the new entry under a
 
 Tell the user:
 
-- **Created:** path to the dated dir, path to REPORT.md, link in landscape.
-- **Suggested next step:** "Run your investigation. Scripts and outputs go in this dir; outputs/ is gitignored. When done, run `/finish-analysis` to finalise the REPORT, register findings in the right docs, and lock the landscape entry."
+- **Created:** path to the dated dir, path to INVESTIGATION.md, link in landscape.
+- **Suggested next step:** "Run your investigation. Scripts and outputs go in this dir; outputs/ is gitignored. When done, run `/finish-analysis` to finalise the INVESTIGATION, register findings in the right docs, and lock the landscape entry."
 
 ## What this skill does NOT do
 
 - Does not run any investigation code.
-- Does not write findings into the REPORT — only the structural stub.
+- Does not write findings into the INVESTIGATION — only the structural stub.
 - Does not modify `glossary.md`, `docs/domain/`, or `docs/adr/` — those updates happen at `/finish-analysis`.
 - Does not create the `outputs/` content (only the directory).
