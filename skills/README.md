@@ -57,8 +57,8 @@ These skills run **from inside the warehouse**, not from inside the target proje
 | Skill | Auto mode | What it does |
 |---|---|---|
 | [`intake-target-project`](intake-target-project/SKILL.md) | refuses | Warehouse-only intake interview; stages glossary, ADR drafts, domain docs, draft CLAUDE.md, migration plan in `target-projects/<name>/`. |
-| [`create-project`](create-project/SKILL.md) | refuses | Scaffold a new project from a warehouse template; consumes staging if present. |
-| [`migrate-project`](migrate-project/SKILL.md) | refuses | Convert an existing repo onto warehouse conventions; consumes staging produced by `/intake-target-project`. |
+| [`create-project`](create-project/SKILL.md) | safe (defers conflicts and missing inputs) | Scaffold a new project from a warehouse template; consumes staging if present. |
+| [`migrate-project`](migrate-project/SKILL.md) | safe (defers destructive ops) | Convert an existing repo onto warehouse conventions; consumes staging produced by `/intake-target-project`. |
 
 ## Global (live in `~/.claude/skills/`)
 

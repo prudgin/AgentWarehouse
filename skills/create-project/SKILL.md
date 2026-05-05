@@ -1,19 +1,46 @@
 ---
 name: create-project
-description: Scaffold a new project from a warehouse template. Optionally consumes staged decisions from target-projects/<name>/ (produced by /intake-target-project) to seed glossary, ADRs, domain docs, and CLAUDE.md. Use when starting a new repository, when the user asks to create or set up a new project, or when bootstrapping a fresh codebase from the AgenticEngineering warehouse. Interactive — refuses auto mode.
+description: Scaffold a new project from a warehouse template. Optionally consumes staged decisions from target-projects/<name>/ (produced by /intake-target-project) to seed glossary, ADRs, domain docs, and CLAUDE.md. Use when starting a new repository, when the user asks to create or set up a new project, or when bootstrapping a fresh codebase from the AgenticEngineering warehouse. Auto-mode safe when staging is present and the target directory is fresh; pauses with explicit confirmation requests for conflicts and missing inputs.
 ---
 
 # Create Project
 
 Scaffold a new project from one of the templates in the AgenticEngineering warehouse. If `/intake-target-project` was run first, transfer the staged drafts into the new project on top of the template skeleton.
 
-## Refuse auto mode
+This skill is auto-mode safe for the mechanical scaffold work — most of `/create-project` is template copy, placeholder substitution, and `git init`. It pauses and surfaces for the small set of decisions that aren't safely defaulted. See [ADR-0016](../../docs/adr/0016-mixed-mode-for-migrate-and-create.md).
 
-If the current session is in auto mode, stop immediately and tell the user:
+## Mixed mode
 
-> This skill is interactive — it asks several questions about the project to create. Please switch to interactive mode and re-invoke `/create-project`.
+This skill follows the same pattern as `/work-issue` and `/finish`: auto for reversible local actions; pause-and-surface for destructive or shared-state ones.
 
-Then exit. Do not proceed.
+### Auto-runnable (no confirmation)
+
+When staging exists at `target-projects/<name>/_warehouse/status.md` marked `ready-for-transfer` and the target directory does not yet exist:
+
+- Copy the warehouse template into the target path.
+- `chmod 700 .secrets/` for the `tool-integration` template.
+- Substitute `<PLACEHOLDER: ...>` markers using values from staging.
+- Strip the `<!-- TEMPLATE META — ... -->` block from the scaffolded `CLAUDE.md`.
+- Transfer files from `target-projects/<name>/` (excluding `_warehouse/`) into the new project, when no target-side conflict exists.
+- `git init -b main`, `git add -A`, initial scaffold commit, `git remote add origin` (no push).
+- Symlink `AGENTS.md → CLAUDE.md`.
+- Install the `.claude/skills/` symlinks listed in the staged CLAUDE.md.
+- Mark staging complete (`status.md` → `created`).
+
+### Destructive-op set (pause and surface)
+
+Stop and request explicit confirmation before any of these:
+
+- **Target directory already exists.** Overwriting or merging into a non-empty directory is destructive. Surface the existing contents and ask whether to abort, pick a new name, or merge (and how).
+- **Staging conflict on `CLAUDE.md`** — the staged `CLAUDE.md` and the template's `CLAUDE.md` after placeholder substitution disagree on more than the placeholder slots. Show the diff and ask how to reconcile before overwriting.
+- **Staging conflict on any other transferred file** — a file in `target-projects/<name>/` would land on a path the template also wrote, with non-trivially divergent content.
+- **`git push` or any cross-repo write** — never auto. Push is the user's call.
+
+### Inputs missing in auto mode
+
+The questions in step 3 only run interactively. If staging is absent and the session is in auto mode, surface that the skill needs project name / template type / target dir / description / git remote / ticket backend, and stop. Do not silently default these.
+
+If staging is `partial`, list which inputs are missing and stop — do not silently fill from defaults for staged inputs.
 
 ## Process
 
@@ -33,7 +60,7 @@ Check `target-projects/<name>/`:
 
 ### 3. Gather inputs
 
-Ask the following one at a time, waiting for each answer. Provide a recommended default. Skip any question whose answer is already in the staging.
+Skip any question whose answer is already in the staging. For the rest, in interactive mode, ask one at a time, waiting for each answer, and provide a recommended default. In auto mode without a user, **surface the unanswered set and stop** rather than defaulting silently — see "Inputs missing in auto mode" above.
 
 1. **Project name.** Used for the directory name and as the project title in CLAUDE.md/README.md/glossary.md. Suggest a kebab-cased default if the user gives a sentence.
 2. **Template type.** `library`, `pipeline`, `tool-integration`, or `analysis`. If the staging has a recommended template, default to it. Quick guide: `library` for a package with a public API; `pipeline` for a multi-stage data pipeline; `tool-integration` for wrappers around an external platform; `analysis` for a research project whose deliverable is investigations rather than code.
@@ -54,7 +81,7 @@ Show a summary including:
 - Ticket backend
 - Staging consumed: yes/no, and counts (glossary entries, ADRs, domain docs, etc.) if yes
 
-Ask: "Proceed?" Wait for explicit yes.
+In interactive mode, ask "Proceed?" and wait for explicit yes. In auto mode with complete staging and a fresh target directory, the summary is informational and the skill proceeds; the destructive-op set above still pauses for any conflict that arises during scaffold/transfer.
 
 ### 5. Scaffold
 
@@ -104,7 +131,7 @@ After this step, `grep -c 'TEMPLATE META' CLAUDE.md` in the new project must ret
 
 ### 7. Transfer staged content (if staging exists)
 
-For every file under `target-projects/<name>/` **except** `_warehouse/`, copy to the matching path in the new project. The staged `CLAUDE.md` (if present) takes precedence over the template's placeholder version — but show the diff and confirm before overwriting.
+For every file under `target-projects/<name>/` **except** `_warehouse/`, copy to the matching path in the new project. The staged `CLAUDE.md` (if present) takes precedence over the template's placeholder version — but if the staged `CLAUDE.md` disagrees with the placeholder-substituted template `CLAUDE.md` on more than the placeholder slots, surface the diff and pause for confirmation (see destructive-op set). For other files, if a path collides with template-written content, surface that too.
 
 `_warehouse/` stays in the warehouse — it's the durable record of the intake.
 

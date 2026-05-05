@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 **Type:** AFK
 
@@ -22,11 +22,11 @@ Specifically:
 
 ## Acceptance criteria
 
-- [ ] `skills/migrate-project/SKILL.md` no longer refuses auto mode unconditionally; has a "Mixed mode" section with destructive-op set enumerated.
-- [ ] `skills/create-project/SKILL.md` same.
-- [ ] Each skill's pause-and-surface behaviour matches `/work-issue`'s pattern (auto for reversible local actions; pause for shared-state and destructive).
-- [ ] In auto mode without a user, both skills surface pending decisions and stop rather than silently default.
-- [ ] No edits to `/intake-target-project` or other purely-interview skills.
+- [x] `skills/migrate-project/SKILL.md` no longer refuses auto mode unconditionally; has a "Mixed mode" section with destructive-op set enumerated.
+- [x] `skills/create-project/SKILL.md` same.
+- [x] Each skill's pause-and-surface behaviour matches `/work-issue`'s pattern (auto for reversible local actions; pause for shared-state and destructive).
+- [x] In auto mode without a user, both skills surface pending decisions and stop rather than silently default.
+- [x] No edits to `/intake-target-project` or other purely-interview skills.
 
 ## Blocked by
 

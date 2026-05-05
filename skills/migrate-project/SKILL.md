@@ -1,19 +1,39 @@
 ---
 name: migrate-project
-description: Convert an existing repository onto the AgenticEngineering warehouse conventions. Reads the staged decisions from target-projects/<name>/ (produced by /intake-target-project), audits the source repo, proposes a migration plan, and executes it interactively. Use when the user wants to "migrate this project", "update this repo to the new template", "reset the agentic setup", or "bring this in line with the warehouse". Interactive — refuses auto mode.
+description: Convert an existing repository onto the AgenticEngineering warehouse conventions. Reads the staged decisions from target-projects/<name>/ (produced by /intake-target-project), audits the source repo, proposes a migration plan, and executes it interactively. Use when the user wants to "migrate this project", "update this repo to the new template", "reset the agentic setup", or "bring this in line with the warehouse". Auto-mode safe for reversible local actions; pauses with explicit confirmation requests for destructive or shared-state ones.
 ---
 
 # Migrate Project
 
 Walk an existing repo, compare its agentic setup against the warehouse conventions, propose a migration plan, and execute it under user direction. Consumes the staging output of `/intake-target-project`.
 
-## Refuse auto mode
+This skill is auto-mode safe. It does the reversible work autonomously (transferring staged content, moves, renames) and pauses to surface any **destructive or shared-state** action (conversions, deletions, conflicts where existing target-repo content would be overwritten, git mutations beyond `add`/`commit`) for explicit confirmation. See [ADR-0016](../../docs/adr/0016-mixed-mode-for-migrate-and-create.md).
 
-If auto mode is active, respond:
+## Mixed mode
 
-> Migration requires your direction on each move/rename/addition. Please switch to interactive mode and re-invoke `/migrate-project`.
+This skill follows the same pattern as `/work-issue` and `/finish`: auto for reversible local actions; pause-and-surface for destructive or shared-state ones.
 
-Then exit.
+### Auto-runnable (no confirmation)
+
+- `add` items from staging — copy `target-projects/<name>/<file>` into the source repo at the matching path, where no target-side content exists.
+- `move` items — relocate existing source content to its warehouse-shaped path.
+- `rename` items — rename a file to its warehouse-shaped name.
+- Symlink installs under `.claude/skills/` (additive, reversible).
+- Reading and diffing source content.
+- Writing the audit and migration plan for user review (Phase 1, Phase 2).
+- `git add` and `git commit` of staged migration changes (only if the user explicitly asked for the migration to be committed).
+
+### Destructive-op set (pause and surface)
+
+Stop and request explicit confirmation before any of these:
+
+- **`convert` items** — format changes such as splitting an append-only `decisions.md` into per-ADR files. Loses information shape.
+- **`delete` items** — removing obsolete files (`.claude/agents/*`, stale docs, `.claude/state/working-notes.md`). High risk if user-authored.
+- **Conflict resolution where existing target-repo content would be overwritten** — when a transfer-target path already exists in the source repo and staged content disagrees with it, surface the diff and ask how to merge.
+- **Any `git`-mutating operation beyond `add`/`commit`** — `git push`, `git merge`, `git reset`, `git rebase`, `git branch -D`, `git rm`, force operations, history rewrites.
+- **Cross-repo writes** — writing into any repo other than the source repo being migrated. Use `/file-cross-repo-ticket` instead.
+
+In auto mode without a user, **surface what's pending and stop short of the destructive op**. Leave the migration in a state the user can confirm on return — do not silently default to a destructive choice.
 
 ## Refuse outside the warehouse
 
@@ -93,8 +113,8 @@ Iterate until approved.
 Execute approved items one by one. After each:
 
 - Show the diff or the file written.
-- Confirm before the next item if the change is `convert` or `delete`.
-- For `add` (from staging), `move`, `rename`: proceed without per-item confirmation (already approved).
+- For `add` (from staging), `move`, `rename`: proceed in auto mode without per-item confirmation (already approved at plan time, fully reversible).
+- For `convert`, `delete`, or any item where execution would overwrite existing target-repo content: **pause and surface** before applying. In auto mode without a user, stop here — leave a marker in the report and continue with the remaining auto-runnable items only.
 
 #### Transfer rule for staging
 
@@ -187,7 +207,7 @@ The `_warehouse/` dir stays as institutional memory. Future warehouse-agent sess
 
 - Does not run intake itself. If staging is missing, send the user to `/intake-target-project`.
 - Does not migrate code (only docs, conventions, structure).
-- Does not delete anything without explicit per-item confirmation.
+- Does not delete anything without explicit per-item confirmation (in auto mode without a user, surfaces and stops).
 - Does not push or commit on the user's behalf — leaves the migration as a working-tree change.
 - Does not modify other repos as part of this migration — even if cross-repo tickets are discovered, file them via `/file-cross-repo-ticket`.
 - Does not auto-resolve naming conflicts with existing project conventions — surfaces them for the user.

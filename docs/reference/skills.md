@@ -41,8 +41,8 @@ For the full inventory with auto-mode behaviour and one-line descriptions, see [
 ### Project lifecycle
 
 - **`intake-target-project`** — warehouse-only intake interview for a target project. Stages glossary entries, ADR drafts, domain docs, draft CLAUDE.md, and a migration plan in `target-projects/<name>/`. Distinct from `/grill` which runs inside an already-set-up project ([ADR-0014](../adr/0014-warehouse-grill-vs-project-grill.md)). Interactive.
-- **`create-project`** — scaffold a new project from a warehouse template; consumes `target-projects/<name>/` if present. Interactive.
-- **`migrate-project`** — convert an existing repo onto warehouse conventions; consumes `target-projects/<name>/` produced by `/intake-target-project`. Interactive.
+- **`create-project`** — scaffold a new project from a warehouse template; consumes `target-projects/<name>/` if present. Auto-safe when staging is complete and target dir is fresh; pauses for conflicts and missing inputs ([ADR-0016](../adr/0016-mixed-mode-for-migrate-and-create.md)).
+- **`migrate-project`** — convert an existing repo onto warehouse conventions; consumes `target-projects/<name>/` produced by `/intake-target-project`. Auto-safe for additive transfer/move/rename; pauses for conversions, deletions, conflicts, and git mutations beyond `add`/`commit` ([ADR-0016](../adr/0016-mixed-mode-for-migrate-and-create.md)).
 
 ### Global (`~/.claude/skills/`)
 
