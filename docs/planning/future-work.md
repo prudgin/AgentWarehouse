@@ -128,24 +128,6 @@ Templates exist for `library`, `pipeline`, `tool-integration`, `analysis` — al
 **Open questions:** which content category, if any, falls through the ADR-0007 split?
 **Links:** `templates/analysis/CLAUDE.md`.
 
-### Placeholder marker convention
-
-**What:** unify the placeholder marker style across template files. Currently `<!-- FIXED -->`, `<!-- PLACEHOLDER ... -->`, and `<PLACEHOLDER: ...>` coexist inconsistently.
-**Type:** proposal
-**Why:** inconsistency is friction during scaffolding and during template updates; a pre-commit-style sweep could enforce a single convention.
-**Open questions:** which form is canonical? `<PLACEHOLDER: ...>` is the most readable inline; HTML comments survive in unrendered markdown but are invisible when rendered.
-**Links:** none yet.
-
-## Out-of-scope knowledge base
-
-### Adopt `.out-of-scope/` pattern from Matt Pocock's skills
-
-**What:** extend `/triage` to write `.out-of-scope/<concept>.md` entries on `wontfix` of an enhancement (`category: enhancement`, status: `wontfix`), capturing why the feature was rejected, with deduplication when similar requests recur.
-**Type:** proposal
-**Why:** Matt's pattern handles the "user keeps asking for X, we keep saying no" case durably. Worth picking up the first time the build chain produces a non-trivial `wontfix` enhancement.
-**Open questions:** should the dedup step be in `/triage` or a separate skill? What's the matching mechanism — title similarity, manual lookup, agent judgment?
-**Links:** `references/mattpocock-skills/`.
-
 ## Open questions
 
 ### Skill location for global skills
