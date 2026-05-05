@@ -65,28 +65,23 @@ If `analysis/` exists: every dated subdirectory must be linked from `analysis/an
 
 ### 6. Sweep for ticket-shaped future-work entries
 
-(Agent judgment — graduation is a judgment call, no mechanical script.)
+The boundary rule (see `docs/planning/README.md`): **future-work** holds pre-decision proposals, watching-points, open questions, and refinement candidates; **`.tickets/`** holds post-decision tracked work with acceptance criteria. Same fact in both is drift.
 
-The boundary rule (see `docs/planning/README.md`): **future-work** holds pre-decision proposals and open questions; **`.tickets/`** holds post-decision tracked work with acceptance criteria. Same fact in both is drift.
+Entries in `future-work.md` carry an explicit `**Type:**` tag (one of `proposal`, `watching`, `open-question`, `refinement-candidate`; see `docs/planning/README.md` for definitions). Only `proposal` entries are graduation candidates — the other three legitimately stay even when active.
 
-Read `docs/planning/future-work.md` (if it exists). For each entry, classify:
+**Mechanical sweep:** run the grep below from the project root. If `docs/planning/future-work.md` is absent, skip this step.
 
-- **Genuine planning shape**: open question without a deliverable, watching-point, refinement candidate. → Leave it.
-- **Ticket-shaped**: concrete title, decision implied (the entry reads like *"yes, build this"*), AC-shaped sub-bullets, or a paragraph that would convert 1:1 into a ticket body. → **Surface for graduation**.
+```sh
+grep -nE '^\*\*Type:\*\* proposal' docs/planning/future-work.md
+```
 
-For each ticket-shaped entry, ask the user:
+For each match, locate the enclosing entry (the nearest preceding heading) and surface the entry's title and body to the user as a graduation candidate:
 
-> `<entry title>` looks ready to graduate to a ticket. Open one (`/to-prd` if it warrants a PRD, or a direct issue if not) and remove the future-work entry?
+> `<entry title>` is tagged `proposal` — ready to graduate to a ticket. Open one (`/to-prd` if it warrants a PRD, or a direct issue if not) and remove the future-work entry?
 
-In auto mode without a user, list the candidates in the final report and stop short of moving them. Do not silently rewrite future-work in auto mode — graduation is a judgment call, not a mechanical fix.
+In auto mode without a user, list the candidates (titles + one-line summaries) in the final report and stop short of moving them. Do not silently rewrite `future-work.md` in auto mode — graduation is a confirmation point, not a mechanical fix.
 
-Heuristics for "looks ticket-shaped":
-
-- Imperative title (`Add ...`, `Refactor ...`, `Implement ...`) rather than a question or watching-point.
-- Body has acceptance-criteria-like sub-bullets ("must do X", "should produce Y").
-- No "open questions" line, or open questions are minor and would be resolved during work.
-
-If the entry passes 2 of the 3 heuristics, surface it. Don't surface refinement-candidate entries even if they're concrete ("watch for X in real use" stays here even when active).
+If an entry has no `**Type:**` line at all, surface that as a finding too — every entry must carry a type per the entry-format rule. Do not guess the type; ask the user (or in auto mode, surface in the report).
 
 ### 7. Verify the ticket is in a finished state
 

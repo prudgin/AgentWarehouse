@@ -52,9 +52,19 @@ Each entry in `future-work.md` is short — one paragraph or a small section. Fo
 ## <short title>
 
 **What:** one or two sentences describing the proposed work.
+**Type:** `proposal` | `watching` | `open-question` | `refinement-candidate`.
 **Why:** what problem it solves, or what question it answers.
 **Open questions:** anything that needs to be resolved before starting.
 **Links:** related ADRs, REPORTs, tickets, glossary terms.
 ```
+
+The four `**Type:**` values:
+
+- **`proposal`** — concrete shape, decision implied, AC-able. **The only graduating type.** `/finish` step 6 surfaces these for ticket conversion.
+- **`watching`** — "watch how X plays out in real use; revisit if Y." No deliverable. Stays here even when active.
+- **`open-question`** — undecided trade-off, design tension waiting for evidence. Becomes an ADR or domain doc once decided, not a ticket.
+- **`refinement-candidate`** — "this might want sharpening once we use it more." Resolved by *use*, not by a worked ticket.
+
+If you can't classify an entry under one of the four types, the entry is fuzzy and shouldn't be in `future-work.md` yet — write it elsewhere or sharpen first.
 
 Order entries by priority (top = next). Resolved entries are deleted, not struck through.

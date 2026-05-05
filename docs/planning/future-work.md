@@ -2,45 +2,172 @@
 
 Open backlog for the warehouse itself. Top of file = next up. As work ships, the entry moves out: structure goes into `templates/` / `skills/` / `docs/`; rationale (if it passes 3-of-3) becomes an ADR.
 
-See [`README.md`](README.md) for the boundary rule (vs. `.tickets/`) and the entry format.
+See [`README.md`](README.md) for the boundary rule (vs. `.tickets/`), the entry format, and the four `**Type:**` values.
 
 ## Migrations queued
 
-The most important next steps once the warehouse is in use. Each one starts with `/intake-target-project <name>` (stages decisions in `target-projects/<name>/`) followed by `/migrate-project <name>` for execution. In order:
+The most important next steps once the warehouse is in use. Each one starts with `/intake-target-project <name>` (stages decisions in `target-projects/<name>/`) followed by `/migrate-project <name>` for execution.
 
-1. **`GutEvac`** — active research project (Murray cod gut clearance). Has a detailed implementation spec, working notes with known issues, and a stage-1 proposal that diverged. First real exercise of the intake → migrate flow. See `docs/domain/existing-projects.md` for state.
-2. **`FishGrowthFittingSGRpackage`** — second target. Lowest distance from the library template; clean validation of `/migrate-project` end-to-end.
-3. **`MercatusDataFeed`** — third target. Biggest payoff; validates the `pipeline/` template variant and the conversion of append-only `decisions.md` into ADRs.
-4. **`MicrosoftFlowsApps`** — fourth target. Validates the `tool-integration/` template variant.
-5. **`GrowthModels`** and **`PowerBI`** — when the user activates them. Cold-start with `/intake-target-project` then `/create-project`.
+### Migrate `GutEvac`
+
+**What:** intake and migrate the GutEvac active research project (Murray cod gut clearance) onto the analysis-template conventions.
+**Type:** proposal
+**Why:** active research project with a detailed implementation spec, working notes with known issues, and a stage-1 proposal that diverged. First real exercise of the intake → migrate flow on a non-trivial repo.
+**Open questions:** does the legacy `working_notes_for_future_runs.txt` content split cleanly under ADR-0007 (caveats → `known-issues.md`, priorities → `future-work.md`, methodology → ADRs), or does some category fall through?
+**Links:** `docs/domain/existing-projects.md`.
+
+### Migrate `FishGrowthFittingSGRpackage`
+
+**What:** intake and migrate the FishGrowthFittingSGRpackage onto the library-template conventions.
+**Type:** proposal
+**Why:** second migration target. Lowest distance from the library template; clean validation of `/migrate-project` end-to-end.
+**Open questions:** none material.
+**Links:** `docs/domain/existing-projects.md`.
+
+### Migrate `MercatusDataFeed`
+
+**What:** intake and migrate MercatusDataFeed onto the pipeline-template conventions, converting append-only `decisions.md` into ADRs.
+**Type:** proposal
+**Why:** third migration target. Biggest payoff; validates the `pipeline/` template variant and the `decisions.md` → ADRs conversion.
+**Open questions:** does the `decisions.md` → ADRs split need interactive confirmation per entry, or can it be batched?
+**Links:** `docs/domain/existing-projects.md`.
+
+### Migrate `MicrosoftFlowsApps`
+
+**What:** intake and migrate MicrosoftFlowsApps onto the tool-integration-template conventions.
+**Type:** proposal
+**Why:** fourth migration target. Validates the `tool-integration/` template variant.
+**Open questions:** does the optional `docs/reference/` decision hold up, or does the project accumulate enough first-party code (e.g. CLI wrappers) to need it reinstated?
+**Links:** `docs/domain/existing-projects.md`.
+
+### Cold-start `GrowthModels` and `PowerBI`
+
+**What:** when the user activates these projects, cold-start with `/intake-target-project` then `/create-project`.
+**Type:** watching
+**Why:** not yet ready to start; waiting on user activation. Held here so the migration queue stays complete.
+**Open questions:** which template variant fits each — likely `analysis/` for `GrowthModels` and `tool-integration/` for `PowerBI`, but TBD at intake time.
+**Links:** `docs/domain/existing-projects.md`.
 
 ## Skills to refine
 
-All the skills listed in `skills/README.md` are written but unproven. Each should be exercised on real work and tightened based on what shakes out. Specific things to watch for:
+All the skills listed in `skills/README.md` are written but unproven. Each should be exercised on real work and tightened based on what shakes out.
 
-- **`grill`** — does the inline `glossary.md` update mechanic actually fire mid-conversation, or does the agent batch updates to the end? If the latter, sharpen the skill body.
-- **`work-issue`** — the auto-vs-interactive split (auto for reversible, confirm for shared-state, stop for inconsistency) is a hypothesis. Real use will reveal whether the categories are the right ones.
-- **`finish`** — orphan-sweep mechanics. Currently described in prose; if it turns out to need a deterministic check, extract a small script (`scripts/orphan-sweep.sh`) the skill calls.
-- **`intake-target-project`** — first real exercise will be GutEvac. Watch for: does inline staging-write actually fire mid-conversation? Does the migration plan in `_warehouse/migration-plan.md` end up actionable for `/migrate-project`, or does it need re-grilling at execution time?
-- **`migrate-project`** — the `decisions.md` → ADRs conversion is the trickiest part. Likely needs interactive confirmation per entry. Also: does the staging-transfer step compose cleanly with the existing audit logic?
-- **`finish-analysis`** — the cross-doc promotion logic. May need separate sub-skills for "promote to glossary" vs "promote to domain" if the heuristics get complex.
+### `grill` — verify inline glossary update mechanic
+
+**What:** watch whether the inline `glossary.md` update mechanic actually fires mid-conversation, or whether the agent batches updates to the end.
+**Type:** refinement-candidate
+**Why:** the skill is built on the assumption of inline glossary writes during the interview; if that assumption fails, the skill body needs sharpening.
+**Open questions:** what's the right corrective if batching is observed — stronger imperative phrasing, or a hard stop-and-write checkpoint?
+**Links:** `skills/grill/SKILL.md`.
+
+### `work-issue` — validate the auto-vs-interactive split
+
+**What:** validate that the auto-for-reversible / confirm-for-shared-state / stop-for-inconsistency categories are the right ones.
+**Type:** refinement-candidate
+**Why:** the split is a hypothesis — real use will reveal whether the categories carve at the right joints.
+**Open questions:** what does the resumption flow look like when `work-issue` stops in auto mode — re-enter `/work-issue`, or `/finish`?
+**Links:** `skills/work-issue/SKILL.md`.
+
+### `finish` — orphan-sweep mechanics under load
+
+**What:** watch whether the orphan-sweep script (extracted in trade-off 02) holds up across more projects, or needs further tightening.
+**Type:** refinement-candidate
+**Why:** the script is now in place, but its derivation logic (parse CLAUDE.md doc-map, list `*.md`, substring-match in README) hasn't been exercised across many CLAUDE.md shapes.
+**Open questions:** does the substring match produce false positives on common filenames? Does the doc-map parser handle every shape we care about?
+**Links:** `skills/finish/SKILL.md`, `skills/finish/scripts/check-docs.sh`.
+
+### `intake-target-project` — first real exercise on GutEvac
+
+**What:** watch how the intake flow behaves on GutEvac: does inline staging-write actually fire mid-conversation? Does the migration plan in `_warehouse/migration-plan.md` end up actionable for `/migrate-project`, or does it need re-grilling at execution time?
+**Type:** refinement-candidate
+**Why:** the skill is built around a hypothesis (intake stages everything `/migrate-project` needs); first real run will validate or invalidate.
+**Open questions:** is `_warehouse/migration-plan.md` the right artifact, or should it be split per topic?
+**Links:** `skills/intake-target-project/SKILL.md`.
+
+### `migrate-project` — `decisions.md` → ADRs conversion
+
+**What:** validate that the `decisions.md` → ADRs conversion logic is the right shape. Likely needs interactive confirmation per entry. Also: does the staging-transfer step compose cleanly with the existing audit logic?
+**Type:** refinement-candidate
+**Why:** trickiest part of the migration flow; first real exercise will be MercatusDataFeed.
+**Open questions:** batch confirmation vs per-entry; how to handle decisions that don't pass the 3-of-3 admission test.
+**Links:** `skills/migrate-project/SKILL.md`.
+
+### `finish-analysis` — cross-doc promotion logic
+
+**What:** watch the cross-doc promotion logic (REPORT findings → glossary / domain / ADR / future-work). May need separate sub-skills per destination if heuristics get complex.
+**Type:** refinement-candidate
+**Why:** the promotion step is per-finding judgment; if it's heavy enough to merit a sub-skill split, that wants discovering early.
+**Open questions:** does the heuristic-per-destination approach scale, or does it want a single decision tree?
+**Links:** `skills/finish-analysis/SKILL.md`.
 
 ## Templates to refine
 
-Templates exist for `library`, `pipeline`, `tool-integration`, `analysis` — all unproven on real cold-start work. Specific risks:
+Templates exist for `library`, `pipeline`, `tool-integration`, `analysis` — all unproven on real cold-start work.
 
-- **`pipeline/`** — the "Pipeline areas" table in CLAUDE.md and the "one file per stage" reference convention work for MercatusDataFeed but may be over-rigid for simpler pipelines.
-- **`tool-integration/`** — drops `docs/reference/` to optional. If first-party code grows in such a project (e.g. a CLI on top of the wrapped tools), reinstating the reference dir should be straightforward.
-- **`analysis/`** — first real test will be GutEvac. Watch for: does the "findings provenance" rule hold up in practice (every glossary/domain/ADR claim links a REPORT), or does it become ceremony? Does the ADR-0007 split (caveats → `known-issues.md`, priorities → `future-work.md`, methodology → ADRs) actually absorb the legacy `working_notes_for_future_runs.txt` content cleanly, or does some category fall through? Is the optional-`docs/reference/` decision the right call, or do most research projects accumulate enough utility code to need it?
-- The placeholder markers (`<!-- FIXED -->`, `<!-- PLACEHOLDER ... -->`, `<PLACEHOLDER: ...>`) are inconsistent in style across files. A pre-commit-style sweep could enforce a single convention.
+### `pipeline/` — over-rigidity risk
+
+**What:** watch whether the "Pipeline areas" table in CLAUDE.md and the "one file per stage" reference convention hold up beyond MercatusDataFeed, or are over-rigid for simpler pipelines.
+**Type:** refinement-candidate
+**Why:** the conventions are tuned to one project; they may not generalise.
+**Open questions:** at what pipeline size does the table become noise rather than signal?
+**Links:** `templates/pipeline/CLAUDE.md`.
+
+### `tool-integration/` — optional `docs/reference/`
+
+**What:** watch whether dropping `docs/reference/` to optional is the right call, or whether tool-integration projects accumulate enough first-party code (e.g. CLI on top of the wrapped tools) to need it reinstated by default.
+**Type:** refinement-candidate
+**Why:** trade-off 07 may sharpen this; first real exercise on MicrosoftFlowsApps will tell.
+**Open questions:** is "optional" the right framing, or should the template install an empty `docs/reference/README.md` and the project decides whether to fill it?
+**Links:** `templates/tool-integration/CLAUDE.md`.
+
+### `analysis/` — findings-provenance and content split
+
+**What:** watch whether the "findings provenance" rule (every glossary/domain/ADR claim links a REPORT) holds up in practice, or becomes ceremony. Verify the ADR-0007 split (caveats → `known-issues.md`, priorities → `future-work.md`, methodology → ADRs) absorbs legacy `working_notes_for_future_runs.txt` content cleanly. Check whether optional `docs/reference/` is the right call for research projects.
+**Type:** refinement-candidate
+**Why:** all three conventions are unproven; first real test on GutEvac.
+**Open questions:** which content category, if any, falls through the ADR-0007 split?
+**Links:** `templates/analysis/CLAUDE.md`.
+
+### Placeholder marker convention
+
+**What:** unify the placeholder marker style across template files. Currently `<!-- FIXED -->`, `<!-- PLACEHOLDER ... -->`, and `<PLACEHOLDER: ...>` coexist inconsistently.
+**Type:** proposal
+**Why:** inconsistency is friction during scaffolding and during template updates; a pre-commit-style sweep could enforce a single convention.
+**Open questions:** which form is canonical? `<PLACEHOLDER: ...>` is the most readable inline; HTML comments survive in unrendered markdown but are invisible when rendered.
+**Links:** none yet.
 
 ## Out-of-scope knowledge base
 
-Matt's pattern: `.out-of-scope/<concept>.md` files capturing why a feature was rejected, with deduplication when similar requests recur. Not yet adopted. Worth picking up the first time the build chain produces a `wontfix` enhancement that isn't trivially obvious. Skill: extend `/triage` to write `.out-of-scope/` entries on `wontfix` of an enhancement (`category: enhancement`, status: `wontfix`).
+### Adopt `.out-of-scope/` pattern from Matt Pocock's skills
+
+**What:** extend `/triage` to write `.out-of-scope/<concept>.md` entries on `wontfix` of an enhancement (`category: enhancement`, status: `wontfix`), capturing why the feature was rejected, with deduplication when similar requests recur.
+**Type:** proposal
+**Why:** Matt's pattern handles the "user keeps asking for X, we keep saying no" case durably. Worth picking up the first time the build chain produces a non-trivial `wontfix` enhancement.
+**Open questions:** should the dedup step be in `/triage` or a separate skill? What's the matching mechanism — title similarity, manual lookup, agent judgment?
+**Links:** `references/mattpocock-skills/`.
 
 ## Open questions
 
-- **Skill location for global skills**: `~/.claude/skills/` (per-user) or per-project copies? Per-user is cleaner; per-project guarantees portability if the user moves machines. Currently `sudo-script` is documented as `~/.claude/skills/sudo-script/`; the user must symlink manually.
-- **Plugin packaging revisited**: at what scale (other users, shareable distribution) does the plain-folders-no-plugin trade-off ([ADR-0012](../adr/0012-plain-folders-no-plugin.md)) flip? Currently solo use; plain folders are correct.
-- **`work-issue` interactive in auto mode**: the skill defers shared-state actions ("stop and surface, leave the branch"). On the user's return, what's the resumption skill — `/work-issue` again, or `/finish`? Currently underspecified.
-- **`finish` orphan-sweep mechanics**: prose-only currently. If the user wants a deterministic check, build a small script.
+### Skill location for global skills
+
+**What:** decide whether globally-applicable skills (e.g. `sudo-script`) live in `~/.claude/skills/` (per-user) or as per-project copies.
+**Type:** open-question
+**Why:** per-user is cleaner; per-project guarantees portability if the user moves machines. Currently `sudo-script` is documented as `~/.claude/skills/sudo-script/`; the user must symlink manually.
+**Open questions:** what triggers a flip — second machine, sharing with another user, or never?
+**Links:** `skills/sudo-script/`.
+
+### Plugin packaging revisited
+
+**What:** reconsider plain-folders-no-plugin trade-off when the user-base grows beyond solo use.
+**Type:** open-question
+**Why:** at sufficient scale (other users, shareable distribution) the trade-off in [ADR-0012](../adr/0012-plain-folders-no-plugin.md) flips. Currently solo use; plain folders are correct.
+**Open questions:** what's the threshold — second user, third user, public release?
+**Links:** [ADR-0012](../adr/0012-plain-folders-no-plugin.md).
+
+### `work-issue` resumption in auto mode
+
+**What:** specify the resumption flow when `/work-issue` stops in auto mode at a shared-state boundary ("stop and surface, leave the branch").
+**Type:** open-question
+**Why:** on the user's return, what's the resumption skill — `/work-issue` again, or `/finish`? Currently underspecified.
+**Open questions:** does the choice depend on what the stop reason was, or is one resumption skill always right?
+**Links:** `skills/work-issue/SKILL.md`.

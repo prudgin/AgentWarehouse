@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 **Type:** AFK
 
@@ -38,10 +38,10 @@ Specifically:
 
 ## Acceptance criteria
 
-- [ ] All five planning READMEs document the `**Type:**` field with the four values.
-- [ ] Every entry in every `future-work.md` (warehouse + 4 templates) carries a `**Type:**` line.
-- [ ] `skills/finish/SKILL.md` step 6 collapses to a grep + surface flow.
-- [ ] No regression: the warehouse's own future-work entries still classify correctly under the new system (proposal-marked entries surface; others stay).
+- [x] All five planning READMEs document the `**Type:**` field with the four values.
+- [x] Every entry in every `future-work.md` (warehouse + 4 templates) carries a `**Type:**` line.
+- [x] `skills/finish/SKILL.md` step 6 collapses to a grep + surface flow.
+- [x] No regression: the warehouse's own future-work entries still classify correctly under the new system (proposal-marked entries surface; others stay).
 
 ## Blocked by
 
