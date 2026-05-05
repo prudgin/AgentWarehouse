@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 **Type:** AFK
 
@@ -28,11 +28,11 @@ Specifically:
 
 ## Acceptance criteria
 
-- [ ] `templates/tool-integration/CLAUDE.md` documents the surface-README convention in doc map + update rules.
-- [ ] `skills/finish/SKILL.md` has a per-artifact-dir enumeration step gated on tool-integration shape detection (presence of `_tools/` in doc map).
-- [ ] The step verifies surface README existence and per-artifact `*-meta.json` presence.
-- [ ] No regression to non-tool-integration templates (the new step is no-op when `_tools/` is absent).
-- [ ] Subsequent step numbers in `/finish` SKILL.md renumber correctly.
+- [x] `templates/tool-integration/CLAUDE.md` documents the surface-README convention in doc map + update rules.
+- [x] `skills/finish/SKILL.md` has a per-artifact-dir enumeration step gated on tool-integration shape detection (presence of `_tools/` in doc map).
+- [x] The step verifies surface README existence and per-artifact `*-meta.json` presence.
+- [x] No regression to non-tool-integration templates (the new step is no-op when `_tools/` is absent).
+- [x] Subsequent step numbers in `/finish` SKILL.md renumber correctly.
 
 ## Blocked by
 

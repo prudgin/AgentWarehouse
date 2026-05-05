@@ -88,6 +88,7 @@ Skills wrap procedure. Library carries knowledge. For tool-integration projects,
 - **`.tickets/`** — local issue tracker.
 - **`.tickets/inbox/`** — incoming cross-repo tickets.
 - **`_tools/`** — bash scripts wrapped by skills. See [`_tools/README.md`](_tools/README.md).
+- **`<surface>/README.md`** — surface-specific conventions (display-name normalisation, meta-field semantics, push-vs-pull policy). One per declared surface dir. Does not list specific artifacts — artifacts churn, conventions stay stable.
 
 <!-- FIXED -->
 ## Skills
@@ -108,6 +109,7 @@ How a specific tool surface works (write a skill). Step-by-step recipes (write a
 - **New domain term resolved** → `glossary.md`.
 - **New planned work** → `docs/planning/future-work.md`.
 - **New artifact exported/imported** → the per-artifact subdirectory + `*-meta.json`.
+- **New surface added** → create `<surface>/README.md` documenting the surface's conventions.
 
 <!-- FIXED -->
 ## No orphans

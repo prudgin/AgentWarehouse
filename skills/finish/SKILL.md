@@ -63,6 +63,19 @@ If CLAUDE.md is out of date, fix it. If the change is large enough that you're u
 
 If `analysis/` exists: every dated subdirectory must be linked from `analysis/analysis-landscape.md`. Apply the same orphan logic.
 
+### 5b. Verify per-artifact-dir integrity (tool-integration projects only)
+
+**Detection:** the project is tool-integration shape iff CLAUDE.md's "Documentation map" section references `_tools/`. If `_tools/` is not mentioned, skip this step entirely — non-tool-integration templates have no surface concept and this step is a no-op.
+
+**Procedure:**
+
+1. Parse CLAUDE.md's documentation map and collect every top-level directory referenced. Filter out the standard sweep targets (`docs/`, `analysis/`, `.tickets/`, `_tools/`, `.claude/`). The remaining top-level dirs are **candidate surface dirs**.
+2. For each candidate surface dir `<surface>/`:
+   - Verify `<surface>/README.md` exists. If missing, surface as **"missing surface README: `<surface>/README.md`"**.
+   - For each subdirectory `<surface>/<Name>/` (one per artifact), verify a `<surface>-meta.json` file exists and parses as valid JSON (e.g. `python3 -m json.tool <file> >/dev/null`). Surface any missing or malformed file as **"surface integrity: `<surface>/<Name>/<surface>-meta.json` is missing"** or **"...is not valid JSON"**.
+
+In auto mode, only surface findings — do not auto-create README stubs and do not auto-repair meta files. Both require human judgment (the README needs surface-specific conventions written out; a malformed meta usually means an interrupted export and the artifact dir itself may be partial).
+
 ### 6. Sweep for ticket-shaped future-work entries
 
 The boundary rule (see `docs/planning/README.md`): **future-work** holds pre-decision proposals, watching-points, open questions, and refinement candidates; **`.tickets/`** holds post-decision tracked work with acceptance criteria. Same fact in both is drift.
@@ -117,6 +130,7 @@ In auto mode without a user, surface what's pending and stop.
 - **What was changed:** files touched, modules affected.
 - **Docs updated:** specific files.
 - **Orphans handled:** what was indexed, deleted, moved.
+- **Surface-integrity findings (tool-integration only):** missing surface READMEs, missing or malformed `<surface>-meta.json` files. Empty if not a tool-integration project or all surfaces clean.
 - **Future-work graduation candidates:** entries flagged as ticket-shaped (and what was decided per entry, if interactive).
 - **CLAUDE.md drift fixed:** specific changes.
 - **Verification result:** pass/fail.
