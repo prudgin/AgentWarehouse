@@ -34,13 +34,13 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 - **[`README.md`](README.md)** — human-facing entry; links back to this file.
 - **[`glossary.md`](glossary.md)** — warehouse-specific vocabulary (skill, library, template, build chain, analyse chain, ADR, ...). Read before naming anything in this repo.
 - **[`docs/reference/`](docs/reference/README.md)** — what the warehouse contains and how it's organised: templates inventory, skills inventory.
-- **[`docs/adr/`](docs/adr/README.md)** — Architecture Decision Records. The 15 ADRs here record the design choices made in setting up the warehouse.
+- **[`docs/adr/`](docs/adr/README.md)** — Architecture Decision Records. The 23 ADRs here record the design choices made in setting up the warehouse.
 - **[`docs/domain/`](docs/domain/README.md)** — non-vocabulary domain knowledge. Includes:
   - `philosophy.md` — the WHY narrative (mental model, the two workflow chains, agent-as-maintainer principle).
   - `external-references.md` — what's in `references/` and what we took from each.
   - `existing-projects.md` — state of the user's existing repos and what's planned for each.
 - **[`docs/planning/`](docs/planning/README.md)** — open backlog (`future-work.md`) and the boundary rule between future-work and `.tickets/` (pre-decision vs. post-decision; transition deletes the future-work entry).
-- **[`analysis/`](analysis/README.md)** — investigations (none yet; this session's research informed the design directly).
+- **[`analysis/`](analysis/README.md)** — investigations. First entry: the 2026-05-04 template self-test, which informed ADRs 0016–0023 and the trade-off-batch tickets.
 - **[`.tickets/`](.tickets/README.md)** — local issue tracker for warehouse work.
 - **[`templates/`](docs/reference/templates.md)** — project skeletons: `library/`, `pipeline/`, `tool-integration/`, `analysis/`. Inventory in [docs/reference/templates.md](docs/reference/templates.md).
 - **[`target-projects/`](target-projects/README.md)** — per-target staging dirs accumulated by `/intake-target-project` before transfer to actual project repos via `/create-project` or `/migrate-project`. Permanent record of every project the warehouse has set up.

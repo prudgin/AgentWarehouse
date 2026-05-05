@@ -43,10 +43,10 @@ AgenticEngineering/
 ├── glossary.md                     # warehouse-specific vocabulary
 ├── docs/
 │   ├── reference/                  # what the warehouse contains (templates, skills inventory)
-│   ├── adr/                        # 15 architecture decision records
+│   ├── adr/                        # 23 architecture decision records
 │   ├── domain/                     # philosophy, external references, existing-projects survey
 │   └── planning/future-work.md     # backlog
-├── analysis/                       # investigations (currently empty)
+├── analysis/                       # investigations (first: 2026-05-04 template self-test)
 ├── .tickets/                       # warehouse's own ticket store
 ├── templates/
 │   ├── library/                    # for libraries, packages, standalone projects
