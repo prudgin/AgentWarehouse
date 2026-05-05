@@ -21,21 +21,17 @@ If a doc references a function, type, or path that no longer exists, **stop and 
 
 The no-orphan rule: every doc reachable from CLAUDE.md via a chain of links.
 
-**Derive the target list from CLAUDE.md, do not hardcode it.** Open the project's CLAUDE.md and locate the "Documentation map" section (the heading is exact — `## Documentation map`). Extract every directory reference from that section: any link target ending in `/` or pointing at a `README.md` inside a directory counts as a documented top-level directory. The resulting set is the orphan-sweep target list, and it will naturally include any dir CLAUDE.md indexes (`docs/reference/`, `docs/adr/`, `docs/domain/`, `analysis/`, `.tickets/`, `templates/`, `skills/`, `_tools/`, `data/`, etc. — whatever this project's map names).
+**Run the mechanical sweep:** `.claude/skills/finish/scripts/check-docs.sh --orphans` (the script discovers the project root from its own location). Surface findings to the user. Exit 0 means no orphans; exit 1 with `<path>` lines on stdout means orphans were found. If the script is missing (older project not yet migrated), fall back to the prose procedure below.
 
-Cross-check: list the project's top-level directories on disk. Any non-hidden, non-tooling directory (skip `.git/`, `node_modules/`, `.venv/`, build outputs) that is **not** referenced in the doc map is itself a CLAUDE.md-level orphan — surface it as "doc map omission: `<dir>/` exists but is not indexed in CLAUDE.md" and stop short of sweeping inside it. Fixing the omission is a CLAUDE.md edit, not a README edit.
+The script derives its target dir list from CLAUDE.md's "Documentation map" section: any link target ending in `/` or pointing at a `README.md` inside a directory. For each such directory it lists every `*.md` file and verifies the file's basename appears in the directory's `README.md` (substring match). Files not mentioned are orphans.
 
-**Fallback:** if CLAUDE.md is missing, the "Documentation map" heading is absent, or no directory references can be parsed from it, **emit a warning to the user and skip the orphan sweep entirely** for this run. Do not silently fall back to a guessed list — silently missing is worse than skipping. Surface the problem in the final report so the next run (or the user) can fix CLAUDE.md.
+Cross-check (agent judgment): list the project's top-level directories on disk. Any non-hidden, non-tooling directory (skip `.git/`, `node_modules/`, `.venv/`, build outputs) that is **not** referenced in the doc map is itself a CLAUDE.md-level orphan — surface it as "doc map omission: `<dir>/` exists but is not indexed in CLAUDE.md" and stop short of sweeping inside it. Fixing the omission is a CLAUDE.md edit, not a README edit.
 
-Then, for each derived target directory:
-
-- List all files in the directory.
-- Open the directory's `README.md`.
-- Verify every file is mentioned in the README's index. Files not mentioned are **orphans**.
+**Fallback:** if CLAUDE.md is missing, the "Documentation map" heading is absent, or no directory references can be parsed from it, the script emits a warning on stderr and skips the orphan sweep. Do not silently fall back to a guessed list — silently missing is worse than skipping. Surface the problem in the final report so the next run (or the user) can fix CLAUDE.md.
 
 Per-artifact-dir patterns (e.g. `tasks/<Name>/`, `<surface>/<Name>/`) are out of scope for this step — those need their own design and live in a later iteration.
 
-For each orphan, decide:
+For each orphan, decide (agent judgment):
 
 - **Add to index** — the doc is real and belongs there. Edit the README.
 - **Delete the file** — the doc is stale, never finished, or covered elsewhere. Confirm with user before deleting.
@@ -45,11 +41,13 @@ In auto mode, only auto-fix the obvious case (file is real, just missing from in
 
 ### 3. Sweep for broken links
 
-Within each docs file, check internal markdown links. A broken link points to a file or anchor that doesn't exist.
+Run `.claude/skills/finish/scripts/check-docs.sh --broken-links`. The script scans every `*.md` in scope for relative markdown links, resolves each target file (and verifies any `#anchor` matches a heading slug in that file), and prints `<source>:<line>:<link>` per broken link. Fenced code blocks, inline code spans, and HTML comments are skipped. Pre-instantiation / external dirs (`templates/`, `references/`, `target-projects/`) are excluded — placeholder content there isn't expected to resolve.
 
-Auto-fix renames (link to old name, file is at new name with similar slug). Surface anything ambiguous.
+For each broken link reported, decide (agent judgment): auto-fix simple renames (link to old name, file is at new name with similar slug), surface anything ambiguous. If the script is missing, fall back to the manual prose check.
 
 ### 4. Verify CLAUDE.md is still accurate
+
+(Agent judgment — no mechanical script for this step.)
 
 Read the project's CLAUDE.md. Check:
 
@@ -65,6 +63,8 @@ If CLAUDE.md is out of date, fix it. If the change is large enough that you're u
 If `analysis/` exists: every dated subdirectory must be linked from `analysis/analysis-landscape.md`. Apply the same orphan logic.
 
 ### 6. Sweep for ticket-shaped future-work entries
+
+(Agent judgment — graduation is a judgment call, no mechanical script.)
 
 The boundary rule (see `docs/planning/README.md`): **future-work** holds pre-decision proposals and open questions; **`.tickets/`** holds post-decision tracked work with acceptance criteria. Same fact in both is drift.
 

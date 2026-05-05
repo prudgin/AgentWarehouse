@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 **Type:** AFK
 
@@ -25,11 +25,11 @@ Specifically:
 
 ## Acceptance criteria
 
-- [ ] `skills/finish/scripts/check-docs.sh` exists, executable, runs without error against the warehouse itself.
-- [ ] Script supports `--orphans`, `--broken-links`, `--all`. Exit codes correct.
-- [ ] `/finish` SKILL.md step 2 invokes `--orphans`; step 3 invokes `--broken-links`.
-- [ ] `skills/README.md` documents the `scripts/` subdir convention.
-- [ ] Tested by running `check-docs.sh --all` against the warehouse — passes (no orphans or broken links introduced by recent work).
+- [x] `skills/finish/scripts/check-docs.sh` exists, executable, runs without error against the warehouse itself.
+- [x] Script supports `--orphans`, `--broken-links`, `--all`. Exit codes correct.
+- [x] `/finish` SKILL.md step 2 invokes `--orphans`; step 3 invokes `--broken-links`.
+- [x] `skills/README.md` documents the `scripts/` subdir convention.
+- [x] Tested by running `check-docs.sh --all` against the warehouse — passes (no orphans or broken links introduced by recent work).
 
 ## Blocked by
 
