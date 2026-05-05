@@ -1,4 +1,4 @@
-**Status:** ready-for-agent
+**Status:** done
 **Category:** enhancement
 **Type:** AFK
 
@@ -36,11 +36,11 @@ Specifically:
 
 ## Acceptance criteria
 
-- [ ] All four templates' `.claude/settings.json` ship the curated allow-list + uniform deny floor.
-- [ ] `tool-integration` template includes `Bash(_tools/*)` and `Bash(./_tools/*)` allows; the other three templates do not.
-- [ ] Each settings.json is valid JSON.
-- [ ] No `Bash(rm *)` blanket allow in any template (the user added that locally to the warehouse, but it's intentionally not in the template default — the deny floor catches the destructive variants and the safer pattern is to add specific `rm` allows per project as needed).
-- [ ] No regression to the warehouse's own `.claude/settings.json` (it's a separate file, intentionally tuned for warehouse work).
+- [x] All four templates' `.claude/settings.json` ship the curated allow-list + uniform deny floor.
+- [x] `tool-integration` template includes `Bash(_tools/*)` and `Bash(./_tools/*)` allows; the other three templates do not.
+- [x] Each settings.json is valid JSON.
+- [x] No `Bash(rm *)` blanket allow in any template (the user added that locally to the warehouse, but it's intentionally not in the template default — the deny floor catches the destructive variants and the safer pattern is to add specific `rm` allows per project as needed).
+- [x] No regression to the warehouse's own `.claude/settings.json` (it's a separate file, intentionally tuned for warehouse work).
 
 ## Blocked by
 
