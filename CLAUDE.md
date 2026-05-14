@@ -42,7 +42,7 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 - **[`docs/planning/`](docs/planning/README.md)** — open backlog (`future-work.md`) and the boundary rule between future-work and `.tickets/` (pre-decision vs. post-decision; transition deletes the future-work entry).
 - **[`analysis/`](analysis/README.md)** — investigations. First entry: the 2026-05-04 template self-test, which informed ADRs 0016–0023 and the trade-off-batch tickets.
 - **[`.tickets/`](.tickets/README.md)** — local issue tracker for warehouse work.
-- **[`templates/`](docs/reference/templates.md)** — project skeletons: `library/`, `pipeline/`, `tool-integration/`, `analysis/`. Inventory in [docs/reference/templates.md](docs/reference/templates.md).
+- **[`templates/`](docs/reference/templates.md)** — project skeletons: `library/`, `pipeline/`, `tool-integration/`, `analysis/`, `research/`. Inventory in [docs/reference/templates.md](docs/reference/templates.md).
 - **[`target-projects/`](target-projects/README.md)** — per-target staging dirs accumulated by `/intake-target-project` before transfer to actual project repos via `/create-project` or `/migrate-project`. Permanent record of every project the warehouse has set up.
 - **[`skills/`](skills/README.md)** — canonical skill sources.
 - **[`references/`](docs/domain/external-references.md)** — external reference repos. See `docs/domain/external-references.md` for what's here and why.
@@ -54,6 +54,7 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 **Build chain:** `grill`, `to-prd`, `to-issues`, `triage`, `work-issue`, `finish`.
 **Analyse chain:** `start-analysis`, `finish-analysis`.
 **Cross-cutting:** `diagnose`, `improve-codebase-architecture`, `zoom-out`, `file-cross-repo-ticket`, `check-inbox`.
+**Research-specific** (research-template projects only): `sharepoint-sync`.
 **Project lifecycle** (warehouse-only — operate against `target-projects/<name>/`): `intake-target-project`, `create-project`, `migrate-project`.
 **Global** (canonical here, install as `~/.claude/skills/sudo-script/`): `sudo-script`.
 

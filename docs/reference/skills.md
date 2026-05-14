@@ -38,6 +38,10 @@ For the full inventory with auto-mode behaviour and one-line descriptions, see [
 - **`file-cross-repo-ticket`** — drop a ticket into another repo's `.tickets/inbox/`. Auto-safe.
 - **`check-inbox`** — list and summarise incoming cross-repo tickets. Auto-safe.
 
+### Research-specific (only in projects scaffolded from `templates/research/`)
+
+- **`sharepoint-sync`** — bidirectionally mirror a research project with its SharePoint folder via `rclone copy --update`. Pulls newer files at session start; pushes newer files at `/finish`. Never deletes; deletes are explicit on both sides. Auto-safe. See [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
+
 ### Project lifecycle
 
 - **`intake-target-project`** — warehouse-only intake interview for a target project. Stages glossary entries, ADR drafts, domain docs, draft CLAUDE.md, and a migration plan in `target-projects/<name>/`. Distinct from `/grill` which runs inside an already-set-up project ([ADR-0014](../adr/0014-warehouse-grill-vs-project-grill.md)). Interactive.

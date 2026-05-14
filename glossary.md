@@ -21,9 +21,33 @@ _Avoid_: Workshop, hub, library (overloaded — see below).
 
 ### Template
 
-A drop-in project skeleton under `templates/<type>/`. Variants planned: `library`, `pipeline`, `tool-integration`.
+A drop-in project skeleton under `templates/<type>/`. Variants: `library`, `pipeline`, `tool-integration`, `analysis`, `research`.
 
 _Avoid_: Boilerplate (broader, less specific), scaffold (verb only — "to scaffold from a template").
+
+### Research project
+
+A project scaffolded from `templates/research/` and bidirectionally mirrored to a SharePoint folder under `sharepoint_planning:PROJECTS/`. Distinct from an **analysis project** (local-only, ad-hoc investigations on top of other repos): a research project is "official" MCA work with stakeholder-accountable deliverables (proposals, reports, expenses). Lives under `~/ResearchProjects/<Project Name>/`; the directory name matches the SharePoint folder verbatim.
+
+_Avoid_: Study, experiment (too narrow — a research project may contain many studies/experiments).
+
+### SharePoint mirror
+
+The bidirectional file mirror between a research project's local directory and its SharePoint folder, implemented via `rclone copy --update` and a per-project `.rclone-filter`. Pulls at session start, pushes at `/finish`. Deletes never propagate — they are explicit on both sides. See [ADR-0024](docs/adr/0024-research-template-bidirectional-sharepoint-mirror.md).
+
+_Avoid_: SharePoint sync (too generic — could mean rclone sync, bisync, or this design), bidirectional sync (ambiguous about delete behaviour).
+
+### `.rclone-filter`
+
+The per-project file at the root of a research project, listing the paths excluded from the **SharePoint mirror**. Format: rclone filter rules (`-` excludes, `+` includes, default is include). Defines code, build artefacts, secrets, and agent install as local-only; everything else mirrors to SharePoint.
+
+_Avoid_: Sync filter, exclude file (too generic).
+
+### MCA
+
+Murray Cod Australia — the user's organisation. The SharePoint tenant is `murraycod.sharepoint.com`; the canonical rclone remote for the "Planning & Development" library is `sharepoint_planning:`.
+
+_Avoid_: Spelling out "Murray Cod Australia" in code or paths — "MCA" is the canonical short form.
 
 ### Skill
 

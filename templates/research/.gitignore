@@ -1,0 +1,34 @@
+# IDE
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# Build / packaging
+build/
+dist/
+*.egg
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Analysis outputs (large artefacts; INVESTIGATION.md and scripts are committed)
+analysis/*/outputs/
+!analysis/*/outputs/.gitkeep
+
+# Local Claude state — never commit ephemeral session state
+.claude/state/
+.claude/settings.local.json
+
+# Environment
+.env
+
+# rclone bisync state (we use --update only, but defensive)
+.rclone-bisync-state/

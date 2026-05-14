@@ -8,13 +8,13 @@ See [`README.md`](README.md) for the boundary rule (vs. `.tickets/`), the entry 
 
 The most important next steps once the warehouse is in use. Each one starts with `/intake-target-project <name>` (stages decisions in `target-projects/<name>/`) followed by `/migrate-project <name>` for execution.
 
-### Migrate `GutEvac`
+### Migrate `GutEvac` to `~/ResearchProjects/2026 Gut Clearance/`
 
-**What:** intake and migrate the GutEvac active research project (Murray cod gut clearance) onto the analysis-template conventions.
+**What:** intake and migrate the GutEvac active research project onto the new `research/` template (rename to "2026 Gut Clearance", move to `~/ResearchProjects/`, set up bidirectional SharePoint mirror to `sharepoint_planning:PROJECTS/2026 Gut Clearance/`).
 **Type:** proposal
-**Why:** active research project with a detailed implementation spec, working notes with known issues, and a stage-1 proposal that diverged. First real exercise of the intake → migrate flow on a non-trivial repo.
-**Open questions:** does the legacy `working_notes_for_future_runs.txt` content split cleanly under ADR-0007 (caveats → `known-issues.md`, priorities → `future-work.md`, methodology → ADRs), or does some category fall through?
-**Links:** `docs/domain/existing-projects.md`.
+**Why:** first real exercise of (1) the new `research/` template ([ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md)), (2) the `/sharepoint-sync` skill, and (3) the rename-on-SharePoint authority pattern (typo `clearence` → `Clearance`, `Articles and background/` → `Articles/`, `Report/` → `Reports/`). Validates whether the "everything mirrors except code" model holds up on a real project.
+**Open questions:** does the legacy `working_notes_for_future_runs.txt` content split cleanly under ADR-0007? Does the first push surface unexpected file-volume that motivates excluding `analysis/*/outputs/` or large `Data/` files? Do SharePoint-side renames trigger broken collaborator links (no collaborators yet, so risk is low — but worth observing).
+**Links:** `docs/domain/existing-projects.md`, [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
 
 ### Migrate `FishGrowthFittingSGRpackage`
 
@@ -45,8 +45,16 @@ The most important next steps once the warehouse is in use. Each one starts with
 **What:** when the user activates these projects, cold-start with `/intake-target-project` then `/create-project`.
 **Type:** watching
 **Why:** not yet ready to start; waiting on user activation. Held here so the migration queue stays complete.
-**Open questions:** which template variant fits each — likely `analysis/` for `GrowthModels` and `tool-integration/` for `PowerBI`, but TBD at intake time.
+**Open questions:** which template variant fits each — likely `research/` for `GrowthModels` (if it gets a SharePoint folder) or `analysis/` (if local-only), and `tool-integration/` for `PowerBI`. TBD at intake time.
 **Links:** `docs/domain/existing-projects.md`.
+
+### Establish `~/ResearchProjects/` as the home for research-template projects
+
+**What:** create the `~/ResearchProjects/` directory the first time we migrate or cold-start a research project. All research-template projects live there; `/sharepoint-sync` refuses to run elsewhere.
+**Type:** proposal
+**Why:** convention enforcement is what makes the sync key (`basename "$PWD"`) work without per-project config. The `research/` template assumes this location; first migration (GutEvac) creates the directory.
+**Open questions:** none material — this graduates implicitly the moment GutEvac is moved.
+**Links:** `skills/sharepoint-sync/SKILL.md`, [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
 
 ## Skills to refine
 
@@ -127,6 +135,30 @@ Templates exist for `library`, `pipeline`, `tool-integration`, `analysis` — al
 **Why:** all three conventions are unproven; first real test on GutEvac.
 **Open questions:** which content category, if any, falls through the ADR-0007 split?
 **Links:** `templates/analysis/CLAUDE.md`.
+
+### `research/` — first exercise on GutEvac, plus the synced-surface convention
+
+**What:** validate the `research/` template end-to-end on the GutEvac migration. Specifically: do the five synced surface dirs (`Articles/`, `Proposal/`, `Data/`, `Reports/`, `Expenses/`) hold up when populated from a real project; does mirroring agent infrastructure (CLAUDE.md, glossary.md, docs/, .tickets/, analysis/) to SharePoint actually pay off (someone plugging the SharePoint folder into another agent gets full context); does the `.rclone-filter` shipped with the template need additions after first push (e.g. `analysis/*/outputs/`, large `Data/` files).
+**Type:** refinement-candidate
+**Why:** first concrete exercise of [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md). Some choices were made on principle (symmetric mirror, no two-surface design) and need a real project to confirm.
+**Open questions:** does `Expenses/` syncing turn out to be a leak risk (financial information on SharePoint vs. local-only)? Does anyone actually open the SharePoint copy of `analysis/` or is that overkill?
+**Links:** `templates/research/`, [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
+
+### `sharepoint-sync` — exercise the never-deletes-never-renames model
+
+**What:** watch whether the "deletes are explicit on both sides, renames produce duplicates" model is workable in practice, or whether it produces enough drift that we need a periodic cleanup pass. Specifically: how often does the user actually need to delete or rename a file, and how badly does the friction bite. Possible refinements: a `/sharepoint-sync diff-deletions` reporter, or a sanctioned "delete on both sides" subcommand with explicit confirmation.
+**Type:** refinement-candidate
+**Why:** the never-deletes design is conservative on purpose, but the friction cost is unmeasured. First real exercise on GutEvac will start producing evidence.
+**Open questions:** does the user accumulate stale files faster than they tolerate? Are there file types that need exclusion-on-rename (e.g. Word's `~$file.docx` lock files — confirm filter handles them)?
+**Links:** `skills/sharepoint-sync/SKILL.md`, [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
+
+### `/finish` should invoke `/sharepoint-sync push` in research projects
+
+**What:** the `/finish` skill should detect a research project (presence of `.rclone-filter` + `~/ResearchProjects/` location) and invoke `/sharepoint-sync push` after the orphan sweep and before any optional git push. Currently, the research template's `CLAUDE.md` instructs the agent prose-style — this is fragile.
+**Type:** proposal
+**Why:** a hook makes the sync part of the cleanup ritual rather than something the agent might forget. Also surfaces sync errors as `/finish` errors, blocking declared-done state.
+**Open questions:** does the hook live as a project-local detection in `/finish` (simple, single-template special-case) or as a generic `finish-hooks/` mechanism that any template can register against (cleaner but more machinery)? Single special-case is fine for now.
+**Links:** `skills/finish/SKILL.md`, `skills/sharepoint-sync/SKILL.md`.
 
 ## Open questions
 

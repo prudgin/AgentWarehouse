@@ -30,11 +30,19 @@ Differs from `library/`: skills-heavy, library-light pattern (CLAUDE.md says "lo
 
 ### `analysis/`
 
-For research projects whose primary deliverable is a body of investigations (INVESTIGATIONs + plots + interpretation), not a public API or a multi-stage pipeline. Closest analogue: `GutEvac` (gut-clearance research on Murray cod), and the `analysis/` portion of `FishGrowthFittingSGRpackage`.
+For research projects whose primary deliverable is a body of investigations (INVESTIGATIONs + plots + interpretation), not a public API or a multi-stage pipeline. Local-only — no external mirroring. For investigations done on top of an existing repo, or quick research projects without stakeholder accounting.
 
 Differs from `library/`: analyse chain dominant (CLAUDE.md leads with `/start-analysis` → `/finish-analysis`); `analysis/` promoted to first place in the doc map; `docs/reference/` marked optional (often empty for pure-research projects); `docs/domain/` pre-suggests `model.md`, `data-shape.md`, `known-issues.md`. No `working-notes.md` (per ADR-0007 — content splits between `known-issues.md`, `future-work.md`, and ADRs). Adds the **findings provenance** rule: every promoted claim links the INVESTIGATION that produced it.
 
 [Browse →](../../templates/analysis/)
+
+### `research/`
+
+For "official" MCA research projects whose deliverables (data, proposals, reports, references) are accountable to a SharePoint folder under `sharepoint_planning:PROJECTS/`. Closest analogue: `GutEvac` (after migration: `~/ResearchProjects/2026 Gut Clearance/` mirroring `sharepoint_planning:PROJECTS/2026 Gut Clearance/`).
+
+Differs from `analysis/`: adds five "synced surface" dirs at root (`Articles/`, `Proposal/`, `Data/`, `Reports/`, `Expenses/`) matching the user's existing SharePoint convention; ships a `.rclone-filter` defining what does NOT sync (code, build artefacts, secrets, agent install — everything else, *including* `CLAUDE.md`, `glossary.md`, `docs/`, `.tickets/`, `analysis/`, mirrors to SharePoint by design); ships the `/sharepoint-sync` skill in `.claude/skills/`. CLAUDE.md adds a "SharePoint mirror" section explaining the model. Project lives under `~/ResearchProjects/<Project Name>/` (Title Case, spaces, matches the SharePoint folder name verbatim). See [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
+
+[Browse →](../../templates/research/)
 
 ## Customising a template
 

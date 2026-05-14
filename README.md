@@ -52,7 +52,8 @@ AgenticEngineering/
 │   ├── library/                    # for libraries, packages, standalone projects
 │   ├── pipeline/                   # for multi-stage data pipelines
 │   ├── tool-integration/           # for wrappers around external tools / platforms
-│   └── analysis/                   # for research projects (INVESTIGATIONs are the deliverable)
+│   ├── analysis/                   # for ad-hoc investigations (INVESTIGATIONs are the deliverable)
+│   └── research/                   # for "official" MCA research projects (analysis + bidirectional SharePoint mirror)
 ├── target-projects/                # per-target staging dirs (intake → migrate/create handoff)
 ├── skills/                         # canonical skill sources
 └── references/

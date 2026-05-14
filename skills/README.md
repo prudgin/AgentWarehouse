@@ -52,6 +52,12 @@ A skill may also ship an optional `scripts/` subdirectory holding executable hel
 | [`file-cross-repo-ticket`](file-cross-repo-ticket/SKILL.md) | safe | Drop a ticket into another repo's `.tickets/inbox/`. |
 | [`check-inbox`](check-inbox/SKILL.md) | safe | List and summarise incoming cross-repo tickets. |
 
+## Research-specific (research-template projects only)
+
+| Skill | Auto mode | What it does |
+|---|---|---|
+| [`sharepoint-sync`](sharepoint-sync/SKILL.md) | safe | Bidirectionally mirror a research project with its SharePoint folder via `rclone copy --update`. Pull at session start, push at `/finish`. Never deletes — deletes are explicit on both sides. See [ADR-0024](../docs/adr/0024-research-template-bidirectional-sharepoint-mirror.md). |
+
 ## Project lifecycle
 
 These skills run **from inside the warehouse**, not from inside the target project. `/intake-target-project` stages decisions in `target-projects/<name>/`; `/create-project` and `/migrate-project` consume that staging. See [ADR-0014](../docs/adr/0014-warehouse-grill-vs-project-grill.md) and [ADR-0015](../docs/adr/0015-target-projects-staging.md).

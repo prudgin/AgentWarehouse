@@ -1,0 +1,56 @@
+# rclone filter rules for SharePoint sync.
+#
+# Order matters — first match wins. Lines starting with `-` exclude;
+# lines starting with `+` include; `**` matches anything recursively.
+# Anything not matched by an exclude rule is included by default.
+#
+# Used by /sharepoint-sync (both push and pull):
+#   rclone copy <src> <dst> --update --filter-from .rclone-filter
+#
+# Principle: SharePoint mirrors everything EXCEPT code, build artefacts,
+# tooling internals, and secrets. Agent infrastructure (CLAUDE.md,
+# glossary.md, docs/, .tickets/, analysis/) DOES sync — it's a feature.
+
+# === Code (lives in git only, not SharePoint) ===
+- /src/**
+- /scripts/**
+
+# === Generated artefacts (regeneratable from code) ===
+- /output/**
+
+# === Build & runtime ===
+- /.venv/**
+- /venv/**
+- /.idea/**
+- /.vscode/**
+- __pycache__/**
+- *.pyc
+- *.pyo
+- *.egg-info/**
+- /build/**
+- /dist/**
+
+# === Git internals ===
+- /.git/**
+- /.gitignore
+
+# === Agent install (symlinks would break on remote) ===
+# Match at any depth — Claude state files can appear inside data dirs
+# during ad-hoc edits (and have done so in practice on shared SharePoint folders).
+- /.claude/**
+- **/.claude/**
+
+# === Secrets and local config ===
+- /.env
+- /.env.*
+- /.rclone-filter
+
+# === Build metadata (code-side) ===
+- /pyproject.toml
+- /poetry.lock
+- /uv.lock
+- /requirements*.txt
+
+# === OS junk ===
+- .DS_Store
+- Thumbs.db
