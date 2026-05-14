@@ -55,11 +55,11 @@ Check `target-projects/<name>/`:
 
 - **Exists with `_warehouse/status.md` marked `ready-for-transfer`**: read the staged content and the migration plan in `_warehouse/migration-plan.md`. Proceed to Phase 1.
 - **Exists but `partial`**: tell the user the intake is incomplete. Offer to resume `/intake-target-project` first, or proceed with what's staged (with a warning).
-- **Does not exist**: tell the user:
+- **Does not exist**: recommend running `/intake-target-project <name>` first:
 
-  > No staging found at `target-projects/<name>/`. Run `/intake-target-project <name>` first to interview about the project, then re-invoke `/migrate-project <name>`.
+  > No staging found at `target-projects/<name>/`. Recommended path is `/intake-target-project <name>` first, then re-invoke this skill. The fast path is "inherit from a sibling" — if the user names a sibling whose staging *does* exist (e.g. "clone the juvenile setup"), proceed with that sibling's canonical decisions as the implicit plan.
 
-  Then exit.
+  Either way: if proceeding, you will write a post-hoc `target-projects/<name>/_warehouse/status.md` at Phase 5 capturing what was done (see Phase 5).
 
 The source repo path is recorded in `_warehouse/status.md`.
 
@@ -235,14 +235,36 @@ Run the equivalent of `/finish` on the migrated project:
 
 Report any remaining issues for the user to fix manually.
 
-### Phase 5 — Mark staging complete
+### Phase 5 — Mark staging complete (or create it post-hoc)
 
-Update `target-projects/<name>/_warehouse/status.md`:
+**If staging existed at Phase 0** — update `target-projects/<name>/_warehouse/status.md`:
 
 - Status: `migrated`
 - Completion date: today's date
 - Target path: source repo path
 - Skill version: this migrate-project version
+
+**If staging did NOT exist at Phase 0** (fast path — e.g. "clone the juvenile setup") — create the staging dir post-hoc so `target-projects/` stays the canonical record of every project the warehouse has set up. Required minimum:
+
+```
+target-projects/<name>/_warehouse/status.md
+```
+
+Contents:
+
+- Target: `<name>` (staging name)
+- Mode: migration
+- Source repo: source path
+- Target local path: where the migrated project now lives
+- SharePoint mirror (research template only): remote path + URL
+- Template: which warehouse template was used
+- Started + Migration completed: today's date (single-session fast path)
+- Status: `migrated`
+- **Fast-path note**: which sibling's setup was inherited (if any), and which decisions were taken as implicit defaults rather than interviewed
+- Skill version: this migrate-project version
+- **Auto-applied canonical renames**: list every rename and rmdir performed (e.g. `Articles and background/` → `Articles/`, pruned empty `Report/`) — this is the durable audit trail for why the SharePoint shape changed
+
+No `migration-plan.md` or `intake-notes.md` are required on the fast path — `status.md` alone suffices because the plan was implicit (inherit from sibling). If decisions later prove load-bearing enough to revisit, add them then.
 
 The `_warehouse/` dir stays as institutional memory. Future warehouse-agent sessions can read it for "how did we set up this project?". Post-handoff feedback can be appended to `_warehouse/feedback.md`.
 
