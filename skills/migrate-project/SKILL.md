@@ -195,13 +195,21 @@ After the standard transfer/move/rename items complete, run the research-specifi
    ln -s <warehouse>/skills/sharepoint-sync .claude/skills/sharepoint-sync
    ```
 
-5. **SharePoint folder rename** (destructive-op, server-side): if the existing folder has a typo or non-standard name, rename it and any subfolders to match the convention. Use `rclone move` (server-side, fast, irreversible-without-undo).
+5. **SharePoint folder cleanup to canonical template shape** — **auto** for renames that pull state toward the template's canonical subfolder names; **surface and confirm** only for renames that require user judgement (typo fixes on the *project* name, ambiguous shape decisions).
+
+   Auto-apply (no per-item confirmation): the subfolder mapping is part of the template contract, not a judgement call. Common cases:
+   ```bash
+   rclone move "sharepoint_planning:PROJECTS/<New Name>/Articles and background" "sharepoint_planning:PROJECTS/<New Name>/Articles"
+   rclone move "sharepoint_planning:PROJECTS/<New Name>/Report"                  "sharepoint_planning:PROJECTS/<New Name>/Reports"
+   ```
+   After moves, run `rclone lsd "sharepoint_planning:PROJECTS/<New Name>"` and `rclone rmdir` any empty (`0 items`) non-canonical leftovers (e.g. a stray `Report/` that had only the singular-form filename in it before the move). `rmdir` is safe — it refuses on non-empty dirs.
+
+   Surface and confirm (judgement): renaming the **project** folder itself (`<old-name>` → `<New Name>`) — typo fixes, casing fixes. This affects shareable URLs.
    ```bash
    rclone move "sharepoint_planning:PROJECTS/<old-name>" "sharepoint_planning:PROJECTS/<New Name>"
-   rclone move "sharepoint_planning:PROJECTS/<New Name>/Articles and background" "sharepoint_planning:PROJECTS/<New Name>/Articles"
-   rclone move "sharepoint_planning:PROJECTS/<New Name>/Report"               "sharepoint_planning:PROJECTS/<New Name>/Reports"
    ```
-   Surface each rename individually; user confirms each.
+
+   Rationale: pulling canonical shape is the *job* of this skill — leaving it as "pending user call" notes in the migrated CLAUDE.md is the failure mode this step exists to prevent. See sharepoint-sync SKILL.md "What is fine to run directly".
 
 6. **First sync — pull then push** (destructive-op for push; pull is auto-safe). Use the exact flag set from `skills/sharepoint-sync/SKILL.md` including `--ignore-size --ignore-checksum`:
    ```bash

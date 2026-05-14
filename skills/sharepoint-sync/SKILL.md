@@ -107,7 +107,9 @@ Why this is the design: for one-person research workflows the cost of accidental
 
 **Renames are deletes-plus-creates from rclone's point of view.** If you rename a file on one side, push/pull will leave both names present on the other side. Either rename on both sides explicitly, or accept the duplicate and delete one side.
 
-This skill **refuses to invoke `rclone delete`, `rclone deletefile`, `rclone purge`, `rclone sync`, `rclone bisync`, `rclone move`, or `rclone moveto`**. Those are destructive in ways the user must do consciously, not automatically.
+**What this skill itself never invokes** (because they can erase user data irrecoverably): `rclone delete`, `rclone deletefile`, `rclone purge`, `rclone sync`, `rclone bisync`. These are out of scope for routine sync — the user does them by hand when removing real content.
+
+**What is fine to run directly outside this skill, with a clear operational reason**: `rclone move`, `rclone moveto`, `rclone rmdir`. These rearrange or prune empty containers and are reversible (a `move` undoes with another `move`; an `rmdir` only succeeds on empty dirs and recreates with `mkdir`). The migrate-project skill explicitly uses `rclone move` to pull SharePoint folder names to the template's canonical shape, and `rclone rmdir` to prune empty leftovers — those are not destructive-ops requiring per-item confirmation, they're cleanup the migration owes the user. Do not treat the "this skill doesn't invoke" list as a global prohibition on the agent.
 
 ## Process
 
