@@ -25,6 +25,7 @@ When staging exists at `target-projects/<name>/_warehouse/status.md` marked `rea
 - `git init -b main`, `git add -A`, initial scaffold commit, `git remote add origin` (no push).
 - Symlink `AGENTS.md → CLAUDE.md`.
 - Install the `.claude/skills/` symlinks listed in the staged CLAUDE.md.
+- For `research` template: `mkdir -p ~/ResearchProjects` if missing, symlink `sharepoint-sync` skill, run first `/sharepoint-sync pull` then `/sharepoint-sync push` against the existing SharePoint folder (when one is staged).
 - Mark staging complete (`status.md` → `created`).
 
 ### Destructive-op set (pause and surface)
@@ -35,6 +36,8 @@ Stop and request explicit confirmation before any of these:
 - **Staging conflict on `CLAUDE.md`** — the staged `CLAUDE.md` and the template's `CLAUDE.md` after placeholder substitution disagree on more than the placeholder slots. Show the diff and ask how to reconcile before overwriting.
 - **Staging conflict on any other transferred file** — a file in `target-projects/<name>/` would land on a path the template also wrote, with non-trivially divergent content.
 - **`git push` or any cross-repo write** — never auto. Push is the user's call.
+- **For `research` template: SharePoint folder creation** — if the staged SharePoint folder name doesn't yet exist on `sharepoint_planning:PROJECTS/`, surface and ask before creating. Creation isn't reversible without manual delete on SharePoint.
+- **For `research` template: SharePoint folder rename** (typo fix or subfolder rename like `Articles and background/` → `Articles/`) — surface the rename and ask. Use `rclone move` for server-side renames; never `rclone delete` or `rclone purge`.
 
 ### Inputs missing in auto mode
 
@@ -62,12 +65,13 @@ Check `target-projects/<name>/`:
 
 Skip any question whose answer is already in the staging. For the rest, in interactive mode, ask one at a time, waiting for each answer, and provide a recommended default. In auto mode without a user, **surface the unanswered set and stop** rather than defaulting silently — see "Inputs missing in auto mode" above.
 
-1. **Project name.** Used for the directory name and as the project title in CLAUDE.md/README.md/glossary.md. Suggest a kebab-cased default if the user gives a sentence.
-2. **Template type.** `library`, `pipeline`, `tool-integration`, or `analysis`. If the staging has a recommended template, default to it. Quick guide: `library` for a package with a public API; `pipeline` for a multi-stage data pipeline; `tool-integration` for wrappers around an external platform; `analysis` for a research project whose deliverable is investigations rather than code.
-3. **Target directory.** Where the project should be created. Default: `~/PycharmProjects/<project-name>` for Python projects, `~/<project-name>` otherwise. Verify the target does not already exist.
+1. **Project name.** Used for the directory name and as the project title in CLAUDE.md/README.md/glossary.md. For most templates, suggest kebab-case. **For `research` template, name is Title Case with spaces** (e.g. `2026 Gut Clearance`) — must match the SharePoint folder name verbatim. Year-prefix strongly recommended for sortability.
+2. **Template type.** `library`, `pipeline`, `tool-integration`, `analysis`, or `research`. If the staging has a recommended template, default to it. Quick guide: `library` for a package with a public API; `pipeline` for a multi-stage data pipeline; `tool-integration` for wrappers around an external platform; `analysis` for an ad-hoc investigation with no SharePoint mirror; `research` for an official MCA research project with bidirectional SharePoint mirror (see [ADR-0024](../../docs/adr/0024-research-template-bidirectional-sharepoint-mirror.md)).
+3. **Target directory.** Where the project should be created. Defaults: `~/PycharmProjects/<project-name>` for Python projects, `~/<project-name>` otherwise, **`~/ResearchProjects/<Project Name>` for the `research` template** (the `~/ResearchProjects/` location is convention-enforced by `/sharepoint-sync`). Verify the target does not already exist.
 4. **One-line project description.** Used in `README.md` and the first paragraph of `CLAUDE.md`.
 5. **Git remote.** Optional.
 6. **Ticket backend.** `local-markdown` (default) or `github`. If `github`, verify `gh` CLI is available and a remote is configured.
+7. **For `research` template only — SharePoint folder.** Confirm the canonical remote (`sharepoint_planning:`) is configured (`rclone listremotes` includes it). Verify whether `sharepoint_planning:PROJECTS/<Project Name>/` exists (`rclone lsd`). If absent, ask the user whether to create it now (`rclone mkdir`) or expect they will create it via the SharePoint web UI before the first sync.
 
 ### 4. Confirm
 
@@ -157,6 +161,12 @@ Do not push.
 
 If the staging's CLAUDE.md lists specific skills, install those. Otherwise, leave `.claude/skills/` empty for the user to populate when needed. Mention they can install warehouse skills later by symlinking from `<warehouse>/skills/<name>` into `.claude/skills/<name>`.
 
+**For `research` template:** install `sharepoint-sync` unconditionally — the template assumes it.
+
+```bash
+ln -s <warehouse>/skills/sharepoint-sync .claude/skills/sharepoint-sync
+```
+
 ### 10. Set up AGENTS.md symlink
 
 Inside the new project:
@@ -164,6 +174,26 @@ Inside the new project:
 ```bash
 ln -s CLAUDE.md AGENTS.md
 ```
+
+### 10a. Set up `~/ResearchProjects/` (research template only)
+
+If `~/ResearchProjects/` doesn't exist, `mkdir -p ~/ResearchProjects` (auto, harmless). The `/sharepoint-sync` skill refuses to operate on projects outside this directory.
+
+### 10b. First SharePoint sync (research template only)
+
+If a SharePoint folder for the project exists (verified in step 3.7) and the user did not opt out, run the first sync:
+
+```bash
+cd <target-path>
+rclone copy "sharepoint_planning:PROJECTS/<Project Name>" "$PWD" \
+  --update --filter-from .rclone-filter --ignore-size --ignore-checksum --progress
+rclone copy "$PWD" "sharepoint_planning:PROJECTS/<Project Name>" \
+  --update --filter-from .rclone-filter --ignore-size --ignore-checksum --progress
+```
+
+Pull first, then push. Report file counts and bytes for each direction. The `--ignore-size --ignore-checksum` flags suppress SharePoint's xlsx-rewrite false-positive errors (see `skills/sharepoint-sync/SKILL.md`).
+
+If no SharePoint folder exists, skip this and tell the user to create the folder, then run `/sharepoint-sync push` to upload the scaffolded local project as the initial state.
 
 ### 11. Mark staging complete (if used)
 
@@ -182,11 +212,14 @@ Tell the user what was created and what to do next:
 >
 > From staging: <count> glossary entries, <count> ADRs, <count> domain docs, draft CLAUDE.md. (Or: "No staging — used template only.")
 >
+> For `research` template, also include: SharePoint folder (existing/created), first sync result (N files pulled, M files pushed, total bytes).
+>
 > Next steps:
 > 1. `cd <target-path>` and start a fresh Claude Code session there.
 > 2. The agent will read `CLAUDE.md` first; placeholder sections marked `<!-- PLACEHOLDER -->` need filling.
 > 3. Run `/grill` (when installed) to flesh out areas the intake didn't cover, or to align on the first feature.
 > 4. Add real content to `docs/reference/` as code lands.
+> 5. (research template) Run `/sharepoint-sync status` at start of any new session to see drift; `/finish` will push at end.
 
 ## What this skill does NOT do
 

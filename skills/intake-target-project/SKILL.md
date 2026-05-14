@@ -89,7 +89,13 @@ Ask **one question at a time**. For each question:
 Branches typical for an intake (not a checklist — branch as the conversation requires):
 
 - **Project shape**: research project (analyse-chain dominant) vs. shippable artefact (build-chain dominant) vs. tool/integration?
-- **Template variant**: `library` (package with public API), `pipeline` (multi-stage data pipeline), `tool-integration` (wrapper around an external platform), `analysis` (research project where REPORTs are the deliverable), or custom mix? If the project's primary loop is "collect data → analyse → write up findings", default to `analysis`.
+- **Template variant**: `library` (package with public API), `pipeline` (multi-stage data pipeline), `tool-integration` (wrapper around an external platform), `analysis` (ad-hoc research with no SharePoint mirror), `research` (official MCA research project with bidirectional SharePoint mirror — see [ADR-0024](../../docs/adr/0024-research-template-bidirectional-sharepoint-mirror.md)), or custom mix? Quick test for `analysis` vs. `research`: does the project have (or need) a folder under `sharepoint_planning:PROJECTS/`? If yes → `research`. If it's exploratory/personal → `analysis`. If the project's primary loop is "collect data → analyse → write up findings" without stakeholder accounting, default to `analysis`.
+- **Research-specific (only if template is `research`)**: branch into a small dedicated sub-walk:
+  - **Project name (Title Case)** — must match SharePoint folder verbatim. Format: `YYYY <Title Case Name>`, e.g. `2026 Gut Clearance`. Used for both the SharePoint folder and the local dir under `~/ResearchProjects/`.
+  - **SharePoint folder existence** — does `sharepoint_planning:PROJECTS/<Project Name>/` already exist? Verify with `rclone lsd "sharepoint_planning:PROJECTS/<Project Name>"`. If no, plan to create it (or rename an existing similar one — e.g. typo fix `Gut clearence` → `Gut Clearance`).
+  - **SharePoint folder cleanup** — does the existing folder need rename of subfolders to match the template's expected names (`Articles/`, `Proposal/`, `Data/`, `Reports/`, `Expenses/`)? Common: `Articles and background/` → `Articles/`, `Report/` → `Reports/`. Stage these as `convert` items in the migration plan — they're destructive on SharePoint side.
+  - **Filter overrides** — anything project-specific to add to `.rclone-filter` beyond the template default (e.g. exclude a huge raw-data dir from sync)?
+  - Stage all of the above in `_warehouse/migration-plan.md` so `/migrate-project` or `/create-project` can execute without re-asking.
 - **Code locus**: where does code live — root scripts, `src/<package>/`, `notebooks/`, etc.?
 - **Data conventions** (for research/pipeline projects): where does raw data live, how does it accumulate, what's gitignored?
 - **Knowledge that should become glossary entries**: domain vocabulary unique to this project.

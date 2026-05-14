@@ -22,6 +22,7 @@ This skill follows the same pattern as `/work-issue` and `/finish`: auto for rev
 - Reading and diffing source content.
 - Writing the audit and migration plan for user review (Phase 1, Phase 2).
 - `git add` and `git commit` of staged migration changes (only if the user explicitly asked for the migration to be committed).
+- For `research` template: drop `.rclone-filter` from the template, symlink `sharepoint-sync`, `mkdir -p ~/ResearchProjects` if missing.
 
 ### Destructive-op set (pause and surface)
 
@@ -32,6 +33,9 @@ Stop and request explicit confirmation before any of these:
 - **Conflict resolution where existing target-repo content would be overwritten** — when a transfer-target path already exists in the source repo and staged content disagrees with it, surface the diff and ask how to merge.
 - **Any `git`-mutating operation beyond `add`/`commit`** — `git push`, `git merge`, `git reset`, `git rebase`, `git branch -D`, `git rm`, force operations, history rewrites.
 - **Cross-repo writes** — writing into any repo other than the source repo being migrated. Use `/file-cross-repo-ticket` instead.
+- **For `research` template: moving the project to `~/ResearchProjects/<Project Name>/`** — typically `mv ~/PycharmProjects/<old-name> ~/ResearchProjects/<New Name>` plus a Title Case rename. Surface the move; ask before executing.
+- **For `research` template: SharePoint folder rename** — `rclone move "sharepoint_planning:PROJECTS/<old-name>" "sharepoint_planning:PROJECTS/<New Name>"` (typo fixes, casing fixes, subfolder name standardisation like `Articles and background/` → `Articles/`). Surface each rename and ask. Server-side moves on OneDrive are fast but irreversible-without-undo.
+- **For `research` template: first push to SharePoint** — uploads the source repo's full library (CLAUDE.md, glossary.md, docs/, .tickets/, analysis/) to SharePoint. Surface the push candidate count and total bytes; ask before executing. Pull first to surface any prior remote state.
 
 In auto mode without a user, **surface what's pending and stop short of the destructive op**. Leave the migration in a state the user can confirm on return — do not silently default to a destructive choice.
 
@@ -72,6 +76,7 @@ Read the source repo's state and compare to the staged drafts:
 - **Subagent definitions**: `.claude/agents/*` — do they exist, what do they do?
 - **Working notes**: `.claude/state/working-notes.md`?
 - **Glossary content**: if `glossary.md` exists, does it follow the warehouse content contract?
+- **For `research` template**: source repo location (likely `~/PycharmProjects/<old-name>/`); existing local subdir names (`data/` → must rename to `Data/`; `reports/` → `Reports/`); presence of `.rclone-filter` (likely absent — drop from template); SharePoint counterpart (`rclone lsd "sharepoint_planning:PROJECTS/<staged-name>"` — exists / typo / different name). If a SharePoint folder exists with a similar but non-matching name, propose a rename in Phase 2.
 
 Diff against:
 
@@ -170,6 +175,45 @@ After transfer, verify `grep -c 'TEMPLATE META' <source>/CLAUDE.md` returns `0`.
 
 Symlink each skill listed in `target-projects/<name>/CLAUDE.md`'s skills section from `~/AgenticEngineering/skills/<name>` into `.claude/skills/<name>`. Suggest at minimum: `grill`, `to-prd`, `start-analysis`, `finish`. Full list in the warehouse's `skills/README.md`.
 
+**For `research` template — SharePoint mirror setup:**
+
+After the standard transfer/move/rename items complete, run the research-specific bring-up. Each item below is **destructive-op** unless noted; surface and confirm before executing.
+
+1. **Move project to `~/ResearchProjects/<Project Name>/`** (destructive-op).
+   ```bash
+   mkdir -p ~/ResearchProjects
+   mv "<source-path>" ~/ResearchProjects/"<Project Name>"
+   ```
+   Title Case with spaces (e.g. `2026 Gut Clearance`), matching the SharePoint folder name verbatim. After the move, `cd` to the new path; subsequent commands run there.
+
+2. **Local subdir renames** (auto if listed in the migration plan; else surface): `data/` → `Data/`, `reports/` → `Reports/` (and similar). Use plain `mv` — git tracks renames automatically on next commit.
+
+3. **Drop `.rclone-filter`** (auto): copy from `<warehouse>/templates/research/.rclone-filter` into the project root.
+
+4. **Symlink the skill** (auto):
+   ```bash
+   ln -s <warehouse>/skills/sharepoint-sync .claude/skills/sharepoint-sync
+   ```
+
+5. **SharePoint folder rename** (destructive-op, server-side): if the existing folder has a typo or non-standard name, rename it and any subfolders to match the convention. Use `rclone move` (server-side, fast, irreversible-without-undo).
+   ```bash
+   rclone move "sharepoint_planning:PROJECTS/<old-name>" "sharepoint_planning:PROJECTS/<New Name>"
+   rclone move "sharepoint_planning:PROJECTS/<New Name>/Articles and background" "sharepoint_planning:PROJECTS/<New Name>/Articles"
+   rclone move "sharepoint_planning:PROJECTS/<New Name>/Report"               "sharepoint_planning:PROJECTS/<New Name>/Reports"
+   ```
+   Surface each rename individually; user confirms each.
+
+6. **First sync — pull then push** (destructive-op for push; pull is auto-safe). Use the exact flag set from `skills/sharepoint-sync/SKILL.md` including `--ignore-size --ignore-checksum`:
+   ```bash
+   rclone copy "sharepoint_planning:PROJECTS/<New Name>" "$PWD" \
+     --update --filter-from .rclone-filter --ignore-size --ignore-checksum --progress
+   rclone copy "$PWD" "sharepoint_planning:PROJECTS/<New Name>" \
+     --update --filter-from .rclone-filter --ignore-size --ignore-checksum --progress
+   ```
+   Pull first (brings down anything new on remote), then push (sends up the source repo's library plus any local-only data). Report counts and bytes per direction. Surface any "size differs" warnings explicitly — they are expected for `.xlsx`/`.docx`/`.pptx` due to SharePoint's rewrite-on-upload (see `skills/sharepoint-sync/SKILL.md`), data is fine.
+
+7. **Note duplications** — when local and SharePoint both have the same files at *different paths* (a common pattern in long-diverged projects), report the duplication explicitly in Phase 6. Do not auto-deduplicate — the user picks the canonical path; cleanup is manual on both sides per the never-deletes contract.
+
 ### Phase 4 — Verify
 
 Run the equivalent of `/finish` on the migrated project:
@@ -179,6 +223,7 @@ Run the equivalent of `/finish` on the migrated project:
 - CLAUDE.md mentions every top-level directory.
 - glossary.md exists (even if minimal) and follows the content contract.
 - Reachability: every doc reaches CLAUDE.md via a link chain.
+- For `research` template: `.rclone-filter` exists at project root; `sharepoint-sync` is symlinked under `.claude/skills/`; project lives under `~/ResearchProjects/`; `rclone lsd "sharepoint_planning:PROJECTS/<Project Name>"` succeeds; first sync produced no unrecoverable errors.
 
 Report any remaining issues for the user to fix manually.
 
