@@ -86,6 +86,11 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 ## Skills
 
 `.claude/skills/<name>/SKILL.md` — procedural workflows. The most-used skills on a research project are `/start-analysis`, `/finish-analysis`, `/sharepoint-sync`, and `/finish` (which calls `/sharepoint-sync push` at the end). Symlink from `~/AgenticEngineering/skills/<name>` to install warehouse skills.
+**Skills are warehouse-symlinked — do not edit them in place.** Every entry under `.claude/skills/` is an absolute symlink to `~/AgenticEngineering/skills/<name>/`. Editing the SKILL.md (or any file under the linked dir) writes through the symlink and propagates the change to **every other project** that links the same skill. A global `PreToolUse` hook (`~/.claude/hooks/check-symlink-target.sh`) blocks Edit/Write on any symlink whose target lies outside this project root and will surface the safe alternatives:
+
+- **Project-local tweak**: replace the symlink with a copy first — `rm <link>; cp -rL ~/AgenticEngineering/skills/<name> .claude/skills/<name>` — then edit. The project now owns its fork; it will not receive future warehouse improvements to that skill.
+- **New skill, this project only**: create a regular directory `.claude/skills/<my-skill>/` (no symlink). No collision.
+- **Improvement that should reach every project**: `cd ~/AgenticEngineering/`, edit the canonical source, commit. All linked projects pick up the change automatically.
 
 ## What does NOT belong in CLAUDE.md
 
