@@ -22,7 +22,7 @@ disable-model-invocation: false   # optional; true makes it slash-only
 
 Many skills refuse auto mode at invocation time (interactive skills only — see [ADR-0011](../docs/adr/0011-interactive-skills-refuse-auto-mode.md)). Each SKILL.md states its auto-mode behaviour up front.
 
-A skill may also ship an optional `scripts/` subdirectory holding executable helpers — bash, python, or whatever the skill needs to do mechanical work that doesn't belong in agent prose (e.g. `finish/scripts/check-docs.sh` for the orphan and broken-link sweep). Scripts colocate with their owning skill rather than living in a separate top-level directory; see [ADR-0017](../docs/adr/0017-scripts-colocate-with-skills.md). Symlinking the skill directory into a project's `.claude/skills/` brings the scripts along automatically — no extra wiring. The script discovers the project root from its own location (typically `script_dir/../../..` from `skills/<name>/scripts/<script>`).
+A skill may also ship an optional `scripts/` subdirectory holding executable helpers — bash, python, or whatever the skill needs to do mechanical work that doesn't belong in agent prose (e.g. `finish/scripts/check-docs.sh` for the orphan and broken-link sweep). Scripts colocate with their owning skill rather than living in a separate top-level directory; see [ADR-0017](../docs/adr/0017-scripts-colocate-with-skills.md). Symlinking the skill directory into a project's `.claude/skills/` brings the scripts along automatically — no extra wiring. Scripts that need the project root should anchor on `$PWD` (the invoking project), not on the script's own location — the latter resolves through the symlink back to the warehouse.
 
 ## Build chain — for shipping a feature
 

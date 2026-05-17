@@ -21,7 +21,7 @@ If a doc references a function, type, or path that no longer exists, **stop and 
 
 The no-orphan rule: every doc reachable from CLAUDE.md via a chain of links.
 
-**Run the mechanical sweep:** `.claude/skills/finish/scripts/check-docs.sh --orphans` (the script discovers the project root from its own location). Surface findings to the user. Exit 0 means no orphans; exit 1 with `<path>` lines on stdout means orphans were found. If the script is missing (older project not yet migrated), fall back to the prose procedure below.
+**Run the mechanical sweep:** `.claude/skills/finish/scripts/check-docs.sh --orphans` (the script anchors on `$PWD`, so invoke it from the project root; pass `--project-root <path>` to override). Surface findings to the user. Exit 0 means no orphans; exit 1 with `<path>` lines on stdout means orphans were found. Exit 2 means the script could not locate `CLAUDE.md` at the invocation root — re-run from the right directory. If the script is missing (older project not yet migrated), fall back to the prose procedure below.
 
 The script derives its target dir list from CLAUDE.md's "Documentation map" section: any link target ending in `/` or pointing at a `README.md` inside a directory. For each such directory it lists every `*.md` file and verifies the file's basename appears in the directory's `README.md` (substring match). Files not mentioned are orphans.
 

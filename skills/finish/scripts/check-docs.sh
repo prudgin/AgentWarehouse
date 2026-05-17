@@ -23,13 +23,35 @@
 
 set -u
 
-# Discover project root from this script's location: skills/finish/scripts/check-docs.sh
-script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-project_root="$(cd "$script_dir/../../.." && pwd)"
+# Resolve project_root from $PWD by default. The script ships under skills/finish/
+# in the warehouse and is symlinked into each project's .claude/skills/finish/, so
+# locating project_root via ${BASH_SOURCE[0]} would resolve through the symlink
+# back to the warehouse — wrong target. The skill always invokes from the project
+# root; $PWD is the right anchor. Override via --project-root <path> when needed.
+project_root="$PWD"
+if [[ "${1:-}" == "--project-root" ]]; then
+    if [[ -z "${2:-}" ]]; then
+        echo "error: --project-root requires a path argument" >&2
+        exit 2
+    fi
+    project_root="$2"
+    shift 2
+fi
+requested_root="$project_root"
+project_root="$(cd "$requested_root" 2>/dev/null && pwd)"
+if [[ -z "$project_root" ]]; then
+    echo "error: project root '$requested_root' is not a readable directory" >&2
+    exit 2
+fi
+
+if [[ ! -f "$project_root/CLAUDE.md" ]]; then
+    echo "error: $project_root/CLAUDE.md not found — run from the project root, or pass --project-root <path>" >&2
+    exit 2
+fi
 
 mode="${1:-}"
 if [[ -z "$mode" ]]; then
-    echo "usage: $0 --orphans | --broken-links | --all" >&2
+    echo "usage: $0 [--project-root <path>] --orphans | --broken-links | --all" >&2
     exit 2
 fi
 
