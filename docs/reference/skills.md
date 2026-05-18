@@ -23,7 +23,7 @@ For the full inventory with auto-mode behaviour and one-line descriptions, see [
 - **`to-issues`** — break a PRD into vertical-slice tickets. Interactive.
 - **`triage`** — state machine over tickets; produces durable agent briefs. Interactive.
 - **`work-issue`** — branch, code, run feedback loop, update docs, commit. Auto-safe (defers shared-state actions).
-- **`finish`** — cleanup ritual; orphan sweep; CLAUDE.md drift fix. Auto-safe (defers shared-state actions).
+- **`finish`** — cleanup ritual; orphan sweep; CLAUDE.md drift fix; commit + git push + merge + branch delete + ticket close. Treats the `/finish` invocation as ship authorization — runs without per-action confirmation; stops only on hard-stop conditions (force-push needed, merge conflicts, diverged remote, unexpected state).
 
 ### Analyse chain
 

@@ -1,13 +1,13 @@
 ---
 name: finish
-description: Cleanup ritual at the end of a piece of work. Sweeps for orphan docs, verifies CLAUDE.md is still accurate, checks no-orphan reachability, optionally pushes. Use when the user says "finish up", "wrap this up", "we're done with this feature", or after the work portion of `/work-issue` is complete. Auto-mode safe; pauses for confirmations on push/merge/close.
+description: End-of-work ritual. Sweeps for orphan docs, verifies CLAUDE.md, runs final loop, then ships — commits any pending changes, pushes to git remote, merges if applicable, closes the ticket, deletes the feature branch. In research projects also pushes to SharePoint. Treats the `/finish` invocation as the user's authorization, so it does not pause for per-action confirmation; stops only on hard errors (force-push needed, merge conflicts, diverged remote, unexpected state). Use when the user says "finish up", "wrap this up", "we're done with this feature", or after the work portion of `/work-issue` is complete.
 ---
 
 # Finish
 
 End-of-work ritual. The mechanical companion to `/work-issue` and the enforcer of the no-orphan rule.
 
-This skill is auto-mode safe for the cleanup work. It pauses for explicit confirmation before any **shared-state** action (push, merge, ticket-close).
+Invoking `/finish` IS the user's authorization to ship. The skill runs cleanup, verification, then the publication sequence — commit pending changes (step 8b), SharePoint push if research (step 8c), then git push + merge + branch delete + ticket close (step 9) — without pausing for per-action confirmation. It stops only on **hard-stop conditions** (see step 9): force-push would be needed, merge conflicts require human resolution, remote diverged, unexpected local state.
 
 ## Process
 
@@ -114,16 +114,49 @@ If a `tests/` directory exists with a runner: run it.
 If a `typecheck` script exists: run it.
 If a project-specific verification command is documented in CLAUDE.md: run it.
 
-### 9. Confirm before shared-state actions
+### 8b. Commit pending local changes (all projects)
 
-Pause and ask before:
+If `git status --porcelain` is non-empty, stage and commit **without confirmation**. A local commit is reversible (`git reset`, `git revert`, the reflog) and is part of the ship gesture — `/finish` was invoked, so any in-flight edits get captured into a commit.
 
-- **Pushing the branch** to remote.
-- **Merging** to main.
-- **Closing the ticket**.
-- **Deleting the feature branch** post-merge.
+Compose the commit message from what `/finish` itself just changed (doc drift fixes, orphan indexing, future-work edits) plus whatever the user touched during the session that wasn't already committed. Imperative subject; one or two sentences in the body if useful.
 
-In auto mode without a user, surface what's pending and stop.
+**Caveat on staging:** prefer `git add <specific files>` over `git add -A` / `git add .` so secrets (`.env`, credentials) or stray large binaries don't sneak into the commit. Look at what's currently untracked before deciding: if the untracked items are clearly part of the session's work, stage them; if they look incidental or unrelated (different feature, debugging scratch), leave them and note them in the report.
+
+### 8c. Push to SharePoint (research projects only)
+
+**Detection:** the project is research-shape iff a `.rclone-filter` exists at the project root **and** `$PWD` is under `~/ResearchProjects/`. If either is false, skip this step entirely.
+
+Invoke `/sharepoint-sync push` **without confirmation**. This is `rclone copy --update` — it transfers newer files only and **never deletes**. The sync skill is auto-mode safe by its own description; do not double-gate it here.
+
+Why no confirmation: SharePoint push in a one-person research workflow is save-to-cloud, not publication-to-others. The destructive failure modes (mass overwrite, deletion propagation) are structurally impossible with `rclone copy --update`. Treating it as a shared-state gate produced friction without preventing any real risk.
+
+If `/sharepoint-sync push` errors out before reporting transfer counts (e.g. token expired, remote folder missing), surface the failure and stop. Do not retry blindly.
+
+### 9. Ship
+
+**The `/finish` invocation is the user's authorization to ship.** Do not pause for further per-action confirmation. Run the publication sequence in order, surface failures, and only stop on a hard-stop condition (listed below).
+
+Sequence (skip any step that doesn't apply to the project shape):
+
+1. **Push the current branch to the git remote** (`git push`, no `--force`, no `--force-with-lease`). If the upstream is unset, push with `-u origin <branch>`. If the project has no remote configured, skip and note it in the report.
+2. **If working a ticket and the project's convention is merge-to-main:**
+   - Fast-forward merge if possible; otherwise a standard merge commit. Never rebase published commits, never force-push.
+   - Push main to the remote.
+   - Delete the feature branch locally (`git branch -d`, not `-D`) and on the remote (`git push origin --delete <branch>`).
+3. **Close the ticket** — update status to `done` (or project equivalent), add a final comment if the brief didn't capture something important.
+4. **`/sharepoint-sync push`** has already happened in step 8b for research projects — do not re-run it here.
+
+**Hard stops (surface and stop, do not proceed):**
+
+- A normal `git push` is rejected because the remote diverged → the user needs to investigate; never auto-force.
+- Merge produces conflicts that require human resolution.
+- `git branch -d` refuses because the branch isn't fully merged → means the merge didn't actually happen; surface.
+- The project's CLAUDE.md declares a branch as protected (look for an explicit "Protected branches" line or equivalent) and the sequence would touch it in a way the project disallows.
+- Unexpected local state: uncommitted changes still present after step 8b (means 8b errored — investigate, do not silently overwrite), detached HEAD, missing ticket file when one was expected.
+
+**Force-push of any kind is never an auto action.** If something needs force-push, that's a hand-rolled recovery, not a `/finish` step.
+
+In auto mode without a user, the same rule applies — `/finish` was invoked, ship. Stop only on the hard-stop conditions above.
 
 ### 10. Report
 
@@ -133,12 +166,15 @@ In auto mode without a user, surface what's pending and stop.
 - **Surface-integrity findings (tool-integration only):** missing surface READMEs, missing or malformed `<surface>-meta.json` files. Empty if not a tool-integration project or all surfaces clean.
 - **Future-work graduation candidates:** entries flagged as ticket-shaped (and what was decided per entry, if interactive).
 - **CLAUDE.md drift fixed:** specific changes.
+- **Local commit:** commit SHA + subject if step 8b created one, else "no pending changes". Also note any untracked items intentionally left out.
+- **SharePoint push result (research projects):** file count + bytes transferred, or per-file errors. Empty if not a research project.
 - **Verification result:** pass/fail.
-- **Confirmation pending:** what action(s) need yes/no.
+- **Shipped:** what step 9 actually did — push (yes/no, remote name), merge (yes/no, target), branch deletion (local/remote), ticket close.
+- **Hard stops hit:** any condition from step 9 that blocked the sequence, and what the user needs to resolve.
 
 ## What this skill does NOT do
 
 - Does not write new tests or new docs from scratch — only updates existing structure.
-- Does not push, merge, or close without explicit confirmation.
-- Does not delete files without confirmation (in auto mode, surfaces; in interactive mode, asks).
+- Does not force-push, rebase published commits, or use `git branch -D` — those are hand-rolled recoveries, not `/finish` actions. (See step 9 for the hard-stop list.)
+- Does not delete project files (source, data, docs not flagged as orphans) — the orphan sweep in step 2 may move/delete files explicitly flagged as orphans, but anything else is out of scope.
 - Does not modify another repo as part of cleanup — that's `/file-cross-repo-ticket`.

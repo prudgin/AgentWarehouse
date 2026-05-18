@@ -77,7 +77,7 @@ When you change behaviour, update the doc that describes it. A task is not done 
 
 ## No orphans
 
-Every document in the repo must be reachable from CLAUDE.md via a chain of links. The `/finish` skill (planned) sweeps for orphans. If you create a new doc, link it from the appropriate index.
+Every document in the repo must be reachable from CLAUDE.md via a chain of links. The `/finish` skill sweeps for orphans via `.claude/skills/finish/scripts/check-docs.sh`. If you create a new doc, link it from the appropriate index.
 
 ## Portability
 

@@ -33,7 +33,7 @@ A skill may also ship an optional `scripts/` subdirectory holding executable hel
 | [`to-issues`](to-issues/SKILL.md) | refuses | Break a PRD into vertical-slice tickets, dependency-ordered, AFK / HITL marked. |
 | [`triage`](triage/SKILL.md) | refuses | State-machine over tickets; produce durable agent briefs for AFK ones. |
 | [`work-issue`](work-issue/SKILL.md) | safe (defers shared-state actions) | Branch, code, run feedback loop, update docs, commit, prepare merge. |
-| [`finish`](finish/SKILL.md) | safe (defers shared-state actions) | Cleanup ritual; orphan sweep; CLAUDE.md drift fix; verification. |
+| [`finish`](finish/SKILL.md) | safe (ships on invocation; no per-action gates) | Cleanup ritual; orphan sweep; CLAUDE.md drift fix; verification; commit + git push + merge + branch delete + ticket close. Hard-stops only on force-push, conflicts, diverged remote, or unexpected state. |
 
 ## Analyse chain — for investigations
 
