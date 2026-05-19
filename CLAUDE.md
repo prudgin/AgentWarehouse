@@ -19,7 +19,7 @@ State your reading of the task before acting. If the task is ambiguous or unders
 
 ## Git conventions
 
-- Remote: <PLACEHOLDER>
+- Remote: https://github.com/prudgin/AgentWarehouse
 - Main branch: `main` (or `master` — set on first push).
 - Commit messages: imperative tense, describe what the change does.
 
