@@ -1,19 +1,15 @@
 ---
 name: to-issues
-description: Break a PRD, plan, or any feature description into independently-grabbable tickets in the project's ticket store, using vertical slices (tracer bullets). Each ticket cuts end-to-end through every layer. Quizzes the user on the proposed breakdown before publishing. Use when the user wants to "break this into tickets", "split into issues", "create implementation tickets", or "plan the work". Interactive — refuses auto mode.
+description: Break a PRD, plan, or any feature description into independently-grabbable tickets in the project's ticket store, using vertical slices (tracer bullets). Each ticket cuts end-to-end through every layer. Quizzes the user on the proposed breakdown before publishing. Use when the user wants to "break this into tickets", "split into issues", "create implementation tickets", or "plan the work". Interactive — uses AskUserQuestion turn-by-turn; runs fine under auto mode.
 ---
 
 # To Issues
 
 Break a plan into independently-grabbable tickets using **vertical slices** (tracer bullets). Each ticket cuts end-to-end through every layer (schema, API, UI, tests) — never a horizontal slice of one layer.
 
-## Refuse auto mode
+## Auto mode is fine
 
-If the system context indicates auto mode is active, respond:
-
-> This skill quizzes you on the proposed breakdown before publishing. Please switch to interactive mode and re-invoke `/to-issues`.
-
-Then exit. Do not proceed.
+This skill quizzes the user via `AskUserQuestion`, which works under auto mode. Run normally regardless of mode; do not abort on the auto-mode reminder.
 
 ## Process
 

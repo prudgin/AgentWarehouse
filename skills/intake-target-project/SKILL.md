@@ -1,6 +1,6 @@
 ---
 name: intake-target-project
-description: Warehouse-only intake interview for a target project being cold-started or migrated. Walks the design tree one question at a time, recommending an answer for each. Stages decisions in target-projects/<name>/ — glossary entries, ADR drafts, domain docs — so /create-project or /migrate-project can transfer them into the target repo. Use from inside the AgenticEngineering warehouse when the user wants to "set up project X", "intake project X", "start the migration of X", or "let's design project X before scaffolding". Distinct from /grill, which runs inside an already-set-up project. Interactive — refuses auto mode.
+description: Warehouse-only intake interview for a target project being cold-started or migrated. Walks the design tree one question at a time, recommending an answer for each. Stages decisions in target-projects/<name>/ — glossary entries, ADR drafts, domain docs — so /create-project or /migrate-project can transfer them into the target repo. Use from inside the AgenticEngineering warehouse when the user wants to "set up project X", "intake project X", "start the migration of X", or "let's design project X before scaffolding". Distinct from /grill, which runs inside an already-set-up project. Interactive — uses AskUserQuestion turn-by-turn; runs fine under auto mode.
 ---
 
 # Intake Target Project
@@ -9,13 +9,9 @@ The warehouse's grilling skill for a project it is setting up. Interviews the us
 
 This is **not** `/grill`. `/grill` runs inside an already-set-up project and writes to that project's `glossary.md` and `docs/adr/`. `/intake-target-project` runs inside the warehouse and writes to staging — the project's eventual files don't exist yet (or, in migration cases, the project lacks the warehouse shape). See [ADR-0014](../../docs/adr/0014-warehouse-grill-vs-project-grill.md) for why these are separate.
 
-## Refuse auto mode
+## Auto mode is fine
 
-If auto mode is active (look for "Auto mode is active" or equivalent in system reminders), stop immediately and respond:
-
-> This skill is interactive — it asks one question at a time and waits for your answer. Please switch to interactive mode and re-invoke `/intake-target-project`.
-
-Do nothing else. Do not proceed.
+This skill is interactive by design — it asks one question at a time via `AskUserQuestion`, which works under auto mode. Run normally regardless of mode; do not abort on the auto-mode reminder.
 
 ## Refuse outside the warehouse
 
@@ -161,7 +157,7 @@ Suggest the next step:
 - Does not invoke `/migrate-project` or `/create-project` — leaves that for the user to invoke deliberately.
 - Does not modify the warehouse's own `glossary.md`, `docs/adr/`, etc. (Use `/grill` from inside the warehouse if you're designing the warehouse itself.)
 - Does not bundle multiple questions into one turn — one question, then wait.
-- Does not run in auto mode. See [ADR-0011](../../docs/adr/0011-interactive-skills-refuse-auto-mode.md).
+- Does not bundle multiple questions per turn — one `AskUserQuestion` per turn, then wait. Runs fine under auto mode; see [ADR-0011](../../docs/adr/0011-interactive-skills-refuse-auto-mode.md).
 
 ## Notes for the agent
 

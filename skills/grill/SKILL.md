@@ -1,19 +1,15 @@
 ---
 name: grill
-description: Interactive alignment interview before building or changing anything. Walks the design tree one question at a time, recommending an answer for each. Updates glossary.md inline as terms resolve, and offers an ADR when a decision passes the 3-of-3 admission test (hard to reverse, surprising without context, real trade-off). Use when the user wants to align on a feature/change/design before coding, says "grill me", says "let's design X", or starts a new piece of work. Interactive — refuses auto mode.
+description: Interactive alignment interview before building or changing anything. Walks the design tree one question at a time, recommending an answer for each. Updates glossary.md inline as terms resolve, and offers an ADR when a decision passes the 3-of-3 admission test (hard to reverse, surprising without context, real trade-off). Use when the user wants to align on a feature/change/design before coding, says "grill me", says "let's design X", or starts a new piece of work. Interactive — uses AskUserQuestion turn-by-turn; runs fine under auto mode.
 ---
 
 # Grill
 
 Aggressive alignment session. The goal is **shared understanding** between you and the user before any code is written. Walk the design tree one branch at a time, resolving each question before moving to the next. Most misalignment comes from the developer thinking they understood and being wrong; this skill exists to catch that early.
 
-## Refuse auto mode
+## Auto mode is fine
 
-If the system context indicates auto mode is active (look for "Auto mode is active" or equivalent in system reminders), stop immediately and respond:
-
-> This skill is interactive — it asks one question at a time and waits for your answer. Please switch to interactive mode and re-invoke `/grill`.
-
-Do nothing else. Do not proceed to ask questions, explore the codebase, or take any other action.
+This skill is interactive by design — it asks one question at a time and waits for the answer. `AskUserQuestion` works under auto mode, and auto mode explicitly defers to skills that signal they want to ask. So run normally regardless of mode; do not abort on the auto-mode reminder.
 
 ## Process
 

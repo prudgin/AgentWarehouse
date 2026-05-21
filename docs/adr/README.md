@@ -34,7 +34,7 @@ Optional sections (use only when they add value): Status, Considered options, Co
 - [0008-preserve-dated-analysis-pattern.md](0008-preserve-dated-analysis-pattern.md) — `analysis/YYYY-MM-DD-<topic>/REPORT.md` is first-class, with a cross-cutting `analysis-landscape.md` enforcing reachability.
 - [0009-tickets-as-markdown-files.md](0009-tickets-as-markdown-files.md) — local-markdown ticket store as default; cross-repo ticket drop via `.tickets/inbox/`. GitHub Issues configurable per-project.
 - [0010-no-tdd-skill.md](0010-no-tdd-skill.md) — feedback-loop discipline is in `/diagnose`. No standalone `/tdd` skill. Project-specific test conventions live in the project.
-- [0011-interactive-skills-refuse-auto-mode.md](0011-interactive-skills-refuse-auto-mode.md) — skills that ask the user questions detect auto mode and exit cleanly with a switch-mode message.
+- [0011-interactive-skills-refuse-auto-mode.md](0011-interactive-skills-refuse-auto-mode.md) — **reversed 2026-05-22**: interactive skills now run in auto mode, since `AskUserQuestion` blocks for the user regardless of mode.
 - [0012-plain-folders-no-plugin.md](0012-plain-folders-no-plugin.md) — distribute as plain folder trees, not as a Claude Code plugin (`.claude-plugin/plugin.json`).
 - [0013-no-orphan-rule-via-readme-indexes.md](0013-no-orphan-rule-via-readme-indexes.md) — every doc is reachable from CLAUDE.md via a chain of links. Each top-level dir has a `README.md` that indexes its contents.
 - [0014-warehouse-grill-vs-project-grill.md](0014-warehouse-grill-vs-project-grill.md) — `intake-target-project` is a separate skill from `grill`; the warehouse uses the former to grill about target projects, the latter ships unchanged to projects for in-project alignment.

@@ -106,7 +106,6 @@ The ADRs in `docs/adr/` record the material decisions one by one. The most load-
 - **[0001](../adr/0001-library-and-skills-coexist.md) — library and skills coexist.** The whole architecture rests on this split.
 - **[0005](../adr/0005-adrs-with-3-of-3-admission-test.md) — ADRs with admission test.** Forces decisions to be either ephemeral (in tickets, future-work, or analysis INVESTIGATIONs) or durable (here). No middle ground.
 - **[0008](../adr/0008-preserve-dated-analysis-pattern.md) — analysis pattern.** First-class home for the user's investigation work, with structural enforcement.
-- **[0011](../adr/0011-interactive-skills-refuse-auto-mode.md) — auto-mode refusal.** Prevents silent misalignment when no human is in the loop.
 - **[0013](../adr/0013-no-orphan-rule-via-readme-indexes.md) — no-orphan rule.** The mechanical check that keeps the structure honest.
 
 ## What we deliberately reject

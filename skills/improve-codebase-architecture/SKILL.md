@@ -1,19 +1,15 @@
 ---
 name: improve-codebase-architecture
-description: Find deepening opportunities in a codebase, informed by `glossary.md` and the decisions in `docs/adr/`. Surfaces shallow modules and proposes refactors toward deep modules (small interface, lots of behaviour). Use when the user wants to "improve architecture", "find refactoring opportunities", "consolidate tightly-coupled modules", or "make this codebase more testable". Interactive — refuses auto mode.
+description: Find deepening opportunities in a codebase, informed by `glossary.md` and the decisions in `docs/adr/`. Surfaces shallow modules and proposes refactors toward deep modules (small interface, lots of behaviour). Use when the user wants to "improve architecture", "find refactoring opportunities", "consolidate tightly-coupled modules", or "make this codebase more testable". Interactive — uses AskUserQuestion turn-by-turn; runs fine under auto mode.
 ---
 
 # Improve Codebase Architecture
 
 Surface architectural friction and propose **deepening opportunities** — refactors that turn shallow modules into deep ones. Aim: testability and AI-navigability.
 
-## Refuse auto mode
+## Auto mode is fine
 
-If auto mode is active, respond:
-
-> This skill presents candidates and grills you on which to explore. Please switch to interactive mode and re-invoke `/improve-codebase-architecture`.
-
-Then exit.
+This skill presents candidates and quizzes the user on which to explore — asks via `AskUserQuestion`, which works under auto mode. Run normally regardless of mode; do not abort on the auto-mode reminder.
 
 ## Vocabulary
 

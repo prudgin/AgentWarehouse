@@ -20,7 +20,7 @@ disable-model-invocation: false   # optional; true makes it slash-only
 # Skill body
 ```
 
-Many skills refuse auto mode at invocation time (interactive skills only — see [ADR-0011](../docs/adr/0011-interactive-skills-refuse-auto-mode.md)). Each SKILL.md states its auto-mode behaviour up front.
+No skill in the warehouse refuses auto mode anymore. Interactive skills use `AskUserQuestion` turn-by-turn, which blocks for the user under either mode. See [ADR-0011](../docs/adr/0011-interactive-skills-refuse-auto-mode.md) (reversed 2026-05-22). Each SKILL.md states its auto-mode behaviour up front.
 
 A skill may also ship an optional `scripts/` subdirectory holding executable helpers — bash, python, or whatever the skill needs to do mechanical work that doesn't belong in agent prose (e.g. `finish/scripts/check-docs.sh` for the orphan and broken-link sweep). Scripts colocate with their owning skill rather than living in a separate top-level directory; see [ADR-0017](../docs/adr/0017-scripts-colocate-with-skills.md). Symlinking the skill directory into a project's `.claude/skills/` brings the scripts along automatically — no extra wiring. Scripts that need the project root should anchor on `$PWD` (the invoking project), not on the script's own location — the latter resolves through the symlink back to the warehouse.
 
@@ -28,10 +28,10 @@ A skill may also ship an optional `scripts/` subdirectory holding executable hel
 
 | Skill | Auto mode | What it does |
 |---|---|---|
-| [`grill`](grill/SKILL.md) | refuses | Alignment interview; one question at a time; updates `glossary.md` inline; offers ADRs. |
+| [`grill`](grill/SKILL.md) | safe (interactive — asks via `AskUserQuestion`) | Alignment interview; one question at a time; updates `glossary.md` inline; offers ADRs. |
 | [`to-prd`](to-prd/SKILL.md) | safe | Synthesise a PRD from current context; publish as one ticket. No new questions. |
-| [`to-issues`](to-issues/SKILL.md) | refuses | Break a PRD into vertical-slice tickets, dependency-ordered, AFK / HITL marked. |
-| [`triage`](triage/SKILL.md) | refuses | State-machine over tickets; produce durable agent briefs for AFK ones. |
+| [`to-issues`](to-issues/SKILL.md) | safe (interactive — asks via `AskUserQuestion`) | Break a PRD into vertical-slice tickets, dependency-ordered, AFK / HITL marked. |
+| [`triage`](triage/SKILL.md) | safe (interactive — asks via `AskUserQuestion`) | State-machine over tickets; produce durable agent briefs for AFK ones. |
 | [`work-issue`](work-issue/SKILL.md) | safe (defers shared-state actions) | Branch, code, run feedback loop, update docs, commit, prepare merge. |
 | [`finish`](finish/SKILL.md) | safe (ships on invocation; no per-action gates) | Cleanup ritual; orphan sweep; CLAUDE.md drift fix; verification; commit + git push + merge + branch delete + ticket close. Hard-stops only on force-push, conflicts, diverged remote, or unexpected state. |
 
@@ -47,7 +47,7 @@ A skill may also ship an optional `scripts/` subdirectory holding executable hel
 | Skill | Auto mode | What it does |
 |---|---|---|
 | [`diagnose`](diagnose/SKILL.md) | safe | Disciplined bug/perf diagnosis: feedback loop → reproduce → hypothesise → fix → cleanup. |
-| [`improve-codebase-architecture`](improve-codebase-architecture/SKILL.md) | refuses | Surface deepening opportunities; deletion test; depth-as-leverage vocabulary. |
+| [`improve-codebase-architecture`](improve-codebase-architecture/SKILL.md) | safe (interactive — asks via `AskUserQuestion`) | Surface deepening opportunities; deletion test; depth-as-leverage vocabulary. |
 | [`zoom-out`](zoom-out/SKILL.md) | safe | Higher-level explanation of unfamiliar code, using project vocabulary. |
 | [`file-cross-repo-ticket`](file-cross-repo-ticket/SKILL.md) | safe | Drop a ticket into another repo's `.tickets/inbox/`. |
 | [`check-inbox`](check-inbox/SKILL.md) | safe | List and summarise incoming cross-repo tickets. |
@@ -64,7 +64,7 @@ These skills run **from inside the warehouse**, not from inside the target proje
 
 | Skill | Auto mode | What it does |
 |---|---|---|
-| [`intake-target-project`](intake-target-project/SKILL.md) | refuses | Warehouse-only intake interview; stages glossary, ADR drafts, domain docs, draft CLAUDE.md, migration plan in `target-projects/<name>/`. |
+| [`intake-target-project`](intake-target-project/SKILL.md) | safe (interactive — asks via `AskUserQuestion`) | Warehouse-only intake interview; stages glossary, ADR drafts, domain docs, draft CLAUDE.md, migration plan in `target-projects/<name>/`. |
 | [`create-project`](create-project/SKILL.md) | safe (defers conflicts and missing inputs) | Scaffold a new project from a warehouse template; consumes staging if present. |
 | [`migrate-project`](migrate-project/SKILL.md) | safe (defers destructive ops) | Convert an existing repo onto warehouse conventions; consumes staging produced by `/intake-target-project`. |
 
