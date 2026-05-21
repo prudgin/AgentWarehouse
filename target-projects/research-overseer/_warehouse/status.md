@@ -1,25 +1,29 @@
 ---
-status: created
+status: infrastructure-complete
 started: 2026-05-21
 intake-completed: 2026-05-22
 created: 2026-05-22
+infrastructure-complete: 2026-05-22
 mode: cold-start
 target-host: rndmanager@rndcomputer
 target-path: ~/ResearchProjects/research-overseer/
 scaffold-commit: 81bdcd0
+tools-commit: 10ac244
+warehouse-commit: 21551d5
+sharepoint-folder: sharepoint_planning:Research overseer/ (created, initial sync done)
 phases-completed:
   - Phase 1 (scaffold)
-  - Phase 2 (install existing warehouse skills as symlinks)
-phases-deferred:
-  - Phase 3 (warehouse-side new skills + /finish hook + research template tweaks)
-  - Phase 4 (register bootstrap — Slug column, seed entry.yaml for existing repos, cardinality conflicts)
-  - Phase 5 (first operational sweep)
-  - Phase 6 (weekly schedule)
+  - Phase 2 (install warehouse skills as symlinks)
+  - Phase 3 (warehouse-side — 5 new canonical skills, /finish hook, research template tweaks, warehouse doc updates)
+  - Per-project skill propagation (update-register-entry symlinked into 27 existing research-shape repos)
+phases-deferred-for-first-interactive-session:
+  - Phase 4 (register bootstrap — first /reconcile-register against real register; will propose Slug column and surface cardinality conflicts)
+  - Phase 5 (first sweep validation)
+  - Phase 6 (weekly schedule — local cron or /loop; user choice)
 open-ends:
-  - SharePoint folder `sharepoint_planning:Research overseer/` not yet created (high-tier destructive — needs explicit OK)
-  - Weekly schedule day/time
-  - Strategy doc shape (single rolling vs per-theme dir)
-  - Cardinality conflicts: gutevac vs stanbridge-gutevac, feeding-frequency split-or-merge
+  - Weekly schedule day/time (default proposal: Monday 08:00 via local cron — user to wire up)
+  - Strategy doc shape (single rolling vs per-theme dir — decide before first strategy pass)
+  - Cardinality conflicts: gutevac vs stanbridge-gutevac, feeding-frequency 3-way (2023 / juvenile / 2026 RAS)
 ---
 
 # Status
