@@ -190,9 +190,10 @@ After the standard transfer/move/rename items complete, run the research-specifi
 
 3. **Drop `.rclone-filter`** (auto): copy from `<warehouse>/templates/research/.rclone-filter` into the project root.
 
-4. **Symlink the skill** (auto):
+4. **Symlink the skills** (auto). The research template assumes both `sharepoint-sync` (mirror) and `update-register-entry` (auto-invoked from `/finish` per ADR-0006 in research-overseer):
    ```bash
    ln -s <warehouse>/skills/sharepoint-sync .claude/skills/sharepoint-sync
+   ln -s <warehouse>/skills/update-register-entry .claude/skills/update-register-entry
    ```
 
 5. **SharePoint folder cleanup to canonical template shape** — **auto** for renames that pull state toward the template's canonical subfolder names; **surface and confirm** only for renames that require user judgement (typo fixes on the *project* name, ambiguous shape decisions).
