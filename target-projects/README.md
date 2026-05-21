@@ -71,6 +71,12 @@ Bulk SharePoint migration completed 2026-05-14 — see `_warehouse/status.md` in
 | [gutevac](gutevac/) | 2026 Gut Clearance | `sharepoint_planning:PROJECTS/2026 Gut Clearance/` | 2026-05-04 |
 | [juvenile](juvenile/) | 2026 Juvenile gut evac | `sharepoint_planning:PROJECTS/2026 Juvenile gut evac/` | 2026-05-14 (earlier session) |
 
+### Cross-project infrastructure (tool-integration hybrid)
+
+| Slug | Final project name | Location | Created |
+|---|---|---|---|
+| [research-overseer](research-overseer/) | research-overseer | `~/ResearchProjects/research-overseer/` (local-only) + mirror at `sharepoint_planning:Research overseer/` | 2026-05-22 |
+
 ### Bulk-migration notes (2026-05-14)
 
 22 SharePoint-only projects were brought local in a single AFK session. Mechanical pattern per project:
