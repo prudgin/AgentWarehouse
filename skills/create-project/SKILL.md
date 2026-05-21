@@ -161,10 +161,11 @@ Do not push.
 
 If the staging's CLAUDE.md lists specific skills, install those. Otherwise, leave `.claude/skills/` empty for the user to populate when needed. Mention they can install warehouse skills later by symlinking from `<warehouse>/skills/<name>` into `.claude/skills/<name>`.
 
-**For `research` template:** install `sharepoint-sync` unconditionally — the template assumes it.
+**For `research` template:** install `sharepoint-sync` and `update-register-entry` unconditionally — the template assumes both. `update-register-entry` is auto-invoked from `/finish` (per ADR-0006 in `research-overseer`).
 
 ```bash
 ln -s <warehouse>/skills/sharepoint-sync .claude/skills/sharepoint-sync
+ln -s <warehouse>/skills/update-register-entry .claude/skills/update-register-entry
 ```
 
 ### 10. Set up AGENTS.md symlink

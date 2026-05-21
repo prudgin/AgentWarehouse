@@ -57,6 +57,16 @@ A skill may also ship an optional `scripts/` subdirectory holding executable hel
 | Skill | Auto mode | What it does |
 |---|---|---|
 | [`sharepoint-sync`](sharepoint-sync/SKILL.md) | safe | Bidirectionally mirror a research project with its SharePoint folder via `rclone copy --update`. Pull at session start, push at `/finish`. Never deletes — deletes are explicit on both sides. See [ADR-0024](../docs/adr/0024-research-template-bidirectional-sharepoint-mirror.md). |
+| [`update-register-entry`](update-register-entry/SKILL.md) | safe (skips prompts in auto mode) | Maintain `.register/entry.yaml` — the per-project record consumed by the overseer's `/reconcile-register` sweep. Auto-invoked from `/finish`. Respects `_meta.intentionally_blank` so re-runs don't re-ask. |
+
+## Research-overseer (only in `~/ResearchProjects/research-overseer/`)
+
+| Skill | Auto mode | What it does |
+|---|---|---|
+| [`reconcile-register`](reconcile-register/SKILL.md) | partial — low-tier auto, medium-tier confirm | Sweep `.register/entry.yaml` files; apply clean diffs to the master register XLSX; queue conflicts; upload. Tiered auth gate per overseer ADR-0004. |
+| [`detect-drift`](detect-drift/SKILL.md) | safe | Read-only diff report between register and per-project entries. Same engine as `reconcile-register`, no writes. |
+| [`sweep-sharepoint-cleanup`](sweep-sharepoint-cleanup/SKILL.md) | safe | Discover empty SharePoint folders; write proposal ticket. Read-only — never deletes. |
+| [`apply-sharepoint-cleanup`](apply-sharepoint-cleanup/SKILL.md) | refuses unless ticket `status: approved` | Execute an approved cleanup ticket; logs every action to a dated audit dir. |
 
 ## Project lifecycle
 

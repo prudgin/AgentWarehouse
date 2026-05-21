@@ -40,6 +40,13 @@
 - /.claude/**
 - **/.claude/**
 
+# === Register entry (DOES sync) ===
+# .register/entry.yaml is per-project register data, swept by the
+# research-overseer. Must sync to SharePoint so another agent picking
+# up the SharePoint folder reads the same canonical entry. No filter
+# rule needed (we exclude only specific dot dirs; .register/ is
+# included by default). Comment is for documentation only.
+
 # === Secrets and local config ===
 - /.env
 - /.env.*

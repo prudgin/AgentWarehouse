@@ -41,6 +41,14 @@ For the full inventory with auto-mode behaviour and one-line descriptions, see [
 ### Research-specific (only in projects scaffolded from `templates/research/`)
 
 - **`sharepoint-sync`** — bidirectionally mirror a research project with its SharePoint folder via `rclone copy --update`. Pulls newer files at session start; pushes newer files at `/finish`. Never deletes; deletes are explicit on both sides. Auto-safe. See [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
+- **`update-register-entry`** — maintain `.register/entry.yaml` (the per-project record consumed by the research-overseer's `/reconcile-register`). Auto-invoked from `/finish`; respects `_meta.intentionally_blank` so re-runs don't re-ask. Auto-safe (skips human prompts in auto mode; leaves unknowns null for next interactive run).
+
+### Research-overseer (only in `~/ResearchProjects/research-overseer/`)
+
+- **`reconcile-register`** — sweep all per-project `.register/entry.yaml` files, diff against the master register XLSX, apply clean diffs, queue conflicts, upload. Single-batch. Tiered auth gate (overseer ADR-0004): low-tier auto-applies, medium-tier (Slug column / new rows / OptionsLists violations) batch-confirms in one prompt.
+- **`detect-drift`** — read-only variant of `reconcile-register`. Produces the same diff report without writing anything. Auto-safe.
+- **`sweep-sharepoint-cleanup`** — discover empty SharePoint folders; writes a proposal ticket to `.tickets/sharepoint-cleanup-<date>.md`. Auto-safe (read-only — never deletes).
+- **`apply-sharepoint-cleanup`** — execute an approved cleanup ticket. Refuses unless `status: approved`. Logs every action to `analysis/YYYY-MM-DD-sharepoint-restructure/audit.md`.
 
 ### Project lifecycle
 

@@ -122,9 +122,19 @@ Compose the commit message from what `/finish` itself just changed (doc drift fi
 
 **Caveat on staging:** prefer `git add <specific files>` over `git add -A` / `git add .` so secrets (`.env`, credentials) or stray large binaries don't sneak into the commit. Look at what's currently untracked before deciding: if the untracked items are clearly part of the session's work, stage them; if they look incidental or unrelated (different feature, debugging scratch), leave them and note them in the report.
 
-### 8c. Push to SharePoint (research projects only)
+### 8c. Update register entry (research projects only)
 
-**Detection:** the project is research-shape iff a `.rclone-filter` exists at the project root **and** `$PWD` is under `~/ResearchProjects/`. If either is false, skip this step entirely.
+**Detection:** the project is research-shape iff a `.rclone-filter` exists at the project root **and** `$PWD` is under `~/ResearchProjects/`. If either is false, skip steps 8c and 8d entirely.
+
+**Skip step 8c for the `research-overseer` project itself** (it doesn't have a register row of its own). Detection: `basename "$PWD" == "research-overseer"`.
+
+Invoke `/update-register-entry`. This refreshes `.register/entry.yaml` with the latest values from project state (status, actual dates, outcome links, etc.) and prompts the human for any manager-only fields that are still null and not marked intentionally-blank.
+
+If `/update-register-entry` errors out, surface the failure and stop. The user can re-run `/finish` after fixing.
+
+See [ADR-0006](../../../ResearchProjects/research-overseer/docs/adr/0006-update-register-entry-auto-invoked-from-finish.md) (in research-overseer) for the rationale.
+
+### 8d. Push to SharePoint (research projects only)
 
 Invoke `/sharepoint-sync push` **without confirmation**. This is `rclone copy --update` — it transfers newer files only and **never deletes**. The sync skill is auto-mode safe by its own description; do not double-gate it here.
 
@@ -144,7 +154,7 @@ Sequence (skip any step that doesn't apply to the project shape):
    - Push main to the remote.
    - Delete the feature branch locally (`git branch -d`, not `-D`) and on the remote (`git push origin --delete <branch>`).
 3. **Close the ticket** — update status to `done` (or project equivalent), add a final comment if the brief didn't capture something important.
-4. **`/sharepoint-sync push`** has already happened in step 8b for research projects — do not re-run it here.
+4. **`/sharepoint-sync push`** has already happened in step 8d for research projects — do not re-run it here.
 
 **Hard stops (surface and stop, do not proceed):**
 

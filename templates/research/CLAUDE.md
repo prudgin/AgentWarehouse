@@ -112,7 +112,9 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 <!-- FIXED -->
 ## Skills
 
-`.claude/skills/<name>/SKILL.md` — procedural workflows. The most-used skills on a research project are `/start-analysis`, `/finish-analysis`, `/sharepoint-sync`, and `/finish` (which calls `/sharepoint-sync push` at the end). Symlink from `~/AgenticEngineering/skills/<name>` to install warehouse skills.
+`.claude/skills/<name>/SKILL.md` — procedural workflows. The most-used skills on a research project are `/start-analysis`, `/finish-analysis`, `/sharepoint-sync`, `/update-register-entry`, and `/finish` (which calls `/update-register-entry` then `/sharepoint-sync push` at the end). Symlink from `~/AgenticEngineering/skills/<name>` to install warehouse skills.
+
+**`/update-register-entry` is auto-invoked from `/finish`** in research-template projects. It maintains `.register/entry.yaml` — the per-project record consumed by the research-overseer's `/reconcile-register` sweep. See ADR-0006 in the research-overseer project.
 
 **Skills are warehouse-symlinked — do not edit them in place.** Every entry under `.claude/skills/` is an absolute symlink to `~/AgenticEngineering/skills/<name>/`. Editing the SKILL.md (or any file under the linked dir) writes through the symlink and propagates the change to **every other project** that links the same skill. A global `PreToolUse` hook (`~/.claude/hooks/check-symlink-target.sh`) blocks Edit/Write on paths that resolve outside this project root and will surface the safe alternatives:
 

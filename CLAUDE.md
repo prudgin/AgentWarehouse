@@ -54,7 +54,8 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 **Build chain:** `grill`, `to-prd`, `to-issues`, `triage`, `work-issue`, `finish`.
 **Analyse chain:** `start-analysis`, `finish-analysis`.
 **Cross-cutting:** `diagnose`, `improve-codebase-architecture`, `zoom-out`, `file-cross-repo-ticket`, `check-inbox`.
-**Research-specific** (research-template projects only): `sharepoint-sync`.
+**Research-specific** (research-template projects only): `sharepoint-sync`, `update-register-entry`.
+**Research-overseer** (only in `~/ResearchProjects/research-overseer/`): `reconcile-register`, `detect-drift`, `sweep-sharepoint-cleanup`, `apply-sharepoint-cleanup`.
 **Project lifecycle** (warehouse-only — operate against `target-projects/<name>/`): `intake-target-project`, `create-project`, `migrate-project`.
 **Global** (canonical here, install as `~/.claude/skills/sudo-script/`): `sudo-script`.
 

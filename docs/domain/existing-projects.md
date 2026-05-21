@@ -54,6 +54,16 @@ Active research project on gut-clearance kinetics in farmed Murray cod. Goal: pr
 
 **Plan**: First migration target. Will be the first real exercise of the `/intake-target-project` → `/migrate-project` flow, and of the new `research/` template ([ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md)) — chosen over `analysis/` because GutEvac has an "official" SharePoint folder (`sharepoint_planning:PROJECTS/2026 Gut clearence/`) with stakeholder-accountable deliverables. Concrete steps: rename SharePoint folder `2026 Gut clearence` → `2026 Gut Clearance` (typo fix); rename SharePoint subfolders `Articles and background/` → `Articles/` and `Report/` → `Reports/`; move local repo to `~/ResearchProjects/2026 Gut Clearance/`; drop in `.rclone-filter` from the template; first sync establishes merged state. The contents of `working_notes_for_future_runs.txt` split into the canonical homes per ADR-0007: caveats → `docs/domain/known-issues.md`, follow-up priorities → `docs/planning/future-work.md`, methodology decisions → `docs/adr/`. No working-notes.md.
 
+## `~/ResearchProjects/research-overseer/`
+
+Overarching research agent. Cold-started 2026-05-22. Tool-integration-template based, with `analysis/` first-class and a new `docs/strategy/` dir for roadmap/themes/gaps. Local-only (no git remote); bidirectional SharePoint mirror at `sharepoint_planning:Research overseer/`. Sibling of the per-project research repos under `~/ResearchProjects/`.
+
+**What's there now**: Six ADRs covering the canonical-yaml-not-XLSX trust direction, stable identity via a Slug column, 1:1:1 mapping (row : repo : entry.yaml), tiered auth gate for destructive SharePoint ops, write-scope limited to `sharepoint_planning:`, and the `/finish` hook for `/update-register-entry`. Domain doc captures the 32-column register schema and controlled vocabularies. Skills installed: `sharepoint-sync`, `start-analysis`, `finish-analysis`, `file-cross-repo-ticket`, `check-inbox`, `finish`, `diagnose`, `improve-codebase-architecture`, `zoom-out` (warehouse) + `reconcile-register`, `detect-drift`, `sweep-sharepoint-cleanup`, `apply-sharepoint-cleanup` (new, overseer-specific).
+
+**What's missing vs the target**: The 27 existing register rows lack slugs (one-time migration on first `/reconcile-register`). The 28+ existing per-project repos under `~/ResearchProjects/` lack `.register/entry.yaml` (each gets one when its agent next runs `/update-register-entry`, typically from `/finish`). The `gutevac` vs `stanbridge-gutevac` and `feeding-frequency-2023` vs `feeding-frequency-juvenile` cardinality conflicts need a human decision on first sweep.
+
+**Plan**: First operational sweep is a manual `/reconcile-register` to populate slugs and surface conflicts. Then weekly scheduled run for ongoing maintenance.
+
 ## `~/MicrosoftFlowsApps/`
 
 A workshop for Microsoft Power Platform on Linux (Power Automate flows, Power Apps, Dataverse). 81-line CLAUDE.md. Knowledge lives in `.claude/skills/` (7 skills). No `docs/` directory — already follows the trigger-style progressive-disclosure pattern.
