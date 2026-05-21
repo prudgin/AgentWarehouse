@@ -30,6 +30,14 @@ Support package — `growth_models.sgr`, `growth_models.sfr`, `growth_models.fcr
 
 **Plan**: Set up agentically when the user starts work on it. The user wants it self-contained — should have its own CLAUDE.md and not transitively rely on Mercatus's context. Use the `library` template via `/create-project`.
 
+### `ModellingFishGrowth`
+
+Per-cycle iterative refit of `SGR(T, W)` for Murray cod (*Maccullochella peelii*) from operational pond data. Cold-started 2026-05-21 from the `analysis` template via `/intake-target-project` → `/create-project`. Consumes `growth_models` and `FishGrowthFittingSGRpackage` as editable installs; converged surface ships back to `growth_models` (ADR-0001 inside the project).
+
+**What's there now**: Warehouse-shape from day one — CLAUDE.md, glossary.md, 5 ADRs (canonical-surface-home, iterative-refit-vs-NLME, per-cycle α structure, Glencross-2012 starting form, log-space residuals), `docs/domain/{model.md, sgr-conventions.md, literature-review.md}`, `docs/design/initial-idea.md` (frozen 2026-05 design doc), `src/modelling_fish_growth/`, `pyproject.toml`, 13 skill symlinks, AGENTS.md alias. Remote `github.com/prudgin/ModellingFishGrowth` configured (not yet pushed).
+
+**Plan**: First investigation will exercise the iterative refit against operational cycles from `/mnt/data`. Open ends: handoff format for the final coefficients into `growth_models`; whether intermediate artefacts get a project-level `artifacts/` dir or stay per-investigation. Convert to `pipeline` template once the fit stabilises.
+
 ### `PowerBI`
 
 Power BI dashboards project. Sophisticated docs structure (architecture, conventions, data-contract, dashboards/, authoring/, planning/) but no CLAUDE.md. Called as a subprocess CLI by `MercatusDataFeed`.
@@ -65,6 +73,7 @@ A workshop for Microsoft Power Platform on Linux (Power Automate flows, Power Ap
 | `MercatusDataFeed` | Yes (314 lines) | Medium | 3rd |
 | `MicrosoftFlowsApps` | Yes (81 lines) | Low (different shape) | 4th |
 | `GrowthModels` | No | N/A | When activated |
+| `ModellingFishGrowth` | Yes (warehouse-shape from day one) | None (cold-started 2026-05-21) | N/A |
 | `PowerBI` | No | N/A | When activated |
 
 The migration order is also the validation order: each migration tests a different aspect of the warehouse (intake-from-zero, library skeleton, pipeline complexity, tool-integration variant).
