@@ -54,6 +54,7 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 **Build chain:** `grill`, `to-prd`, `to-issues`, `triage`, `work-issue`, `finish`.
 **Analyse chain:** `start-analysis`, `finish-analysis`.
 **Cross-cutting:** `diagnose`, `improve-codebase-architecture`, `zoom-out`, `file-cross-repo-ticket`, `check-inbox`.
+**Power Platform integration** (tool-integration projects targeting Microsoft Power Platform): `power-platform-auth`, `pac-cli-linux`, `flows-discover`, `flows-export`, `flows-update`, `apps-discover`, `apps-export`, `apps-update`, `proxy-flow-scaffolding`, `anthropic-api-integration`.
 **Research-specific** (research-template projects only): `sharepoint-sync`, `update-register-entry`.
 **Research-overseer** (only in `~/ResearchProjects/research-overseer/`): `reconcile-register`, `detect-drift`, `sweep-sharepoint-cleanup`, `apply-sharepoint-cleanup`.
 **Project lifecycle** (warehouse-only — operate against `target-projects/<name>/`): `intake-target-project`, `create-project`, `migrate-project`.

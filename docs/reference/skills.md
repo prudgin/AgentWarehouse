@@ -38,6 +38,19 @@ For the full inventory with auto-mode behaviour and one-line descriptions, see [
 - **`file-cross-repo-ticket`** — drop a ticket into another repo's `.tickets/inbox/`. Auto-safe.
 - **`check-inbox`** — list and summarise incoming cross-repo tickets. Auto-safe.
 
+### Power Platform integration (tool-integration projects targeting Microsoft Power Platform)
+
+- **`power-platform-auth`** — shared library skill: how to authenticate against the Power Platform REST APIs from Linux. Two REST audiences (Flow vs PowerApps/BAP), Dataverse per-env, and the SharePoint/Graph consent gap. Loaded by the others. Auto-safe (knowledge).
+- **`pac-cli-linux`** — install + run the Power Platform CLI on Linux. `pac canvas`, `pac solution`, `pac env`. Auto-safe.
+- **`flows-discover`** — find which env a Power Automate cloud flow lives in. Auto-safe (read-only).
+- **`flows-export`** — export a flow to `flows/<Name>/`. Auto-safe.
+- **`flows-update`** — PATCH a flow back to Power Automate, with secret placeholder substitution and post-push fingerprint check. Auto-commits locally; never pushes to remote. Auto-safe.
+- **`apps-discover`** — find which env a canvas app lives in. Auto-safe (read-only).
+- **`apps-export`** — export a canvas app to `apps/<Name>/` with `.msapp` + unpacked `src/`. Auto-safe.
+- **`apps-update`** — push edits to canvas-app `src/` via the unmanaged-solution wrapper. One-time portal step per app to wrap it in an unmanaged Dataverse solution. Auto-commits locally. Auto-safe.
+- **`proxy-flow-scaffolding`** — scaffold an HTTP-triggered Power Automate proxy flow as a 4-piece set (flow + `.secrets/<name>-proxy-url` + `_tools/<name>.sh` + CLAUDE.md section). The standard workaround for connectors Linux can't reach directly. Auto-safe.
+- **`anthropic-api-integration`** — how to call the Anthropic API from a Power Automate flow: HTTP action wiring, `__ANTHROPIC_API_KEY_PLACEHOLDER__` round-trip, audience safety check, model-version handling, prompt caching. Auto-safe (knowledge).
+
 ### Research-specific (only in projects scaffolded from `templates/research/`)
 
 - **`sharepoint-sync`** — bidirectionally mirror a research project with its SharePoint folder via `rclone copy --update`. Pulls newer files at session start; pushes newer files at `/finish`. Never deletes; deletes are explicit on both sides. Auto-safe. See [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
