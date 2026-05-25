@@ -101,7 +101,7 @@ extract_doc_map_dirs() {
 # GitHub-style heading slug: lowercase, non-alphanumerics → '-', collapse runs,
 # trim leading/trailing '-'.
 slugify() {
-    printf '%s' "$1" \
+    printf '%s\n' "$1" \
         | tr '[:upper:]' '[:lower:]' \
         | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//'
 }
@@ -235,6 +235,11 @@ run_broken_links() {
                 [[ -z "$match" ]] && continue
                 local target="${match##*\(}"
                 target="${target%\)}"
+                # Strip CommonMark angle-bracket link form: [text](<path with spaces>)
+                if [[ "$target" == '<'*'>' ]]; then
+                    target="${target#<}"
+                    target="${target%>}"
+                fi
                 [[ "$target" =~ ^https?:// ]] && continue
                 [[ "$target" =~ ^mailto: ]] && continue
                 [[ "$target" =~ ^# ]] && continue
