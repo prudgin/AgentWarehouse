@@ -66,13 +66,17 @@ Overarching research agent. Cold-started 2026-05-22. Tool-integration-template b
 
 ## `~/MicrosoftFlowsApps/`
 
-A workshop for Microsoft Power Platform on Linux (Power Automate flows, Power Apps, Dataverse). 81-line CLAUDE.md. Knowledge lives in `.claude/skills/` (7 skills). No `docs/` directory — already follows the trigger-style progressive-disclosure pattern.
+**Status: migrated to tool-integration template on 2026-05-25** (4th migration; commits `604b119` / `ab323df` / `414e667` on `prudgin/MicrosoftFlowsApps@master`).
 
-**What's there now**: Closest existing match to the **skills** half of the warehouse philosophy. CLAUDE.md explicitly says "Don't try to recall this knowledge cold — load the matching skill on demand." Skills wrap PAC CLI, flow export/update, app export, auth.
+A workshop for Microsoft Power Platform on Linux (Power Automate flows, Power Apps, Dataverse). The migration:
 
-**What's missing vs the target**: `glossary.md` (probably useful — Power Platform has dense vocabulary: environment, solution, connector, BAP, etc.), `docs/adr/` (a few ADRs would be valuable: the canvas-app-push-gap rationale, the secrets-as-files convention), `.tickets/`.
+- Installed warehouse scaffold: `glossary.md`, `docs/{adr,domain,planning,reference}/`, `analysis/`, `.tickets/` with READMEs.
+- `.claude/skills/` now holds 23 symlinks to warehouse canonical sources — 10 Power Platform (`power-platform-auth`, `pac-cli-linux`, `flows-*`, `apps-*`, `proxy-flow-scaffolding`, `anthropic-api-integration`) + 13 warehouse-general (`grill`, `to-prd`, `to-issues`, `triage`, `work-issue`, `finish`, `start-analysis`, `finish-analysis`, `diagnose`, `improve-codebase-architecture`, `zoom-out`, `file-cross-repo-ticket`, `check-inbox`).
+- Per-flow `CLAUDE.md` for each of 8 flows; per-app `CLAUDE.md` for `WQ_WaterQuality_sp`.
+- Aquna-prefixed nested repo (`flows/Aquna_Farm_Reports_Ingestion/` with its own `.git/`) was absorbed: ADRs promoted to parent `docs/adr/`, glossary entries merged, folder renamed to `Farm_Reports_Ingestion`.
+- 13 entries cleared from per-project Claude memory after distribution to durable docs.
 
-**Plan**: Third migration target. The library half is mostly absent and adding it should improve the agent's onboarding for new tool surfaces (Dataverse solutions, etc. when they get tackled). Use `/migrate-project` with a tool-integration template variant (not yet built).
+**Validation outcome**: `tool-integration` template variant held up — the `_tools/` + `flows/*/` + `apps/*/` + skills-heavy shape was right. The optional `docs/reference/` decision held: project's `docs/reference/` is sparse (procedural knowledge lives in skills). `docs/domain/` is the heavy doc directory (cross-cutting facts: WQ data model, parameter labels, YSI dilution, tenant-specific SharePoint auth). One real surprise: the project had **drift between project-local and warehouse-canonical skill copies** because the project ran ahead during real use; the migration playbook needed a "harvest drift back into warehouse" step before symlinking. Warehouse skill bodies now carry the merged-back detail (commit `2ff0db5` on warehouse).
 
 ## Summary
 
@@ -81,7 +85,7 @@ A workshop for Microsoft Power Platform on Linux (Power Automate flows, Power Ap
 | `GutEvac` | No | High (no scaffolding, rich latent knowledge) | 1st |
 | `FishGrowthFittingSGRpackage` | Yes (219 lines) | Low | 2nd |
 | `MercatusDataFeed` | Yes (314 lines) | Medium | 3rd |
-| `MicrosoftFlowsApps` | Yes (81 lines) | Low (different shape) | 4th |
+| `MicrosoftFlowsApps` | Yes (warehouse-shape since 2026-05-25) | None (migrated) | done (4th, validated `tool-integration/`) |
 | `GrowthModels` | No | N/A | When activated |
 | `ModellingFishGrowth` | Yes (warehouse-shape from day one) | None (cold-started 2026-05-21) | N/A |
 | `PowerBI` | No | N/A | When activated |

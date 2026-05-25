@@ -32,14 +32,6 @@ The most important next steps once the warehouse is in use. Each one starts with
 **Open questions:** does the `decisions.md` → ADRs split need interactive confirmation per entry, or can it be batched?
 **Links:** `docs/domain/existing-projects.md`.
 
-### Migrate `MicrosoftFlowsApps`
-
-**What:** intake and migrate MicrosoftFlowsApps onto the tool-integration-template conventions.
-**Type:** proposal
-**Why:** fourth migration target. Validates the `tool-integration/` template variant.
-**Open questions:** does the optional `docs/reference/` decision hold up, or does the project accumulate enough first-party code (e.g. CLI wrappers) to need it reinstated?
-**Links:** `docs/domain/existing-projects.md`.
-
 ### Cold-start `GrowthModels` and `PowerBI`
 
 **What:** when the user activates these projects, cold-start with `/intake-target-project` then `/create-project`.
@@ -47,14 +39,6 @@ The most important next steps once the warehouse is in use. Each one starts with
 **Why:** not yet ready to start; waiting on user activation. Held here so the migration queue stays complete.
 **Open questions:** which template variant fits each — likely `research/` for `GrowthModels` (if it gets a SharePoint folder) or `analysis/` (if local-only), and `tool-integration/` for `PowerBI`. TBD at intake time.
 **Links:** `docs/domain/existing-projects.md`.
-
-### Establish `~/ResearchProjects/` as the home for research-template projects
-
-**What:** create the `~/ResearchProjects/` directory the first time we migrate or cold-start a research project. All research-template projects live there; `/sharepoint-sync` refuses to run elsewhere.
-**Type:** proposal
-**Why:** convention enforcement is what makes the sync key (`basename "$PWD"`) work without per-project config. The `research/` template assumes this location; first migration (GutEvac) creates the directory.
-**Open questions:** none material — this graduates implicitly the moment GutEvac is moved.
-**Links:** `skills/sharepoint-sync/SKILL.md`, [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
 
 ## Skills to refine
 
@@ -151,14 +135,6 @@ Templates exist for `library`, `pipeline`, `tool-integration`, `analysis` — al
 **Why:** the never-deletes design is conservative on purpose, but the friction cost is unmeasured. First real exercise on GutEvac will start producing evidence.
 **Open questions:** does the user accumulate stale files faster than they tolerate? Are there file types that need exclusion-on-rename (e.g. Word's `~$file.docx` lock files — confirm filter handles them)?
 **Links:** `skills/sharepoint-sync/SKILL.md`, [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
-
-### `/finish` should invoke `/sharepoint-sync push` in research projects
-
-**What:** the `/finish` skill should detect a research project (presence of `.rclone-filter` + `~/ResearchProjects/` location) and invoke `/sharepoint-sync push` after the orphan sweep and before any optional git push. Currently, the research template's `CLAUDE.md` instructs the agent prose-style — this is fragile.
-**Type:** proposal
-**Why:** a hook makes the sync part of the cleanup ritual rather than something the agent might forget. Also surfaces sync errors as `/finish` errors, blocking declared-done state.
-**Open questions:** does the hook live as a project-local detection in `/finish` (simple, single-template special-case) or as a generic `finish-hooks/` mechanism that any template can register against (cleaner but more machinery)? Single special-case is fine for now.
-**Links:** `skills/finish/SKILL.md`, `skills/sharepoint-sync/SKILL.md`.
 
 ## Open questions
 
