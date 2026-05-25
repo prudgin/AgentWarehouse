@@ -62,6 +62,10 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 
 See [`skills/README.md`](skills/README.md) for the full inventory with descriptions and auto-mode behaviour.
 
+## Memory
+
+This project owns its knowledge in versioned docs, not in Claude's per-conversation auto-memory. When you learn something durable about this project — vocabulary, a domain mechanic, a decision, a fact about how the work is run — write it into its canonical home (`glossary.md` / `docs/domain/` / `docs/adr/` / `docs/planning/future-work.md`) rather than into a memory file. Auto-memory is for user preferences and cross-project habits; project facts belong in the repo, where they are versioned, reviewable, and visible to every other agent and every other machine.
+
 ## What does NOT belong in CLAUDE.md
 
 Code style rules. Step-by-step procedures (write a skill or a doc in `docs/reference/`). Deep domain knowledge (`glossary.md` or `docs/domain/`). Anything that applies only to some tasks.

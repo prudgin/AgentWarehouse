@@ -115,6 +115,7 @@ The ADRs in `docs/adr/` record the material decisions one by one. The most load-
 - **Persistent subagent definitions** and **ephemeral working-notes**. Both add maintenance for little gain in auto mode. ADR-0007.
 - **A standalone `/tdd` skill**. Feedback-loop discipline is in `/diagnose`. ADR-0010.
 - **A Claude Code plugin package**. Plain folders are more hackable. ADR-0012.
+- **Project knowledge in Claude's auto-memory**. Memory files are per-conversation, per-machine, invisible to teammates, and outside version control. Every project fact — vocabulary, domain mechanic, decision, fact about how the work is run — has a canonical home in the repo: `glossary.md`, `docs/domain/`, `docs/adr/`, `docs/planning/future-work.md`. Auto-memory is reserved for user preferences and cross-project habits; project facts go in the repo, where they are versioned, reviewable, and visible to every other agent and every other machine. The "Memory" section in each project's CLAUDE.md spells this out for the agent working in that repo.
 
 ## Where this came from
 

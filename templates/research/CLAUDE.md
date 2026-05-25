@@ -123,6 +123,10 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 - **Improvement that should reach every project**: `cd ~/AgenticEngineering/`, edit the canonical source, commit. All linked projects pick up the change automatically.
 
 <!-- FIXED -->
+## Memory
+
+This project owns its knowledge in versioned docs, not in Claude's per-conversation auto-memory. When you learn something durable about this project — vocabulary, a domain mechanic, a decision, a fact about how the work is run — write it into its canonical home (`glossary.md` / `docs/domain/` / `docs/adr/` / `docs/planning/future-work.md`) rather than into a memory file. Auto-memory is for user preferences and cross-project habits; project facts belong in the repo, where they are versioned, reviewable, and visible to every other agent and every other machine.
+
 ## What does NOT belong in CLAUDE.md
 
 Methodology details (`docs/domain/` or the relevant INVESTIGATION). Step-by-step procedures (a skill or `docs/reference/`). Specific findings (the INVESTIGATION they came from, plus a glossary/domain promotion). Anything that applies only to some tasks.

@@ -93,6 +93,10 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 `.claude/skills/<name>/SKILL.md` — procedural workflows. Each has a frontmatter `description` that tells the agent when to use it. Symlink from `~/AgenticEngineering/skills/<name>` to install warehouse skills.
 
 <!-- FIXED -->
+## Memory
+
+This project owns its knowledge in versioned docs, not in Claude's per-conversation auto-memory. When you learn something durable about this project — vocabulary, a domain mechanic, a decision, a fact about how the work is run — write it into its canonical home (`glossary.md` / `docs/domain/` / `docs/adr/` / `docs/planning/future-work.md`) rather than into a memory file. Auto-memory is for user preferences and cross-project habits; project facts belong in the repo, where they are versioned, reviewable, and visible to every other agent and every other machine.
+
 ## What does NOT belong in CLAUDE.md
 
 Code style rules. Step-by-step procedures (write a skill or `docs/reference/`). Deep domain knowledge (`glossary.md` or `docs/domain/`). Per-stage details (`docs/reference/<stage>.md`). Anything that applies only to some tasks.
