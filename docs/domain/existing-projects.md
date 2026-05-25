@@ -44,15 +44,15 @@ Power BI dashboards project. Sophisticated docs structure (architecture, convent
 
 **Plan**: Same as `GrowthModels` — set up when the user is ready, encapsulated, not transitively dependent.
 
-### `GutEvac`
+### `GutEvac` → `~/ResearchProjects/2026 Gut Clearance/`
 
 Active research project on gut-clearance kinetics in farmed Murray cod. Goal: produce a defensible pre-harvest fasting recommendation (DH-at-5% threshold) and validate whether clearance is invariant under thermal-time scaling.
 
-**What's there now**: 1900-line `gut_clearance.py` analysis script, `gut_clearance_implementation_spec_v2.md` (a near-PRD-quality spec), `working_notes_for_future_runs.txt` (known model issues + data-collection priorities), `Data trimmed.xlsx` (26 timepoints across 4 ponds, 17–28 °C only), processed temperature data from oxygen reports, output report + diagnostic PNGs, an interim PowerPoint, and a stage-1 proposal that diverged from what was actually collected. No CLAUDE.md, no `glossary.md`, no `docs/`. Solid declarative artefacts but no warehouse-style scaffolding.
+**Migration status**: done. Migrated 2026-05-04 (initial intake + transfer of staging) onto the `analysis/` template, then bumped to `research/` template 2026-05-14 – 2026-05-22 (Title Case `Data/`/`Articles/`/`Proposal/`/`Reports/`, `.rclone-filter`, `.register/`, `sharepoint-sync` + `update-register-entry` skills). Canonical-pullback pass on 2026-05-25 removed leftover `docs/proposal/` duplicate, indexed `Articles/`, and brought CLAUDE.md path references from lowercase into Title Case. SharePoint mirror at `sharepoint_planning:PROJECTS/2026 Gut Clearance`.
 
-**What's missing vs the target**: everything structural (CLAUDE.md, glossary.md, docs/{adr,domain,reference,planning}/, .tickets/, .claude/skills/). But latent knowledge density is high — the spec and notes seed several glossary entries (DH, hump model, c, m_arr/m_clr/m_emp, t=0, yesterday-stomach validation), several ADR-eligible decisions (binomial likelihood vs. asymmetric, two-meal independence assumption, pool-all-ponds, c-imputation policy, "% old feed" as validation-only), and a clean future-work seed (cold-band data, t=0 per pond, larger n, c as fitted parameter).
+**Validated**: the `/intake-target-project` → `/migrate-project` flow end-to-end, the `research/` template ([ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md)), `/sharepoint-sync`, the rename-on-SharePoint authority pattern (typo `clearence` → `Clearance`, `Articles and background/` → `Articles/`, `Report/` → `Reports/`), and the `working_notes_for_future_runs.txt` split per ADR-0007 (caveats → `docs/domain/known-issues.md`, follow-up priorities → `docs/planning/future-work.md`, methodology decisions → `docs/adr/`).
 
-**Plan**: First migration target. Will be the first real exercise of the `/intake-target-project` → `/migrate-project` flow, and of the new `research/` template ([ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md)) — chosen over `analysis/` because GutEvac has an "official" SharePoint folder (`sharepoint_planning:PROJECTS/2026 Gut clearence/`) with stakeholder-accountable deliverables. Concrete steps: rename SharePoint folder `2026 Gut clearence` → `2026 Gut Clearance` (typo fix); rename SharePoint subfolders `Articles and background/` → `Articles/` and `Report/` → `Reports/`; move local repo to `~/ResearchProjects/2026 Gut Clearance/`; drop in `.rclone-filter` from the template; first sync establishes merged state. The contents of `working_notes_for_future_runs.txt` split into the canonical homes per ADR-0007: caveats → `docs/domain/known-issues.md`, follow-up priorities → `docs/planning/future-work.md`, methodology decisions → `docs/adr/`. No working-notes.md.
+**Outstanding**: large uncommitted research-template bring-up in the project working tree (21 `D` lowercase-path deletes + 8 `??` Title Case adds + canonical-pullback edits) — captured by `/finish` in the project, not the warehouse. Surfaced (not auto-resolved): `Reports/16_04_2025 interim report.pptx` is a likely-SharePoint-rewrite duplicate of `Reports/2026-04-16-interim.pptx`. See `target-projects/gutevac/_warehouse/status.md` for the full record.
 
 ## `~/ResearchProjects/research-overseer/`
 
@@ -82,7 +82,7 @@ A workshop for Microsoft Power Platform on Linux (Power Automate flows, Power Ap
 
 | Repo | Has CLAUDE.md | Drift level | Migration order |
 |---|---|---|---|
-| `GutEvac` | No | High (no scaffolding, rich latent knowledge) | 1st |
+| `GutEvac` → `~/ResearchProjects/2026 Gut Clearance/` | Yes (warehouse-shape since 2026-05-04; research-template bump 2026-05-22; canonical-pullback 2026-05-25) | None (migrated) | done (1st, validated `research/`) |
 | `FishGrowthFittingSGRpackage` | Yes (219 lines) | Low | 2nd |
 | `MercatusDataFeed` | Yes (314 lines) | Medium | 3rd |
 | `MicrosoftFlowsApps` | Yes (warehouse-shape since 2026-05-25) | None (migrated) | done (4th, validated `tool-integration/`) |

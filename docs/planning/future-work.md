@@ -8,14 +8,6 @@ See [`README.md`](README.md) for the boundary rule (vs. `.tickets/`), the entry 
 
 The most important next steps once the warehouse is in use. Each one starts with `/intake-target-project <name>` (stages decisions in `target-projects/<name>/`) followed by `/migrate-project <name>` for execution.
 
-### Migrate `GutEvac` to `~/ResearchProjects/2026 Gut Clearance/`
-
-**What:** intake and migrate the GutEvac active research project onto the new `research/` template (rename to "2026 Gut Clearance", move to `~/ResearchProjects/`, set up bidirectional SharePoint mirror to `sharepoint_planning:PROJECTS/2026 Gut Clearance/`).
-**Type:** proposal
-**Why:** first real exercise of (1) the new `research/` template ([ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md)), (2) the `/sharepoint-sync` skill, and (3) the rename-on-SharePoint authority pattern (typo `clearence` → `Clearance`, `Articles and background/` → `Articles/`, `Report/` → `Reports/`). Validates whether the "everything mirrors except code" model holds up on a real project.
-**Open questions:** does the legacy `working_notes_for_future_runs.txt` content split cleanly under ADR-0007? Does the first push surface unexpected file-volume that motivates excluding `analysis/*/outputs/` or large `Data/` files? Do SharePoint-side renames trigger broken collaborator links (no collaborators yet, so risk is low — but worth observing).
-**Links:** `docs/domain/existing-projects.md`, [ADR-0024](../adr/0024-research-template-bidirectional-sharepoint-mirror.md).
-
 ### Migrate `FishGrowthFittingSGRpackage`
 
 **What:** intake and migrate the FishGrowthFittingSGRpackage onto the library-template conventions.
