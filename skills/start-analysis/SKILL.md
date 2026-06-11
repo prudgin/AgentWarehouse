@@ -71,7 +71,7 @@ TODO: what we learned, with concrete evidence.
 
 ## Implications
 
-TODO: what should land in glossary.md / docs/domain/ / docs/adr/ / future-work.md.
+TODO: what should land in glossary.md / docs/domain/ / docs/adr/ / future-work.md — and any report-worthy figure or number → promote to Reports/report-backbone.md.
 
 ## Open ends
 

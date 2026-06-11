@@ -76,6 +76,21 @@ If `analysis/` exists: every dated subdirectory must be linked from `analysis/an
 
 In auto mode, only surface findings — do not auto-create README stubs and do not auto-repair meta files. Both require human judgment (the README needs surface-specific conventions written out; a malformed meta usually means an interrupted export and the artifact dir itself may be partial).
 
+### 5c. Verify the report backbone is consistent (research projects only)
+
+**Detection:** research-shape (a `.rclone-filter` at the project root and `$PWD` under `~/ResearchProjects/`) **and** `Reports/report-backbone.md` exists. If the backbone hasn't been created yet (no report-worthy finding promoted), skip this step silently.
+
+The backbone (see "Report backbone" in CLAUDE.md) is the curated spine the final report assembles from. Check it still matches reality:
+
+1. **Every `report: yes` / `caveated` figure resolves.** For each such row in the global figure register, the `current file` path exists on disk. Surface any that don't as **"backbone figure missing: `R-xx` → `<path>`"**.
+2. **Every kept figure has a regenerator.** Each `report: yes` figure has a `pipeline/` source script and a blessed `pipeline/golden/<R-xx>` copy. Surface gaps as **"backbone figure has no pipeline regenerator: `R-xx`"**.
+3. **Numbers trace to one source.** The headline-numbers inventory points at `pipeline/output/numbers.json` (not hand-typed only). Surface bare numbers as a judgment finding.
+4. **Reverse — shipped but unregistered.** Any figure shipped in a `Reports/` deliverable created this session that is not in the register is a candidate to register (or to drop with a reason). Parsing decks is hard — keep this light and judgment-based; surface candidates, don't block.
+
+If `pipeline/golden/verify.py` exists, run it and report pass/fail.
+
+In auto mode, only surface findings — do not auto-register figures, auto-port regenerators, or drop rows. Promotion and demotion are `/finish-analysis` decisions (the analyst chooses register / regenerate / drop-with-reason), not mechanical fixes.
+
 ### 6. Sweep for ticket-shaped future-work entries
 
 The boundary rule (see `docs/planning/README.md`): **future-work** holds pre-decision proposals, watching-points, open questions, and refinement candidates; **`.tickets/`** holds post-decision tracked work with acceptance criteria. Same fact in both is drift.
@@ -174,6 +189,7 @@ In auto mode without a user, the same rule applies — `/finish` was invoked, sh
 - **Docs updated:** specific files.
 - **Orphans handled:** what was indexed, deleted, moved.
 - **Surface-integrity findings (tool-integration only):** missing surface READMEs, missing or malformed `<surface>-meta.json` files. Empty if not a tool-integration project or all surfaces clean.
+- **Backbone-integrity findings (research only):** kept figures that don't resolve, kept figures with no `pipeline/` regenerator, numbers not traced to `numbers.json`, shipped-but-unregistered figures. Empty if no backbone yet or all clean.
 - **Future-work graduation candidates:** entries flagged as ticket-shaped (and what was decided per entry, if interactive).
 - **CLAUDE.md drift fixed:** specific changes.
 - **Local commit:** commit SHA + subject if step 8b created one, else "no pending changes". Also note any untracked items intentionally left out.

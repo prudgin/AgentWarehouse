@@ -35,7 +35,7 @@ Target length: under 120 lines of actual file content (excluding meta).
 
 State your reading of the task before acting. If the task is ambiguous or underspecified, stop and ask rather than guessing. If multiple approaches exist, present tradeoffs — do not pick silently. For multi-step work, outline a brief plan with verification checks before starting.
 
-**Analyse-first.** This is a research project. The default workflow is to start an investigation (`/start-analysis`), do the work in a dated dir, finalise it (`/finish-analysis`), and let findings settle into `glossary.md`, `docs/domain/`, `docs/adr/`, or `docs/planning/future-work.md`. The build chain is available for shippable artefacts but is not the centre of gravity.
+**Analyse-first.** This is a research project. The default workflow is to start an investigation (`/start-analysis`), do the work in a dated dir, finalise it (`/finish-analysis`), and let findings settle into `glossary.md`, `docs/domain/`, `docs/adr/`, or `docs/planning/future-work.md`. The build chain is available for shippable artefacts but is not the centre of gravity. Keepers — the figures and numbers worth putting in front of a stakeholder — are promoted as they emerge into the **report backbone** (see below), so the final report assembles incrementally rather than in an endgame scramble.
 
 <!-- FIXED -->
 ## SharePoint mirror
@@ -79,6 +79,13 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 
 **Findings provenance.** Claims that land in `glossary.md`, `docs/domain/`, or `docs/adr/` link back to the `analysis/<dated>/INVESTIGATION.md` that produced them. Provenance is what keeps the substrate honest as the research evolves.
 
+<!-- FIXED -->
+## Report backbone
+
+The trial ends in a report; to keep that endgame cheap, the report is assembled **incrementally from the start**, not reconstructed in a finalisation scramble. [`Reports/report-backbone.md`](Reports/report-backbone.md) is the single curated spine the final report(s) grow from — distinct from `analysis/`, which stays the full scatter of attempts (dead ends included). The backbone holds the **story beats** (the narrative order; a later presentation follows the backbone, never the reverse), a **global figure register** (stable `R-xx` ids, provenance, a `report:` status — a demotion is a status change, not a silent delete), and a **headline-numbers inventory** (every report number traced to one computed source, `pipeline/output/numbers.json`).
+
+**Promotion ("aha → backbone").** When an investigation yields a report-worthy figure or number, `/finish-analysis` promotes it: a register row + numbers entry, plus a one-command regenerator in `pipeline/` — the standalone `run_all` → figures + numbers flow, with `golden/` blessing each figure so reproduction is provable. Only keepers reach the backbone; the scatter stays in `analysis/`. The register format lives in [`Reports/README.md`](Reports/README.md).
+
 <!-- FIXED + PLACEHOLDER pointer adjustments -->
 ## Documentation map
 
@@ -87,7 +94,7 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 - **`Articles/`** — external reference papers, related literature.
 - **`Proposal/`** — grant and stage proposals; the project's "why" as written for stakeholders.
 - **`Data/`** — raw and processed data. Date-range subdirs (e.g. `13-02-2026 to 26-02-2026/`) are the existing convention for time-series experiments.
-- **`Reports/`** — interim and final reports (DOCX, PPTX, PDF) — the human-facing deliverables.
+- **`Reports/`** — interim and final reports (DOCX, PPTX, PDF) — the human-facing deliverables. Includes [`report-backbone.md`](Reports/report-backbone.md), the incremental assembly surface for the final report (see **Report backbone** above).
 - **`Expenses/`** — finance / receipts.
 
 ### Library (also syncs to SharePoint, no shame in it)
@@ -106,6 +113,7 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 ### Local only (excluded from sync)
 
 - **`src/`, `scripts/`** — code.
+- **`pipeline/`** — the standalone one-command reproduction flow (raw → every report figure + `numbers.json`) and its `golden/` blessed artefacts; built incrementally as figures are promoted to the backbone. Local-only by default (it is code); promote to a deliberate sync exception at finalisation, when it becomes the hand-over artefact.
 - **`output/`** — generated artefacts (regeneratable).
 - **`.git/`, `.venv/`, `.claude/`, `.env`, `pyproject.toml`, `.gitignore`, `.rclone-filter`** — tooling and config.
 
@@ -141,6 +149,7 @@ When you change behaviour, update the doc that describes it. A task is not done 
 - **New domain term resolved** → add to `glossary.md`, with provenance link.
 - **New domain mechanic discovered** → add to `docs/domain/`, with provenance link.
 - **First-party utility code added** → write or extend a doc in `docs/reference/` (create the dir if absent).
+- **Report-worthy figure or number produced** → register it in [`Reports/report-backbone.md`](Reports/report-backbone.md) (figure-register row + numbers inventory, with `report:` status) and ensure a one-command `pipeline/` regenerator exists. (`/finish-analysis` prompts this.)
 - **New planned work** → `docs/planning/future-work.md`.
 - **Project structure change** → update this file.
 - **End of session** → `/finish` (which runs `/sharepoint-sync push` after orphan checks).

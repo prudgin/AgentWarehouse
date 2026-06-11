@@ -51,6 +51,33 @@ The implications section is what drives downstream promotions. Look for:
 
 For each proposal, **ask the user to confirm** before writing. Show what you'd write and where. In auto mode, don't write — surface all proposals together for the user to review on return.
 
+### 3b. Promote report-worthy outputs to the report backbone (research projects only)
+
+**Research projects only** (those with a `Reports/` dir and the SharePoint mirror). Read the Findings / Implications again with one question: did this investigation produce a **figure or number worth putting in the final report**? If yes, promote each keeper — this is the "aha → backbone" gesture that keeps finalisation cheap (see "Report backbone" in `CLAUDE.md`). The scatter — dead ends included — stays in `analysis/`; only keepers reach the backbone.
+
+For each keeper, with user confirmation:
+
+1. **Register the figure** in `Reports/report-backbone.md` — append a row to the global figure register: a stable `R-xx` id (next free; never renumber existing ids), the message it carries, its current file (the `pipeline/output/figures/…` path), the source script, this investigation's dir, and `report: yes` (or `caveated`). A figure later dropped becomes a `report: dropped` row in the Dropped table **with a reason** — never a silent deletion.
+2. **Register the numbers** — add each headline number to the numbers inventory, traced to `pipeline/output/numbers.json`.
+3. **Ensure a one-command regenerator** in `pipeline/`. Port the producing script in — **standalone copy-paste, no `src/` imports** — wire it into `run_all`, and bless its output into `pipeline/golden/<R-xx>.png` so reproduction is provable. The pipeline is the hand-over artefact; it must run even if `src/` is removed.
+
+If `Reports/report-backbone.md` doesn't exist yet, create it from the stub described in `Reports/README.md` (story beats / figure register / numbers inventory / methods / caveats / gaps). If `pipeline/` doesn't exist yet, create it:
+
+```
+pipeline/
+├── README.md          # one-button reproduction flow; standalone, no src/ imports
+├── run_all.py         # entrypoint: build every figure + numbers.json
+├── data.py            # canonical loaders (ported from the analysis scripts)
+├── figures/<topic>.py # figure builders, one function per R-xx
+├── numbers.py         # assembles output/numbers.{json,md}
+├── output/            # gitignored: figures/, numbers.json, numbers.md
+└── golden/
+    ├── verify.py      # figures vs blessed copies (pixel / numeric)
+    └── <R-xx>.png     # blessed reference per figure
+```
+
+In auto mode, don't write — surface the promotion candidates (which figures/numbers, suggested `R-xx` ids) for the user to confirm on return.
+
 ### 4. Verify all output files are accounted for
 
 Walk the dir contents. Every file should be either:
@@ -92,6 +119,7 @@ Default: add to future-work.md (most flexible). Don't auto-spawn tickets without
 - **INVESTIGATION status:** complete.
 - **Landscape entry:** updated, snippet shown.
 - **Promotions confirmed:** list of glossary/domain/adr/future-work updates that landed.
+- **Backbone promotions:** figures/numbers registered in `Reports/report-backbone.md` (with `R-xx` ids) and `pipeline/` regenerators added, if any.
 - **Promotions pending:** anything you proposed but the user (or auto mode) deferred.
 - **Suggested next step:** if the investigation implied build work, suggest `/to-prd` or adding to `future-work.md`.
 

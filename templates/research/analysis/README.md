@@ -44,7 +44,7 @@ TODO: what we learned, with concrete evidence.
 
 ## Implications
 
-TODO: what should land in glossary.md / docs/domain/ / docs/adr/ / future-work.md.
+TODO: what should land in glossary.md / docs/domain/ / docs/adr/ / future-work.md — and any **report-worthy** figure or number → promote to Reports/report-backbone.md.
 
 ## Open ends
 
@@ -60,6 +60,10 @@ TODO: what's left unresolved.
 ## Findings provenance
 
 Every claim that lands outside this directory (in `glossary.md`, `docs/domain/`, `docs/adr/`) should link the INVESTIGATION that produced it. The provenance link is what lets a future agent verify the claim against original evidence rather than treating it as folklore.
+
+## Promotion to the report backbone
+
+When an investigation produces a figure or number worth putting in the final report, it is a **keeper** — promote it to [`../Reports/report-backbone.md`](../Reports/report-backbone.md) ("aha → backbone"): a figure-register row (stable `R-xx`, provenance, `report:` status) and/or a headline-numbers entry, plus a one-command regenerator in `pipeline/`. `/finish-analysis` prompts this from the Implications section. The scatter — including dead ends — stays here in `analysis/`; only keepers reach the backbone. See [`../Reports/README.md`](../Reports/README.md) for the register format.
 
 ## No-orphan rule
 
