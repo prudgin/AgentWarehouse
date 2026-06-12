@@ -153,3 +153,95 @@ Templates exist for `library`, `pipeline`, `tool-integration`, `analysis` — al
 **Why:** on the user's return, what's the resumption skill — `/work-issue` again, or `/finish`? Currently underspecified.
 **Open questions:** does the choice depend on what the stop reason was, or is one resumption skill always right?
 **Links:** `skills/work-issue/SKILL.md`.
+
+## Captured ideas (from `agent ideas.odt`)
+
+Brain-dump seeds, sharpened into entries on 2026-06-12 and tagged per [ADR-0021](../adr/0021-future-work-entries-carry-type-tag.md). Unsorted relative to the curated queues above — graduate, split, or distribute into the sections above as each firms up.
+
+### Worktree isolation and scope for agent work
+
+**What:** start agent work on a fresh git worktree, never touching other trees; keep the worktree path inside the repo; scope each worktree's file access so an agent only sees and edits its slice.
+**Type:** proposal
+**Why:** parallel and AFK agents that share one working tree clobber each other; isolated worktrees plus scoped file access make concurrent work safe and reviewable.
+**Open questions:** which skill owns this — `work-issue` at branch time, or a new `/worktree` primitive? how is "scope file access" enforced — settings deny-list, prompt convention, or harness flag?
+**Links:** `skills/work-issue/SKILL.md`.
+
+### Per-directory / per-package `CLAUDE.md`
+
+**What:** support nested `CLAUDE.md` files scoped to a directory or package, not just the repo root.
+**Type:** open-question
+**Why:** large repos carry subsystem-local conventions that don't belong in the root file; nesting keeps guidance next to the code it governs.
+**Open questions:** does this collide with the "no orphans / one canonical home" rule? how do nested files compose with the root — override, append, or scope-limited?
+**Links:** `CLAUDE.md`.
+
+### Restrict what agents read — `permissions.deny` and `.ignore`
+
+**What:** use `permissions.deny` in `.claude/settings.local.json` to skip reading designated files, and `.ignore` files to exclude generated output, build artifacts, and third-party code from agent attention.
+**Type:** proposal
+**Why:** smaller, cleaner context — agents waste budget and get misled reading vendored or generated code.
+**Open questions:** ship a default `.ignore` and deny-list in the templates? which paths are safe defaults across project types?
+**Links:** `templates/`.
+
+### `.claude/rules/` topic files and path-specific rules
+
+**What:** adopt per-topic rule files under `.claude/rules/` (one topic per file, e.g. `testing.md`, `api-design.md`) plus path-specific rules that apply only under matching paths.
+**Type:** open-question
+**Why:** finer-grained, composable guidance than a single CLAUDE.md; rules attach to the area they govern.
+**Open questions:** how does `.claude/rules/` relate to the warehouse's existing CLAUDE.md + docs conventions — replace, supplement, or redundant? does path-specific scoping overlap with per-directory `CLAUDE.md` above?
+**Links:** `CLAUDE.md`.
+
+### Memory off by default (`autoMemoryEnabled: false`)
+
+**What:** decide whether warehouse and template settings should set `{"autoMemoryEnabled": false}`.
+**Type:** open-question
+**Why:** auto-memory may capture noise or conflict with the warehouse's explicit "one canonical home per fact" doc discipline.
+**Open questions:** is durable knowledge better served by the docs/ADR system than by auto-memory? off globally, or per-template?
+**Links:** `templates/`.
+
+### Code-intelligence plugins
+
+**What:** watch the code-intelligence plugin space (LSP-style symbol and reference tooling for agents).
+**Type:** watching
+**Why:** could sharpen navigation and refactor skills, but not actionable until a concrete tool is chosen.
+**Open questions:** which plugin, and does it earn its keep over plain search?
+**Links:** none yet.
+
+### `/explain` skill — or plugin?
+
+**What:** an `/explain` capability that gives a high-level explanation of code; decide skill vs plugin packaging.
+**Type:** open-question
+**Why:** overlaps the existing `/zoom-out` skill ("higher-level explanation in the project's vocabulary") — may be a rename, a superset, or genuinely distinct.
+**Open questions:** how does `/explain` differ from `/zoom-out`? if it's the same, fold in; if distinct, what's the boundary? skill or plugin?
+**Links:** `skills/zoom-out/SKILL.md`.
+
+### Deep vs shallow modules — keep reinforcing
+
+**What:** keep the deep-module / shallow-module distinction front-and-centre in architecture work.
+**Type:** refinement-candidate
+**Why:** already embodied in `/improve-codebase-architecture`; this is a reminder to keep the deletion-test framing sharp as the skill gets real use.
+**Open questions:** is the principle surfaced strongly enough in the skill, or does it want its own reference doc?
+**Links:** `skills/improve-codebase-architecture/SKILL.md`.
+
+### Auto push + merge on `/finish` — confirm behaviour
+
+**What:** confirm the auto push+merge path fires correctly when `/finish` is called.
+**Type:** refinement-candidate
+**Why:** `/finish` already ships, pushes, and merges; this is a watch-in-practice item, not a new build.
+**Open questions:** does the push/merge step behave under the mixed-mode auto/confirm split, or surprise the user?
+**Links:** `skills/finish/SKILL.md`.
+
+### Multi-agent orchestration and context handoff
+
+**What:** an orchestration model with (a) tickets executed as sequential Opus runs, (b) a master/orchestrator agent role holding a protected context window, and (c) a `handoff-compact-rehydrate` flow to carry state across context boundaries.
+**Type:** proposal
+**Why:** lets long or large work span many agent runs without losing the thread — the master agent keeps the through-line while workers churn.
+**Open questions:** what does the master's "protected window" actually pin? is handoff-compact-rehydrate a skill, a harness feature, or both? how do sequential-opus tickets relate to the existing `.tickets/` + `work-issue` flow?
+**Links:** `skills/work-issue/SKILL.md`.
+
+### Skill: report on doc/skill health for the next agent
+
+**What:** a skill that emits feedback on the current state of docs and skills — what can be improved, what's broken, and what gotchas must be documented to make the next agent's life easier.
+**Type:** proposal
+**Why:** closes the warehouse's self-improvement loop; each session leaves the system a little more legible for the next.
+**Open questions:** where does the output land — `future-work.md`, a dedicated doc, or a ticket? how does it avoid overlapping `/finish`'s orphan-sweep and CLAUDE.md-drift checks?
+**Links:** `skills/finish/SKILL.md`.
