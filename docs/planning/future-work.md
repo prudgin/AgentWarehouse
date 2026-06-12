@@ -245,3 +245,15 @@ Brain-dump seeds, sharpened into entries on 2026-06-12 and tagged per [ADR-0021]
 **Why:** closes the warehouse's self-improvement loop; each session leaves the system a little more legible for the next.
 **Open questions:** where does the output land — `future-work.md`, a dedicated doc, or a ticket? how does it avoid overlapping `/finish`'s orphan-sweep and CLAUDE.md-drift checks?
 **Links:** `skills/finish/SKILL.md`.
+
+## From the canonical-setup synthesis (2026-06-12)
+
+Ideas surfaced while surveying this PC's agentic setups. See [`analysis/2026-06-12-canonical-setup-synthesis/INVESTIGATION.md`](../../analysis/2026-06-12-canonical-setup-synthesis/INVESTIGATION.md).
+
+### Global skill: "add idea to warehouse" (the behaviour-change channel)
+
+**What:** a machine-wide skill (installed in `~/.claude/skills/`, pinned to target this warehouse) that, from inside ANY project or session, files a ticket into the warehouse's `.tickets/inbox/` proposing a new warehouse feature or a change to an existing one. When the user — or the agent — thinks "the warehouse should do X" mid-work, one skill call lands the request without leaving the current project. Two modes: (a) user-invoked ("add idea to warehouse: …"); (b) an agent-side hook/skill that proactively *suggests* filing a warehouse ticket when it notices a recurring friction or a convention gap. Builds directly on the existing `/file-cross-repo-ticket` (drop into another repo's `.tickets/inbox/`) and `/check-inbox` primitives — this is a global, warehouse-pinned specialisation of them.
+**Type:** proposal
+**Why:** the user wants to switch OFF Claude's machine-wide and project-wide auto-memory, but still let agents influence future behaviour. This skill is the durable, versioned substitute: instead of an invisible per-machine memory file, a behaviour-change request becomes a reviewable warehouse ticket that propagates to every machine via git. Extends the warehouse's existing "project facts go in the repo, not auto-memory" stance ([`philosophy.md`](../domain/philosophy.md), "What we deliberately reject") to cross-project and agent-suggested change.
+**Open questions:** target `.tickets/inbox/` (triage-gated) or straight into `future-work.md`? how does a global skill resolve the warehouse path on each machine — config file, env var, or a well-known location? what's the proactive-suggestion trigger, and does it need a hook (PostToolUse / Stop) rather than a skill? with auto-memory off globally, is there anything genuinely user-personal this channel doesn't recover, and where does that go instead?
+**Links:** `skills/file-cross-repo-ticket/SKILL.md`, `skills/check-inbox/SKILL.md`, [`analysis/2026-06-12-canonical-setup-synthesis/INVESTIGATION.md`](../../analysis/2026-06-12-canonical-setup-synthesis/INVESTIGATION.md).

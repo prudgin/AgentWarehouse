@@ -2,7 +2,7 @@
 
 One subdirectory per investigation, dated `YYYY-MM-DD-<kebab-topic>/`. Each holds the scripts that produced the result and a canonical `INVESTIGATION.md`. Cross-cutting narrative across investigations lives in [analysis-landscape.md](analysis-landscape.md).
 
-This directory is currently empty — the warehouse design itself was the result of conversation-based research, not script-driven investigation. Future investigations specific to the warehouse (e.g. comparative review of an additional reference repo, performance characterisation of the migration playbook on a real codebase) will land here.
+Investigations to date are registered in [analysis-landscape.md](analysis-landscape.md): the 2026-05-04 template self-test and the in-progress 2026-06-12 canonical-setup synthesis (a survey of this PC's agentic setups, philosophy files, and settings, toward a single unified setup). Future investigations specific to the warehouse will land here too.
 
 ## Conventions
 
