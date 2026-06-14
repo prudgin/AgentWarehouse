@@ -243,7 +243,7 @@ Brain-dump seeds, sharpened into entries on 2026-06-12 and tagged per [ADR-0021]
 **What:** a skill that emits feedback on the current state of docs and skills — what can be improved, what's broken, and what gotchas must be documented to make the next agent's life easier.
 **Type:** proposal
 **Why:** closes the warehouse's self-improvement loop; each session leaves the system a little more legible for the next.
-**Open questions:** where does the output land — `future-work.md`, a dedicated doc, or a ticket? how does it avoid overlapping `/finish`'s orphan-sweep and CLAUDE.md-drift checks?
+**Open questions:** where does the output land — `future-work.md`, a dedicated doc, or a ticket? how does it avoid overlapping `/finish`'s orphan-sweep and CLAUDE.md-drift checks? strong overlap with the `/finish` retrospective proposal under [From session feedback (2026-06-13)](#from-session-feedback-2026-06-13) below — that one is grounded in the agent's *lived friction this session*, this one is a general health survey; decide whether they merge.
 **Links:** `skills/finish/SKILL.md`.
 
 ## From the canonical-setup synthesis (2026-06-12)
@@ -257,3 +257,36 @@ Ideas surfaced while surveying this PC's agentic setups. See [`analysis/2026-06-
 **Why:** the user wants to switch OFF Claude's machine-wide and project-wide auto-memory, but still let agents influence future behaviour. This skill is the durable, versioned substitute: instead of an invisible per-machine memory file, a behaviour-change request becomes a reviewable warehouse ticket that propagates to every machine via git. Extends the warehouse's existing "project facts go in the repo, not auto-memory" stance ([`philosophy.md`](../domain/philosophy.md), "What we deliberately reject") to cross-project and agent-suggested change.
 **Open questions:** target `.tickets/inbox/` (triage-gated) or straight into `future-work.md`? how does a global skill resolve the warehouse path on each machine — config file, env var, or a well-known location? what's the proactive-suggestion trigger, and does it need a hook (PostToolUse / Stop) rather than a skill? with auto-memory off globally, is there anything genuinely user-personal this channel doesn't recover, and where does that go instead?
 **Links:** `skills/file-cross-repo-ticket/SKILL.md`, `skills/check-inbox/SKILL.md`, [`analysis/2026-06-12-canonical-setup-synthesis/INVESTIGATION.md`](../../analysis/2026-06-12-canonical-setup-synthesis/INVESTIGATION.md).
+
+## From session feedback (2026-06-13)
+
+### `finish` retrospective: capture session friction and propose doc/skill fixes
+
+**What:** add a retrospective step to the `/finish` ritual that prompts the agent to look back over its own workflow this session and surface where it hiccuped — errors hit, walls and dead-ends, inconsistent / misleading / corrupted / contradicting information, and gaps in the docs and skills that forced extra work, drove wrong decisions, or made it ask the user questions it should not have needed to. For each hiccup the agent traces the cause back into the doc/skill base and proposes a concrete remedy: a correction, a missing link, a sharper procedure, or a documented gotcha.
+**Type:** proposal
+**Why:** the agent navigates and understands the project entirely through its docs and skills; when those mislead or have gaps, the cost (re-work, errors, wrong turns, avoidable questions) is invisible once the session ends. `/finish` is the one moment the agent still holds the session's friction in working context — prompting a retrospective there converts lived pain into durable improvements and closes the warehouse's self-improvement loop.
+**Open questions:** strong overlap with [Skill: report on doc/skill health for the next agent](#skill-report-on-docskill-health-for-the-next-agent) above — that entry is a general "current state of docs/skills" survey, this one is grounded in *what actually tripped this session*; do they merge, or are they two passes (session-friction retrospective + standing-health audit)? where does the output land — inline doc fixes during `/finish`, new `future-work.md` entries, gotchas appended to the offending skill/doc, or tickets? how to keep a smooth session from bloating `/finish` into a needless essay (skip cleanly when there was no friction)? does it duplicate `/finish`'s existing orphan-sweep and CLAUDE.md-drift checks, or sit alongside them as a separate human-readable retro?
+**Links:** `skills/finish/SKILL.md`, [Skill: report on doc/skill health for the next agent](#skill-report-on-docskill-health-for-the-next-agent).
+
+## Raw brain-dump (2026-06-14) — review tools, question sessions, ticket-writing
+
+Unprocessed dump, added verbatim. Sharpen into proper `**Type:**`-tagged entries (per [ADR-0021](../adr/0021-future-work-entries-carry-type-tag.md)) on a later pass.
+
+> i need to redefine tools for:
+>
+> docs body review
+> tests review
+> deep vs shallow review
+> code review
+>
+> once issues are surfaced
+>
+> question session - concise, conceptual, no technical references, recommended answer
+>
+> group issues, then question ->ticket
+>
+> need to revisit ticket writing skill, has to be 100% afk agent ready, be in line with philosophy and other design decisions
+>
+> so, the workflow has to be - state a problem, research, save a doc with findings (analysis?) [ interview (questions) - ticket] per group
+>
+> tests - a big thing to research. maybe drop unit tests and anchor to fixtures (golden standards) only
