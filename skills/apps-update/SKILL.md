@@ -79,6 +79,12 @@ The temp working dir is wiped on exit. `git push` is **not** done — local comm
 | `pac solution import` fails with version-related error | Already-imported solution at same/higher version | The script doesn't bump the version. Manually bump the wrapper's version in the portal (Solutions → Properties → Version) and re-run. |
 | `pac canvas pack` warns "deprecated" | Pac 2.6.4 marked unpack/pack deprecated | Benign for now. The successor verb hasn't shipped. See [docs/reference/pac-canvas-deprecation.md](../../docs/reference/pac-canvas-deprecation.md). |
 
+## Before pushing: refresh the data-source schema if you referenced a new column
+
+If a `.fx.yaml` edit references a SharePoint column that was **just added** to the list, the Studio data-source schema must be refreshed (maker portal → **Data → `<list>` → ⋯ → Refresh**) *before* you run `update-app.sh`. Skipping it produces a **silent runtime failure**: the published app no-ops the entire `OnSelect`/formula block that contains the unknown field — no error toast, no overlay, no state change. The user reports "I click and nothing happens."
+
+This is a portal step the **user** performs; on Linux you cannot refresh the schema yourself. So when an edit adds a reference to a new column, confirm with the user that the refresh is done before pushing. Verified by the 2026-06-01 WaterQuality production incident (a `ClientVersion` column reference shipped against a stale cached schema; saves silently no-opped). Edits that touch only columns the app already knows about do **not** need this — don't let it become a reason to gate routine pushes.
+
 ## Canvas-app gotchas (in your `.fx.yaml`)
 
 These commonly bite during edits — read once before any non-trivial `src/` change:
