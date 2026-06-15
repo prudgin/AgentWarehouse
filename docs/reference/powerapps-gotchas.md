@@ -97,6 +97,21 @@ def fix(m):
 
 In practice, the offending bare-`\n` is usually obvious in diff — just edit it back to 12 spaces.
 
+## Responsive sizing: use the app's scale vars + auto-layout, not raw pixels
+
+Canvas apps render on phones, tablets and desktop from one definition. A well-built app makes everything responsive through a **single scale factor + auto-layout containers**, and hard-coding `Height: =44` / `Width: =170` / `Padding: =12` silently defeats it (the control stays one fixed size while everything around it scales). Agents who don't know the model tend to reach for literals — check first.
+
+**Before adding or editing a control, look at `App.Formulas`** (the app's named formulas) for the scale scheme. The pattern, as implemented in `apps/WQ_WaterQuality_sp/`:
+
+- A clamped, viewport-driven factor: `varScale = Min(1.2, Max(0.5, App.Width / 1200))`.
+- Named sizing formulas derived from it — fonts (`varFontBase`/`varFontSmall`/`varFontTitle`…), spacing (`varPadS/M/L`, `varGapS/M/L`), `varRadius`, `varBtnH`, `varInputH`. **Size every control from these (or a `varScale` multiple)**, never a literal. A wide button = a `varBtnH` multiple (`varBtnH*2.8`), so width scales too.
+- Layout via `groupContainer.*AutoLayoutContainer` with `FillPortions` (0 = content/explicit size, >0 = grow), `LayoutGap` (= a spacing var), `LayoutAlignItems`/`LayoutJustifyContent` — not absolute `X`/`Y` (which auto-layout children ignore anyway).
+- A shape breakpoint: `varIsNarrow = (App.Width < App.Height)`, branched in `If(varIsNarrow, …)` to reflow (e.g. a sidebar that stacks above the main panel on phones).
+
+**Legitimately fixed:** `BorderThickness` (1–2px), `LayoutMinHeight`/`LayoutMinWidth` floors, small control-internal paddings. Everything that determines rendered size should scale.
+
+**How to apply:** mirror the existing scale vars; if a screen has none, that's a real gap worth raising, not a license to use pixels. The per-app doc carries the project-specific table (e.g. `apps/WQ_WaterQuality_sp/App_documentation.md` → "Responsive sizing model").
+
 ---
 
 ## Source

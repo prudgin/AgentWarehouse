@@ -93,6 +93,7 @@ These commonly bite during edits — read once before any non-trivial `src/` cha
 - **PA3003 "Property should be at same indent level"** IS fatal — bare `\n` lines inside `OnSelect: |` block scalars break the pack. Pad blanks to 12 spaces after manual edits.
 - **`Concurrent` refuses multi-branch writes to the same data source**, even if rows are disjoint. Group by source.
 - **`Select(otherBtn)` is fire-and-forget**, not synchronous. Race-protection requires guard variables.
+- **Size responsively — no raw pixels.** Sizes derive from the app's scale vars (`varScale`, `varBtnH`, `varPadS`, …) + auto-layout `FillPortions`, with `varIsNarrow` for reflow. Hard-coded `Height`/`Width`/`Padding` literals silently break responsiveness across phone/tablet/desktop — check `App.Formulas` for the scale scheme before adding a control.
 
 Full text in [docs/reference/powerapps-gotchas.md](../../docs/reference/powerapps-gotchas.md).
 
