@@ -130,6 +130,17 @@ Templates exist for `library`, `pipeline`, `tool-integration`, `analysis` — al
 
 ## Open questions
 
+### Low-technical / concise communication mode
+
+**What:** a mechanism to let the user request, on demand, that agents talk to them at a conceptual altitude rather than a code-detail one — concise, high-level, grammar sacrificed for brevity. Could be a skill, a hook, a settings flag, or a CLAUDE.md stanza. Mechanism undecided.
+**Type:** open-question
+**Why:** the user's role is conceptual decisions, the agent's is technical realisation. The user does not retain code-level detail (variable names, naming conventions) and is slowed by detail-rich prose. A toggle would shift register without re-explaining each session.
+**Open questions:** skill (explicit `/concise` toggle) vs. hook (auto-rewrite) vs. settings flag vs. CLAUDE.md output-style stanza? Per-session or persistent? Does it conflict with the warehouse docs-philosophy (which wants precise canonical text)?
+**User's verbatim request (the seed for this entry):**
+> with communication with me please be concise in this session, sacrifice grammar for concision, if meaning can be conveyed using high-level conceptual language without loss of conversation quality, use it instead of highly technical detail-rich language, because i dont remember all details (names of variables, naming conventions, etc) and my role is conceptual decigions, yours technical realisation. Prefer concision over verbosity where it does not hurt meaning conveyance
+
+**Links:** none yet.
+
 ### Skill location for global skills
 
 **What:** decide whether globally-applicable skills (e.g. `sudo-script`) live in `~/.claude/skills/` (per-user) or as per-project copies.
