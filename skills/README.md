@@ -52,20 +52,9 @@ A skill may also ship an optional `scripts/` subdirectory holding executable hel
 | [`file-cross-repo-ticket`](file-cross-repo-ticket/SKILL.md) | safe | Drop a ticket into another repo's `.tickets/inbox/`. |
 | [`check-inbox`](check-inbox/SKILL.md) | safe | List and summarise incoming cross-repo tickets. |
 
-## Power Platform integration (tool-integration projects targeting Microsoft Power Platform)
+## Power Platform integration — relocated to `~/MicrosoftFlowsApps`
 
-| Skill | Auto mode | What it does |
-|---|---|---|
-| [`power-platform-auth`](power-platform-auth/SKILL.md) | safe (knowledge) | Shared library — how to authenticate against Power Automate, Power Apps, BAP, Dataverse, and Graph from Linux via Azure CLI. Two REST audiences (Flow vs PowerApps/BAP). Loaded by the others when they authenticate. |
-| [`pac-cli-linux`](pac-cli-linux/SKILL.md) | safe | Install and run the Power Platform CLI on Linux. `pac canvas`, `pac solution`, `pac env`. Includes the gotcha that `pac` has no `flow` verb. |
-| [`flows-discover`](flows-discover/SKILL.md) | safe (read-only) | Find which env a Power Automate cloud flow lives in (by id or name fragment). |
-| [`flows-export`](flows-export/SKILL.md) | safe | Export a flow to `flows/<Name>/` — `flow-definition.json` + `flow-package.zip` + `flow-meta.json`. Scrubs resolved secrets back to placeholders. |
-| [`flows-update`](flows-update/SKILL.md) | safe (local commit only) | PATCH a flow back to Power Automate from a local `flow-definition.json`. Substitutes secrets in-memory; sha256 fingerprints the result; auto-commits. |
-| [`apps-discover`](apps-discover/SKILL.md) | safe (read-only) | Find which env a Power Apps canvas app lives in. |
-| [`apps-export`](apps-export/SKILL.md) | safe | Export a canvas app to `apps/<Name>/` — `app-meta.json` + `app-definition.json` + `app.msapp` + unpacked `src/`. |
-| [`apps-update`](apps-update/SKILL.md) | safe (local commit only) | Push edits to canvas-app `src/` via the unmanaged-solution route. One-time portal step per app to wrap it in an unmanaged Dataverse solution. |
-| [`proxy-flow-scaffolding`](proxy-flow-scaffolding/SKILL.md) | safe | Scaffold an HTTP-triggered proxy flow as a 4-piece set (flow folder + `.secrets/<name>-proxy-url` + `_tools/<name>.sh` + CLAUDE.md section). The standard workaround for Power Platform connectors that Linux can't reach directly. |
-| [`anthropic-api-integration`](anthropic-api-integration/SKILL.md) | safe (knowledge) | How to call the Anthropic API from a Power Automate flow — HTTP action wiring, key placeholder convention, audience safety check, model-version handling, prompt caching. |
+The Power Platform skill bundle (`power-platform-auth`, `pac-cli-linux`, `flows-*`, `apps-*`, `proxy-flow-scaffolding`, `anthropic-api-integration`) and its reference docs are no longer canonical here. They were relocated to their sole consumer, `~/MicrosoftFlowsApps`, on 2026-06-16 — single consumer, no second in prospect (see [ADR-0025](../docs/adr/0025-power-platform-bundle-lives-with-its-consumer.md)). A future Power Platform project seeds its bundle from that repo.
 
 ## Research-specific (research-template projects only)
 

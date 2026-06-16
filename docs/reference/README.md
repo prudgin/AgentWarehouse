@@ -9,10 +9,6 @@ Update after adding/removing/changing a template or skill.
 - [templates.md](templates.md) — inventory of project templates (`templates/<type>/`).
 - [skills.md](skills.md) — inventory of skills (`skills/<name>/`).
 
-### Power Platform integration
+### Power Platform integration — relocated
 
-Reference material for `tool-integration` projects targeting Microsoft Power Platform. Loaded by the matching skills (`flows-*`, `apps-*`, `proxy-flow-scaffolding`, `power-platform-auth`).
-
-- [azure-cli-sharepoint-auth.md](azure-cli-sharepoint-auth.md) — Azure CLI default tokens cannot reach SharePoint/Graph list endpoints in most tenants; one-time `Sites.ReadWrite.All` consent workaround.
-- [powerapps-gotchas.md](powerapps-gotchas.md) — `Concurrent` same-source refusal, `Select` fire-and-forget, `pac canvas pack` PA2001 / PA3003 errors.
-- [pac-canvas-deprecation.md](pac-canvas-deprecation.md) — `pac canvas unpack/pack` deprecation watch and mitigation options.
+The Power Platform reference docs (`powerapps-gotchas.md`, `azure-cli-sharepoint-auth.md`, `pac-canvas-deprecation.md`) and the matching skill bundle are no longer here. They were relocated to their sole consumer, `~/MicrosoftFlowsApps` (`docs/reference/` + `.claude/skills/`), on 2026-06-16 — single consumer, no second in prospect. See [ADR-0025](../adr/0025-power-platform-bundle-lives-with-its-consumer.md).
