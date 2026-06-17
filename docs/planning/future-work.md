@@ -174,8 +174,8 @@ Brain-dump seeds, sharpened into entries on 2026-06-12 and tagged per [ADR-0021]
 **What:** start agent work on a fresh git worktree, never touching other trees; keep the worktree path inside the repo; scope each worktree's file access so an agent only sees and edits its slice.
 **Type:** proposal
 **Why:** parallel and AFK agents that share one working tree clobber each other; isolated worktrees plus scoped file access make concurrent work safe and reviewable.
-**Open questions:** which skill owns this — `work-issue` at branch time, or a new `/worktree` primitive? how is "scope file access" enforced — settings deny-list, prompt convention, or harness flag?
-**Links:** `skills/work-issue/SKILL.md`.
+**Open questions:** which skill owns this — `work-issue` at branch time, or a new `/worktree` primitive? how is "scope file access" enforced — settings deny-list, prompt convention, or harness flag? a hook-driven ownership answer is proposed in [Worktree-per-session lifecycle via session-start hook and finish-time cleanup](#worktree-per-session-lifecycle-via-session-start-hook-and-finish-time-cleanup) below.
+**Links:** `skills/work-issue/SKILL.md`, [Worktree-per-session lifecycle via session-start hook and finish-time cleanup](#worktree-per-session-lifecycle-via-session-start-hook-and-finish-time-cleanup).
 
 ### Per-directory / per-package `CLAUDE.md`
 
@@ -301,3 +301,13 @@ Unprocessed dump, added verbatim. Sharpen into proper `**Type:**`-tagged entries
 > so, the workflow has to be - state a problem, research, save a doc with findings (analysis?) [ interview (questions) - ticket] per group
 >
 > tests - a big thing to research. maybe drop unit tests and anchor to fixtures (golden standards) only
+
+## From session (2026-06-17)
+
+### Worktree-per-session lifecycle via session-start hook and finish-time cleanup
+
+**What:** give worktrees a canonical home — a fixed directory the warehouse owns where every agent worktree lives — and automate the full lifecycle with hooks instead of leaving it to the agent to remember. A session-start hook creates (or checks out) a fresh worktree under that canonical directory and drops the session into it, so isolation is the default rather than an opt-in; on `/finish`, the worktree's branch is merged back into its parent and the worktree is removed. The canonical directory keeps the trees in one place so they are trivial to list, inspect, and garbage-collect.
+**Type:** proposal
+**Why:** the existing [Worktree isolation and scope for agent work](#worktree-isolation-and-scope-for-agent-work) entry establishes *why* isolation matters (parallel/AFK agents clobber a shared tree) and asks *which skill owns it*. This entry proposes a different ownership answer — a `SessionStart` hook plus a finish-time teardown — so isolation happens automatically at the harness boundary instead of depending on the agent remembering to invoke a skill, and adds the missing piece the other entry leaves open: a single canonical directory so the worktrees don't scatter and leak.
+**Open questions:** where does the canonical directory live — inside the repo (and `.gitignore`'d) or a sibling tree outside it? does a `SessionStart` hook have enough information to pick or create the right branch, or must the ticket/branch be chosen first (chicken-and-egg with `/work-issue`, which already branches)? does the hook *replace* `/work-issue`'s branch step and `/finish`'s merge+delete step, or *wrap* them? how is dirty/uncommitted worktree state handled when a session ends without `/finish`? merge-back conflict handling? per-project hook shipped in the templates, or a global harness setting?
+**Links:** [Worktree isolation and scope for agent work](#worktree-isolation-and-scope-for-agent-work), `skills/work-issue/SKILL.md`, `skills/finish/SKILL.md`.
