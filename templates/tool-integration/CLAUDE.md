@@ -30,6 +30,11 @@ State your reading of the task before acting. If the task is ambiguous or unders
 
 **Skills-heavy pattern.** Don't try to recall how each tool works cold. Load the matching skill on demand — the skills wrap the underlying scripts in `_tools/`.
 
+<!-- FIXED -->
+## Secrets & `.env`
+
+Never shell-source a `.env` file (`source .env`, `. .env`, `set -a; . .env`). Sourcing executes it as shell code — a secret value containing `&` or spaces (e.g. a URL that is itself the credential) gets run as a background job and echoed into the session log, leaking it. Load `.env` with `python-dotenv`: `load_dotenv()` in code, or `python -c 'from dotenv import dotenv_values; print(dotenv_values()["KEY"])'` for a one-off. A `PreToolUse` hook (`.claude/hooks/guard-env-source.py`) blocks the unsafe form.
+
 <!-- PLACEHOLDER — describe what this integration does:
      WHAT: which external platform, which surfaces (flows, apps, etc.).
      WHY:  why we maintain a Linux/CLI workflow for it.

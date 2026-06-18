@@ -301,3 +301,13 @@ Unprocessed dump, added verbatim. Sharpen into proper `**Type:**`-tagged entries
 > so, the workflow has to be - state a problem, research, save a doc with findings (analysis?) [ interview (questions) - ticket] per group
 >
 > tests - a big thing to research. maybe drop unit tests and anchor to fixtures (golden standards) only
+
+## From session feedback (2026-06-18)
+
+### Session-start hook: load the correct venv per repo
+
+**What:** a `SessionStart` hook (shipped in the template `.claude/settings.json`) that activates the repo's correct virtual environment at the start of every new session, so the agent's shell begins with the right interpreter without manual activation.
+**Type:** proposal
+**Why:** agents start sessions with whatever environment the shell defaults to (or none); Python projects then silently run the wrong interpreter or miss dependencies until something breaks. A session-start hook makes the correct env automatic and uniform across every repo.
+**Open questions:** which hook event — `SessionStart`, or a `PreToolUse` guard on Bash? how does the hook locate the env — convention (`.venv/`), a config key, or detection (uv / poetry / conda / pip)? which templates ship it (library / pipeline / analysis / research are Python; tool-integration may not be)? template-level `settings.json` vs a global default? does it generalise past Python (node, etc.)?
+**Links:** `templates/`; sits with the settings/hook cluster under [Captured ideas](#captured-ideas-from-agent-ideasodt) (`permissions.deny`/`.ignore`, memory-off-by-default).

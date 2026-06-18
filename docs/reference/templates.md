@@ -44,6 +44,10 @@ Differs from `analysis/`: adds five "synced surface" dirs at root (`Articles/`, 
 
 [Browse →](../../templates/research/)
 
+## Shared guardrails
+
+Every template ships a `PreToolUse` Bash hook at `.claude/hooks/guard-env-source.py` (wired in `.claude/settings.json`) that **blocks shell-sourcing a `.env` file** (`source .env`, `. .env`, `set -a; . .env`). Sourcing executes the file as shell code, so a secret value containing `&` or spaces (e.g. a URL that is itself the credential) leaks into the session log; the hook blocks the call and points the agent at the safe `python-dotenv` loader. It is the content-aware companion to the curated allow/deny list ([ADR-0023](../adr/0023-templates-ship-curated-broad-allow-list.md)) — the deny list matches command prefixes, this hook inspects the whole command. See [ADR-0026](../adr/0026-pretooluse-hook-blocks-shell-sourcing-env.md). The warehouse itself ships the same hook (dogfooding).
+
 ## Customising a template
 
 Placeholder markers used in templates:

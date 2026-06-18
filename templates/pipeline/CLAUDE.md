@@ -25,6 +25,11 @@ Target length: under 100 lines of actual file content (excluding this meta).
 
 State your reading of the task before acting. If the task is ambiguous or underspecified, stop and ask rather than guessing. If multiple approaches exist, present tradeoffs — do not pick silently. For multi-step work, outline a brief plan with verification checks before starting.
 
+<!-- FIXED -->
+## Secrets & `.env`
+
+Never shell-source a `.env` file (`source .env`, `. .env`, `set -a; . .env`). Sourcing executes it as shell code — a secret value containing `&` or spaces (e.g. a URL that is itself the credential) gets run as a background job and echoed into the session log, leaking it. Load `.env` with `python-dotenv`: `load_dotenv()` in code, or `python -c 'from dotenv import dotenv_values; print(dotenv_values()["KEY"])'` for a one-off. A `PreToolUse` hook (`.claude/hooks/guard-env-source.py`) blocks the unsafe form.
+
 <!-- PLACEHOLDER — describe the pipeline:
      WHAT: input source, output sink, intermediate stages, technology.
      WHY:  what this pipeline produces and who consumes it.

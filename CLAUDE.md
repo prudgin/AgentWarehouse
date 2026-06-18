@@ -34,7 +34,7 @@ CLAUDE.md lists what exists and when to read it. Skills (`.claude/skills/`) wrap
 - **[`README.md`](README.md)** — human-facing entry; links back to this file.
 - **[`glossary.md`](glossary.md)** — warehouse-specific vocabulary (skill, library, template, build chain, analyse chain, ADR, ...). Read before naming anything in this repo.
 - **[`docs/reference/`](docs/reference/README.md)** — what the warehouse contains and how it's organised: templates inventory, skills inventory.
-- **[`docs/adr/`](docs/adr/README.md)** — Architecture Decision Records. The 23 ADRs here record the design choices made in setting up the warehouse.
+- **[`docs/adr/`](docs/adr/README.md)** — Architecture Decision Records. The 26 ADRs here record the design choices made in setting up the warehouse.
 - **[`docs/domain/`](docs/domain/README.md)** — non-vocabulary domain knowledge. Includes:
   - `philosophy.md` — the WHY narrative (mental model, the two workflow chains, agent-as-maintainer principle).
   - `external-references.md` — what's in `references/` and what we took from each.
