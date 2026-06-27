@@ -38,6 +38,11 @@ State your reading of the task before acting. If the task is ambiguous or unders
 **Analyse-first.** This is a research project. The default workflow is to start an investigation (`/start-analysis`), do the work in a dated dir, finalise it (`/finish-analysis`), and let findings settle into `glossary.md`, `docs/domain/`, `docs/adr/`, or `docs/planning/future-work.md`. The build chain is available for shippable artefacts but is not the centre of gravity. Keepers — the figures and numbers worth putting in front of a stakeholder — are promoted as they emerge into the **report backbone** (see below), so the final report assembles incrementally rather than in an endgame scramble.
 
 <!-- FIXED -->
+## Secrets & `.env`
+
+Never shell-source a `.env` file (`source .env`, `. .env`, `set -a; . .env`). Sourcing executes it as shell code — a secret value containing `&` or spaces (e.g. a URL that is itself the credential) gets run as a background job and echoed into the session log, leaking it. Load `.env` with `python-dotenv`: `load_dotenv()` in code, or `python -c 'from dotenv import dotenv_values; print(dotenv_values()["KEY"])'` for a one-off. A `PreToolUse` hook (`.claude/hooks/guard-env-source.py`) blocks the unsafe form. Note: `.env` does **not** sync to SharePoint (`.rclone-filter`), but the leak risk is the local session log, so the rule still applies.
+
+<!-- FIXED -->
 ## SharePoint mirror
 
 This project is bidirectionally mirrored to `sharepoint_planning:PROJECTS/<Project Name>/`. The local directory and the SharePoint folder hold **the same shape**, with one exception: code does not push.

@@ -32,6 +32,11 @@ meta block).
 
 State your reading of the task before acting. If the task is ambiguous or underspecified, stop and ask rather than guessing. If multiple approaches exist, present tradeoffs — do not pick silently. For multi-step work, outline a brief plan with verification checks before starting.
 
+<!-- FIXED -->
+## Secrets & `.env`
+
+Never shell-source a `.env` file (`source .env`, `. .env`, `set -a; . .env`). Sourcing executes it as shell code — a secret value containing `&` or spaces (e.g. a URL that is itself the credential) gets run as a background job and echoed into the session log, leaking it. Load `.env` with `python-dotenv`: `load_dotenv()` in code, or `python -c 'from dotenv import dotenv_values; print(dotenv_values()["KEY"])'` for a one-off. A `PreToolUse` hook (`.claude/hooks/guard-env-source.py`) blocks the unsafe form.
+
 <!-- PLACEHOLDER — 8–12 lines. Cover three things:
      WHAT: technology, stack, shape of the project, major directories, entry points.
      WHY:  purpose of the project and purpose of each major part.
